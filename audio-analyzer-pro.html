@@ -174,8 +174,8 @@
     <button class="nav-btn active" data-s="analyze"><span>📊</span><span>Phân Tích</span></button>
     <button class="nav-btn" data-s="compare"><span>⚖️</span><span>So Sánh</span></button>
     <button class="nav-btn" data-s="feedback"><span>🔊</span><span>Feedback</span></button>
-    <button class="nav-btn" data-s="guide"><span>🎛️</span><span>Hướng Dẫn</span></button>
-    <button class="nav-btn" data-s="history"><span>📋</span><span>Lịch Sử</span></button>
+    <button class="nav-btn" data-s="guide"><span>🎛️</span><span>Mixer</span></button>
+    <button class="nav-btn" data-s="history"><span>📋</span><span>Khác</span></button>
   </nav>
   
   <section class="section active" id="s-analyze">
@@ -408,11 +408,14 @@
     </div>
   </section>
   
-  <section class="section" id="s-detail">
+  <section class="section" id="s-history">
+    <!-- Chi tiết phân tích -->
     <div class="card">
       <div class="card-header"><div class="card-icon">📊</div><div><div class="card-title">Bảng Phân Tích Chi Tiết</div><div class="card-sub">Từng dải tần</div></div></div>
       <table class="detail-tbl"><thead><tr><th>Tần số</th><th>Mức</th><th>Trạng thái</th></tr></thead><tbody id="detailBody"></tbody></table>
     </div>
+    
+    <!-- Giải thích tần số -->
     <div class="card">
       <div class="card-header"><div class="card-icon">📚</div><div><div class="card-title">Giải Thích Tần Số</div><div class="card-sub">Hiểu để chỉnh tốt</div></div></div>
       <div class="tip"><span class="tip-icon">🔴</span><div><div class="tip-title">Sub/Bass (20-150Hz) - Độ dày, độ ấm</div><div class="tip-text"><b>Quá nhiều = tiếng ùng ục, nặng nề, đục.</b> Với vocal và guitar acoustic, LUÔN cắt vùng này bằng núm LO. Chỉ cần thiết cho bass guitar hoặc kick drum.</div></div></div>
@@ -421,9 +424,8 @@
       <div class="tip"><span class="tip-icon">🔵</span><div><div class="tip-title">Hi-Mid (2-6kHz) - Vùng "PRESENCE"</div><div class="tip-text"><b>QUAN TRỌNG: Làm giọng CẮT QUA mix!</b> Tăng vùng này để giọng nổi bật, nghe rõ từng chữ. Vặn MID FREQ về 2.5-4kHz và tăng MID.</div></div></div>
       <div class="tip"><span class="tip-icon">🟣</span><div><div class="tip-title">Treble/Air (6-20kHz) - Độ sáng</div><div class="tip-text">Thêm "sparkle", "air", độ sáng. <b>Quá nhiều = chói tai, xèn xẹt.</b> Tăng vừa phải bằng núm HI để giọng/đàn sáng hơn nhưng không chói.</div></div></div>
     </div>
-  </section>
-  
-  <section class="section" id="s-history">
+    
+    <!-- Quy chuẩn -->
     <div class="card">
       <div class="card-header"><div class="card-icon">📐</div><div><div class="card-title">Quy Chuẩn Chuyên Nghiệp</div><div class="card-sub">Giải thích các tiêu chuẩn</div></div></div>
       
@@ -499,12 +501,25 @@ class App{
   }
   setupEvents(){
     document.getElementById('startBtn').onclick=()=>this.toggle();
-    document.querySelectorAll('.mode-btn').forEach(b=>{b.onclick=e=>{document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));e.currentTarget.classList.add('active');this.mode=e.currentTarget.dataset.m;this.updateTargets();this.resetBands();};});
+    document.querySelectorAll('.mode-btn').forEach(b=>{b.onclick=e=>{
+      const m=e.currentTarget.dataset.m;
+      // Check if custom mode but no custom target
+      if(m==='custom' && !this.customTarget){
+        alert('⚠️ Chưa có chuẩn của bạn!\n\nHãy:\n1. Phân tích khi âm thanh HAY\n2. Nhấn "Lưu làm CHUẨN"\n\nSau đó mới chọn được "Của tôi".');
+        return;
+      }
+      document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      this.mode=m;
+      this.updateTargets();
+      this.resetBands();
+    };});
     document.querySelectorAll('.nav-btn').forEach(b=>{b.onclick=e=>{const s=e.currentTarget.dataset.s;document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));e.currentTarget.classList.add('active');document.getElementById('s-'+s).classList.add('active');};});
   }
   updateTargets(){
-    const t=this.targets[this.mode];
-    ['Bass','LowMid','Mid','HighMid','High'].forEach((n,i)=>{const k=['bass','lowMid','mid','highMid','high'][i];const el=document.getElementById('t'+n);if(el)el.style.bottom=t[k]+'%';});
+    const t=this.targets[this.mode]||this.targets.vocal;
+    if(!t)return;
+    ['Bass','LowMid','Mid','HighMid','High'].forEach((n,i)=>{const k=['bass','lowMid','mid','highMid','high'][i];const el=document.getElementById('t'+n);if(el&&t[k]!==undefined)el.style.bottom=t[k]+'%';});
   }
   resetBands(){Object.keys(this.bands).forEach(k=>{this.bands[k].vals=[];this.bands[k].avg=0;});}
   async start(){
@@ -534,13 +549,20 @@ class App{
     const db=20*Math.log10((total/5)/100);document.getElementById('db').textContent=isFinite(db)?db.toFixed(1)+'dB':'--dB';this.updateDetail();
   }
   updateBandUI(k,lv){
-    const nm={bass:'Bass',lowMid:'LowMid',mid:'Mid',highMid:'HighMid',high:'High'}[k],t=this.targets[this.mode][k],d=this.bands[k].avg-t,tol=this.targets[this.mode].tol;
+    const nm={bass:'Bass',lowMid:'LowMid',mid:'Mid',highMid:'HighMid',high:'High'}[k];
+    const target=this.targets[this.mode]||this.targets.vocal;
+    const t=target[k]||50,tol=target.tol||10;
+    const d=this.bands[k].avg-t;
     document.getElementById('f'+nm).style.height=Math.min(100,lv)+'%';document.getElementById('v'+nm).textContent=Math.round(this.bands[k].avg)+'%';
     const s=document.getElementById('s'+nm);if(Math.abs(d)<=tol){s.className='band-sts ok';s.textContent='OK';}else if(d>0){s.className='band-sts hi';s.textContent='THỪA';}else{s.className='band-sts lo';s.textContent='THIẾU';}
   }
   updateDetail(){
+    const target=this.targets[this.mode]||this.targets.vocal;
+    if(!target)return;
     const fd=[{n:'Sub Bass',r:'20-60Hz',k:'bass',m:0.4},{n:'Bass',r:'60-150Hz',k:'bass',m:0.6},{n:'Low-Mid',r:'150-500Hz',k:'lowMid',m:1},{n:'Mid',r:'500Hz-2kHz',k:'mid',m:1},{n:'Hi-Mid',r:'2-6kHz',k:'highMid',m:1},{n:'Treble',r:'6-12kHz',k:'high',m:0.7},{n:'Air',r:'12-20kHz',k:'high',m:0.3}];
-    document.getElementById('detailBody').innerHTML=fd.map(f=>{const v=this.bands[f.k].avg*f.m,t=this.targets[this.mode][f.k]*f.m,d=v-t;let st,cl,co;if(Math.abs(d)<=10){st='OK';cl='ok';co='var(--green)';}else if(d>0){st='+'+Math.round(d)+'%';cl='hi';co='var(--red)';}else{st=Math.round(d)+'%';cl='lo';co='var(--accent)';}return`<tr><td><b>${f.n}</b><br><small style="color:var(--text3)">${f.r}</small></td><td><div class="detail-bar"><div class="detail-bar-fill" style="width:${Math.min(100,v)}%;background:${co}"></div></div></td><td class="detail-sts ${cl}">${st}</td></tr>`;}).join('');
+    const el=document.getElementById('detailBody');
+    if(!el)return;
+    el.innerHTML=fd.map(f=>{const v=this.bands[f.k].avg*f.m,t=(target[f.k]||50)*f.m,d=v-t;let st,cl,co;if(Math.abs(d)<=10){st='OK';cl='ok';co='var(--green)';}else if(d>0){st='+'+Math.round(d)+'%';cl='hi';co='var(--red)';}else{st=Math.round(d)+'%';cl='lo';co='var(--accent)';}return`<tr><td><b>${f.n}</b><br><small style="color:var(--text3)">${f.r}</small></td><td><div class="detail-bar"><div class="detail-bar-fill" style="width:${Math.min(100,v)}%;background:${co}"></div></div></td><td class="detail-sts ${cl}">${st}</td></tr>`;}).join('');
   }
   draw(){
     if(!this.running)return;requestAnimationFrame(()=>this.draw());this.an.getByteFrequencyData(this.data);this.analyze();
@@ -551,7 +573,9 @@ class App{
   dbToTurn(db){const a=Math.abs(db),dir=db>0?'phải':'trái',act=db>0?'Tăng':'Giảm';if(a<1)return{txt:'Giữ nguyên',clk:'12h',trn:''};if(a<=3)return{txt:`Vặn ${dir} ~1/8 vòng`,clk:db>0?'1h':'11h',trn:`${act} ~${Math.round(a)}dB`};if(a<=6)return{txt:`Vặn ${dir} ~1/4 vòng`,clk:db>0?'2h':'10h',trn:`${act} ~${Math.round(a)}dB`};if(a<=9)return{txt:`Vặn ${dir} ~3/8 vòng`,clk:db>0?'2-3h':'9-10h',trn:`${act} ~${Math.round(a)}dB`};return{txt:`Vặn ${dir} ~1/2 vòng`,clk:db>0?'3h':'9h',trn:`${act} max`};}
   dbToRot(db){return(db/15)*135;}
   genReport(){
-    const t=this.targets[this.mode],tol=t.tol,probs=[];
+    const t=this.targets[this.mode]||this.targets.vocal;
+    if(!t){console.error('No target found');return;}
+    const tol=t.tol||10,probs=[];
     const calcEQ=(k,mx=12)=>{const d=t[k]-this.bands[k].avg;return Math.max(-mx,Math.min(mx,d/4));};
     const eqV={hi:calcEQ('high',6),mid:calcEQ('mid',6)+calcEQ('highMid',6)/2,lo:-(this.bands.bass.avg-t.bass)/3-(this.bands.lowMid.avg-t.lowMid)/4};
     const eqG={hi:calcEQ('high',4),mid:calcEQ('highMid',4),lo:calcEQ('bass',6)};
