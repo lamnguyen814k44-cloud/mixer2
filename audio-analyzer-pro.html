@@ -179,6 +179,56 @@
   </nav>
   
   <section class="section active" id="s-analyze">
+    <!-- Genre Preset Selector -->
+    <div class="card" style="margin-bottom:12px;padding:12px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <span style="font-size:1.3rem">🎼</span>
+        <div style="flex:1">
+          <div style="font-size:0.85rem;font-weight:700">Chọn Thể Loại Nhạc</div>
+          <div style="font-size:0.65rem;color:var(--text3)">Preset EQ tối ưu cho từng dòng nhạc</div>
+        </div>
+      </div>
+      <select id="genreSelect" style="width:100%;padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.85rem;cursor:pointer">
+        <option value="">-- Chọn thể loại --</option>
+        <optgroup label="🎤 Nhạc Việt">
+          <option value="bolero">🎻 Bolero / Trữ tình</option>
+          <option value="nhactre">🎧 Nhạc trẻ / V-Pop</option>
+          <option value="cachmang">🎺 Cách mạng / Đỏ</option>
+          <option value="dancaromantic">💃 Dance / Remix</option>
+        </optgroup>
+        <optgroup label="🌍 Nhạc Quốc Tế">
+          <option value="pop">🎵 Pop / Ballad</option>
+          <option value="rock">🎸 Rock / Metal</option>
+          <option value="rnb">🎷 R&B / Soul</option>
+          <option value="edm">🎹 EDM / House</option>
+          <option value="jazz">🎺 Jazz / Blues</option>
+          <option value="country">🤠 Country / Folk</option>
+          <option value="hiphop">🎤 Hip-hop / Rap</option>
+        </optgroup>
+        <optgroup label="🎹 Acoustic / Live">
+          <option value="acoustic">🪕 Acoustic</option>
+          <option value="karaoke">🎤 Karaoke</option>
+          <option value="livecafe">☕ Live Cafe / Phòng trà</option>
+          <option value="wedding">💒 Tiệc cưới / Event</option>
+          <option value="church">⛪ Nhà thờ / Thánh ca</option>
+        </optgroup>
+      </select>
+      <div id="genreInfo" style="margin-top:10px;padding:10px;background:var(--bg);border-radius:8px;display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span id="genreName" style="font-size:0.85rem;font-weight:700;color:var(--accent)"></span>
+          <span id="genreBadge" style="font-size:0.6rem;padding:4px 8px;background:var(--accent);color:#000;border-radius:12px;font-weight:700">PRESET</span>
+        </div>
+        <div id="genreDesc" style="font-size:0.7rem;color:var(--text2);margin-bottom:8px"></div>
+        <div id="genreEQ" style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;font-size:0.6rem;text-align:center">
+          <div><div style="color:var(--text3)">Bass</div><div id="gBass" style="font-weight:700">-</div></div>
+          <div><div style="color:var(--text3)">Low</div><div id="gLowMid" style="font-weight:700">-</div></div>
+          <div><div style="color:var(--text3)">Mid</div><div id="gMid" style="font-weight:700">-</div></div>
+          <div><div style="color:var(--text3)">Hi-Mid</div><div id="gHighMid" style="font-weight:700">-</div></div>
+          <div><div style="color:var(--text3)">High</div><div id="gHigh" style="font-weight:700">-</div></div>
+        </div>
+      </div>
+    </div>
+
     <div class="mode-sel">
       <button class="mode-btn active" data-m="vocal"><span>🎤</span><span>Vocal</span></button>
       <button class="mode-btn" data-m="guitar"><span>🎸</span><span>Guitar</span></button>
@@ -334,6 +384,221 @@
   </section>
   
   <section class="section" id="s-guide">
+    <!-- FULL MIXER KNOB GUIDE -->
+    <div class="card" style="border:1px solid var(--accent)">
+      <div class="card-header"><div class="card-icon" style="background:var(--accent)">📖</div><div><div class="card-title">TẤT CẢ Núm Trên Mixer EFX8</div><div class="card-sub">Hiểu rõ từng núm để chỉnh hiệu quả</div></div></div>
+      
+      <!-- GAIN Section -->
+      <div style="background:linear-gradient(135deg,rgba(255,56,96,0.1),transparent);border:1px solid var(--red);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="width:40px;height:40px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#fff">1</div>
+          <div>
+            <div style="font-size:0.95rem;font-weight:700;color:var(--red)">GAIN (Độ nhạy đầu vào)</div>
+            <div style="font-size:0.65rem;color:var(--text3)">Núm trên cùng - QUAN TRỌNG NHẤT!</div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--text2);line-height:1.6">
+          <b>🎯 Chức năng:</b> Điều chỉnh độ nhạy thu âm từ mic/line. Quyết định chất lượng tín hiệu.<br>
+          <b>⚡ Cách chỉnh:</b><br>
+          • Vừa hát/đàn vừa nhìn đèn LED báo mức (nếu có)<br>
+          • Đèn <span style="color:var(--green)">XANH</span> nhấp nháy = TỐT<br>
+          • Đèn <span style="color:var(--red)">ĐỎ</span> sáng liên tục = QUÁ TO → Vặn TRÁI<br>
+          • Không có đèn nháy = QUÁ NHỎ → Vặn PHẢI<br>
+          <b>💡 Mẹo:</b> Để GAIN ở mức đèn xanh nháy mạnh nhưng không chạm đỏ. Thường ở vị trí 10-2 giờ.
+        </div>
+      </div>
+      
+      <!-- HPF Section -->
+      <div style="background:linear-gradient(135deg,rgba(0,200,255,0.1),transparent);border:1px solid var(--accent);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="width:40px;height:40px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#000">2</div>
+          <div>
+            <div style="font-size:0.95rem;font-weight:700;color:var(--accent)">HPF / LOW CUT (Nút bấm)</div>
+            <div style="font-size:0.65rem;color:var(--text3)">High Pass Filter - Cắt bass thừa</div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--text2);line-height:1.6">
+          <b>🎯 Chức năng:</b> Cắt bỏ tần số dưới 80-100Hz (tiếng ù, gió, rung sàn).<br>
+          <b>⚡ Khi nào BẬT (nhấn xuống):</b><br>
+          • 🎤 Vocal - <span style="color:var(--green)">LUÔN BẬT</span><br>
+          • 🎸 Guitar acoustic - <span style="color:var(--green)">BẬT</span><br>
+          • 🎹 Keyboard/Synth - Tùy (có bass thì TẮT)<br>
+          • 🥁 Trống/Bass guitar - <span style="color:var(--red)">TẮT</span><br>
+          <b>💡 Mẹo:</b> 90% trường hợp hát karaoke/live cafe nên BẬT HPF cho vocal.
+        </div>
+      </div>
+      
+      <!-- EQ Section -->
+      <div style="background:linear-gradient(135deg,rgba(0,232,120,0.1),transparent);border:1px solid var(--green);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="width:40px;height:40px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#000">3</div>
+          <div>
+            <div style="font-size:0.95rem;font-weight:700;color:var(--green)">HI / MID / LO (EQ 3-band)</div>
+            <div style="font-size:0.65rem;color:var(--text3)">Chỉnh màu sắc âm thanh</div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--text2);line-height:1.6">
+          <div style="display:grid;gap:8px">
+            <div style="background:var(--card2);padding:8px;border-radius:6px">
+              <b style="color:var(--yellow)">🔸 HI (Treble - 12kHz)</b><br>
+              Vặn PHẢI: Sáng, lấp lánh, "air"<br>
+              Vặn TRÁI: Bớt xèn, bớt chói<br>
+              <span style="color:var(--text3)">Thường để 12h hoặc tăng nhẹ 1h</span>
+            </div>
+            <div style="background:var(--card2);padding:8px;border-radius:6px">
+              <b style="color:var(--accent)">🔹 MID (250Hz-6kHz sweep)</b><br>
+              QUAN TRỌNG NHẤT cho vocal!<br>
+              Kết hợp với MID FREQ để chọn tần số<br>
+              <span style="color:var(--text3)">Thường CẮT vùng 300-500Hz, TĂNG vùng 2-4kHz</span>
+            </div>
+            <div style="background:var(--card2);padding:8px;border-radius:6px">
+              <b style="color:var(--red)">🔻 LO (Bass - 80Hz)</b><br>
+              Vặn PHẢI: Dày, ấm, nặng<br>
+              Vặn TRÁI: Mỏng, rõ, nhẹ<br>
+              <span style="color:var(--text3)">Vocal nên để 11h. Guitar 12h.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- MID FREQ Section -->
+      <div style="background:linear-gradient(135deg,rgba(168,85,247,0.1),transparent);border:1px solid var(--purple);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="width:40px;height:40px;background:var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#fff">4</div>
+          <div>
+            <div style="font-size:0.95rem;font-weight:700;color:var(--purple)">MID FREQ (Sweep EQ)</div>
+            <div style="font-size:0.65rem;color:var(--text3)">Chọn tần số cho núm MID - RẤT MẠNH!</div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--text2);line-height:1.6">
+          <b>🎯 Chức năng:</b> Chọn tần số trung tâm mà núm MID sẽ tác động.<br>
+          <b>⚡ Các vị trí phổ biến:</b><br>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0">
+            <div style="background:var(--card2);padding:6px;border-radius:4px;text-align:center">
+              <div style="font-weight:700;color:var(--red)">300-500Hz</div>
+              <div style="font-size:0.65rem">Vùng "bùn" - CẮT!</div>
+            </div>
+            <div style="background:var(--card2);padding:6px;border-radius:4px;text-align:center">
+              <div style="font-weight:700;color:var(--yellow)">800Hz-1kHz</div>
+              <div style="font-size:0.65rem">Thân giọng</div>
+            </div>
+            <div style="background:var(--card2);padding:6px;border-radius:4px;text-align:center">
+              <div style="font-weight:700;color:var(--green)">2-4kHz</div>
+              <div style="font-size:0.65rem">Presence - TĂNG!</div>
+            </div>
+            <div style="background:var(--card2);padding:6px;border-radius:4px;text-align:center">
+              <div style="font-weight:700;color:var(--accent)">5-6kHz</div>
+              <div style="font-size:0.65rem">Sibilance (xì xì)</div>
+            </div>
+          </div>
+          <b>💡 Công thức vàng:</b> MID FREQ về 400Hz + MID vặn TRÁI = Giọng hết đục!
+        </div>
+      </div>
+      
+      <!-- AUX Section -->
+      <div style="background:linear-gradient(135deg,rgba(255,196,0,0.1),transparent);border:1px solid var(--yellow);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="width:40px;height:40px;background:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#000">5</div>
+          <div>
+            <div style="font-size:0.95rem;font-weight:700;color:var(--yellow)">AUX 1 / AUX 2</div>
+            <div style="font-size:0.65rem;color:var(--text3)">Gửi tín hiệu ra loa monitor/thiết bị ngoài</div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--text2);line-height:1.6">
+          <b>🎯 Chức năng:</b> Gửi âm thanh riêng ra loa kiểm âm (monitor) cho ca sĩ nghe.<br>
+          <b>⚡ Cách dùng:</b><br>
+          • AUX 1 thường nối loa monitor sân khấu<br>
+          • AUX 2 có thể nối thiết bị ghi âm<br>
+          <b>💡 Mẹo:</b> Ca sĩ cần nghe rõ giọng mình → Tăng AUX cho kênh vocal ở monitor.
+        </div>
+      </div>
+      
+      <!-- FX Section -->
+      <div style="background:linear-gradient(135deg,rgba(168,85,247,0.1),transparent);border:1px solid var(--purple);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="width:40px;height:40px;background:var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#fff">6</div>
+          <div>
+            <div style="font-size:0.95rem;font-weight:700;color:var(--purple)">FX (Effects Send)</div>
+            <div style="font-size:0.65rem;color:var(--text3)">Gửi tín hiệu vào bộ Reverb/Delay</div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--text2);line-height:1.6">
+          <b>🎯 Chức năng:</b> Điều chỉnh lượng reverb/echo cho từng kênh.<br>
+          <b>⚡ Gợi ý mức FX:</b><br>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0">
+            <div style="background:var(--card2);padding:6px;border-radius:4px">
+              <div style="font-weight:700">🎤 Vocal</div>
+              <div style="font-size:0.65rem;color:var(--green)">20-35% (10-11h)</div>
+            </div>
+            <div style="background:var(--card2);padding:6px;border-radius:4px">
+              <div style="font-weight:700">🎸 Guitar</div>
+              <div style="font-size:0.65rem;color:var(--accent)">10-20% (9-10h)</div>
+            </div>
+            <div style="background:var(--card2);padding:6px;border-radius:4px">
+              <div style="font-weight:700">🥁 Drums</div>
+              <div style="font-size:0.65rem;color:var(--yellow)">5-15% (8-10h)</div>
+            </div>
+            <div style="background:var(--card2);padding:6px;border-radius:4px">
+              <div style="font-weight:700">🎹 Keys</div>
+              <div style="font-size:0.65rem;color:var(--purple)">15-25% (10-11h)</div>
+            </div>
+          </div>
+          <b style="color:var(--red)">⚠️ QUÁ NHIỀU FX = Giọng bị chìm, không rõ chữ!</b>
+        </div>
+      </div>
+      
+      <!-- PAN Section -->
+      <div style="background:var(--card2);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="width:40px;height:40px;background:var(--text3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#000">7</div>
+          <div>
+            <div style="font-size:0.95rem;font-weight:700">PAN (Cân bằng trái/phải)</div>
+            <div style="font-size:0.65rem;color:var(--text3)">Đặt vị trí âm thanh trong stereo</div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--text2);line-height:1.6">
+          <b>🎯 Chức năng:</b> Đưa âm thanh sang loa trái hoặc phải.<br>
+          <b>⚡ Gợi ý:</b><br>
+          • 🎤 Vocal → <b>GIỮA</b> (12h)<br>
+          • 🎸 Guitar 1 → Trái nhẹ (10-11h)<br>
+          • 🎸 Guitar 2 → Phải nhẹ (1-2h)<br>
+          • 🎹 Keys → Tùy bài, thường giữa<br>
+          <b>💡 Mẹo:</b> Live cafe mono thì để hết ở giữa.
+        </div>
+      </div>
+      
+      <!-- FADER Section -->
+      <div style="background:linear-gradient(135deg,rgba(0,232,120,0.1),transparent);border:1px solid var(--green);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="width:40px;height:40px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#000">8</div>
+          <div>
+            <div style="font-size:0.95rem;font-weight:700;color:var(--green)">FADER / LEVEL (Thanh trượt)</div>
+            <div style="font-size:0.65rem;color:var(--text3)">Âm lượng cuối cùng của kênh</div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--text2);line-height:1.6">
+          <b>🎯 Chức năng:</b> Điều chỉnh âm lượng kênh ra loa chính.<br>
+          <b>⚡ Vị trí chuẩn:</b><br>
+          • Vạch <b>0dB</b> (Unity) = Mức chuẩn<br>
+          • Dưới 0dB = Nhỏ hơn<br>
+          • Trên 0dB = To hơn (cẩn thận méo)<br>
+          <b>💡 Quy trình:</b> Chỉnh GAIN đúng trước → Fader về 0dB → Điều chỉnh cân bằng các kênh.
+        </div>
+      </div>
+      
+      <!-- Summary -->
+      <div style="background:var(--bg);border-radius:12px;padding:14px;border:2px solid var(--accent)">
+        <div style="font-size:0.9rem;font-weight:700;color:var(--accent);margin-bottom:10px;text-align:center">🎯 THỨ TỰ CHỈNH MIXER CHUẨN</div>
+        <div style="font-size:0.75rem;line-height:1.8">
+          <span style="display:inline-block;width:24px;height:24px;background:var(--red);border-radius:50%;text-align:center;line-height:24px;color:#fff;font-weight:bold;margin-right:8px">1</span><b>GAIN</b> - Chỉnh độ nhạy (đèn xanh nháy)<br>
+          <span style="display:inline-block;width:24px;height:24px;background:var(--accent);border-radius:50%;text-align:center;line-height:24px;color:#000;font-weight:bold;margin-right:8px">2</span><b>HPF</b> - Bật cho vocal/guitar<br>
+          <span style="display:inline-block;width:24px;height:24px;background:var(--green);border-radius:50%;text-align:center;line-height:24px;color:#000;font-weight:bold;margin-right:8px">3</span><b>EQ</b> - Chỉnh HI/MID/LO theo phân tích<br>
+          <span style="display:inline-block;width:24px;height:24px;background:var(--purple);border-radius:50%;text-align:center;line-height:24px;color:#fff;font-weight:bold;margin-right:8px">4</span><b>FX</b> - Thêm reverb vừa phải<br>
+          <span style="display:inline-block;width:24px;height:24px;background:var(--yellow);border-radius:50%;text-align:center;line-height:24px;color:#000;font-weight:bold;margin-right:8px">5</span><b>FADER</b> - Cân bằng âm lượng các kênh
+        </div>
+      </div>
+    </div>
+
     <div class="card">
       <div class="card-header"><div class="card-icon">🕐</div><div><div class="card-title">Quy Ước Vị Trí Núm</div><div class="card-sub">Dùng đồng hồ để dễ hiểu</div></div></div>
       <div class="clock-ref">
@@ -484,6 +749,112 @@ class App{
       broadcast:{bass:35,lowMid:35,mid:45,highMid:48,high:40,tol:8,desc:'Chuẩn phát thanh -24 LUFS'},
       live:{bass:38,lowMid:30,mid:48,highMid:50,high:42,tol:15,desc:'Live performance, chống feedback'}
     };
+    
+    // Genre-specific presets for Vietnamese and international music
+    this.genrePresets={
+      // Nhạc Việt
+      bolero:{
+        name:'🎻 Bolero / Trữ tình',
+        bass:25,lowMid:30,mid:55,highMid:50,high:32,tol:10,
+        desc:'Giọng ấm, trầm lắng. Tăng mid cho giọng rõ, bass vừa phải tạo chiều sâu. Treble mềm mại.',
+        tips:'Reverb nhẹ, delay ngắn. Tránh bass quá nhiều làm đục giọng.'
+      },
+      nhactre:{
+        name:'🎧 Nhạc trẻ / V-Pop',
+        bass:35,lowMid:28,mid:50,highMid:58,high:45,tol:12,
+        desc:'Hiện đại, sáng, năng động. Hi-mid nổi bật, treble sáng, bass có lực.',
+        tips:'Compression vừa phải. Có thể thêm exciter cho treble sáng hơn.'
+      },
+      cachmang:{
+        name:'🎺 Cách mạng / Đỏ',
+        bass:30,lowMid:35,mid:52,highMid:48,high:35,tol:10,
+        desc:'Hào hùng, rõ ràng. Mid-forward cho giọng vang, bass chắc khỏe.',
+        tips:'Reverb hall lớn cho cảm giác hoành tráng. Giọng cần rõ từng chữ.'
+      },
+      dancaromantic:{
+        name:'💃 Dance / Remix',
+        bass:50,lowMid:32,mid:42,highMid:55,high:48,tol:15,
+        desc:'Bass mạnh, treble sáng, kick rõ. Nhịp điệu sôi động.',
+        tips:'Sidechain compression cho kick xuyên qua mix. Sub bass quan trọng.'
+      },
+      
+      // Nhạc Quốc Tế
+      pop:{
+        name:'🎵 Pop / Ballad',
+        bass:30,lowMid:28,mid:52,highMid:55,high:42,tol:10,
+        desc:'Cân bằng, dễ nghe. Giọng hát là trung tâm, nhạc nền hỗ trợ.',
+        tips:'Vocal nên nằm trên nhạc nền. Compression nhẹ cho đều.'
+      },
+      rock:{
+        name:'🎸 Rock / Metal',
+        bass:45,lowMid:35,mid:48,highMid:55,high:50,tol:15,
+        desc:'Mạnh mẽ, guitar điện nổi bật. Bass và kick chắc, treble sắc.',
+        tips:'Guitar cần không gian riêng. Cẩn thận mud zone 200-400Hz.'
+      },
+      rnb:{
+        name:'🎷 R&B / Soul',
+        bass:40,lowMid:35,mid:48,highMid:52,high:38,tol:10,
+        desc:'Ấm áp, groove. Bass sâu, mid mềm mại, giọng silky.',
+        tips:'Giọng cần warmth. Tránh treble quá sáng. Bass cần tight.'
+      },
+      edm:{
+        name:'🎹 EDM / House',
+        bass:55,lowMid:30,mid:40,highMid:52,high:50,tol:15,
+        desc:'Sub bass mạnh, kick punchy, synth sáng. Energy cao.',
+        tips:'Sub bass là vua. Sidechain essential. Hi-hat và synth cần sparkle.'
+      },
+      jazz:{
+        name:'🎺 Jazz / Blues',
+        bass:35,lowMid:38,mid:45,highMid:48,high:35,tol:8,
+        desc:'Tự nhiên, acoustic. Không gian phòng thu quan trọng.',
+        tips:'Ít compression. Natural dynamics. Room reverb > plate/hall.'
+      },
+      country:{
+        name:'🤠 Country / Folk',
+        bass:28,lowMid:32,mid:50,highMid:52,high:42,tol:10,
+        desc:'Guitar acoustic nổi bật, giọng storytelling rõ ràng.',
+        tips:'Acoustic guitar cần presence. Banjo/fiddle ở hi-mid.'
+      },
+      hiphop:{
+        name:'🎤 Hip-hop / Rap',
+        bass:52,lowMid:30,mid:45,highMid:55,high:42,tol:12,
+        desc:'808 bass nặng, vocal rõ từng chữ, hi-hat crispy.',
+        tips:'Rap vocal cần rất rõ. 808 và kick không được clash. De-ess quan trọng.'
+      },
+      
+      // Acoustic / Live
+      acoustic:{
+        name:'🪕 Acoustic',
+        bass:25,lowMid:30,mid:48,highMid:50,high:40,tol:8,
+        desc:'Tự nhiên, trong trẻo. Guitar gỗ, giọng mộc.',
+        tips:'Ít effects. Natural reverb. Finger noise có thể giữ lại.'
+      },
+      karaoke:{
+        name:'🎤 Karaoke',
+        bass:22,lowMid:28,mid:55,highMid:58,high:40,tol:12,
+        desc:'Giọng hát nổi bật tối đa, nhạc nền lùi. Reverb vừa phải.',
+        tips:'Reverb và delay cho giọng dày. Nhạc beat nên nhỏ hơn vocal 6-10dB.'
+      },
+      livecafe:{
+        name:'☕ Live Cafe / Phòng trà',
+        bass:28,lowMid:32,mid:50,highMid:48,high:35,tol:10,
+        desc:'Ấm cúng, intimate. Giọng gần gũi, không quá loud.',
+        tips:'Reverb room nhỏ. Tránh feedback. Monitor volume vừa phải.'
+      },
+      wedding:{
+        name:'💒 Tiệc cưới / Event',
+        bass:35,lowMid:30,mid:48,highMid:52,high:42,tol:15,
+        desc:'Đa dạng thể loại, cần linh hoạt. Rõ ràng, không quá bass.',
+        tips:'MC và vocal quan trọng nhất. Nhạc dance cần bass. Nhạc chậm cần warmth.'
+      },
+      church:{
+        name:'⛪ Nhà thờ / Thánh ca',
+        bass:30,lowMid:35,mid:48,highMid:45,high:32,tol:10,
+        desc:'Trang nghiêm, reverb tự nhiên lớn. Choir blend tốt.',
+        tips:'Tận dụng reverb phòng. Không cần thêm nhiều effects. Clarity quan trọng.'
+      }
+    };
+    this.currentGenre=null;
     this.customTarget=JSON.parse(localStorage.getItem('customTarget')||'null');
     this.targets=JSON.parse(localStorage.getItem('userTargets')||'null')||{...this.defaultTargets};
     this.compareBefore=null;this.compareAfter=null;
@@ -538,6 +909,59 @@ class App{
         const section=document.getElementById('s-'+s);
         if(section) section.classList.add('active');
       };
+    });
+    
+    // Genre preset selector
+    document.getElementById('genreSelect').onchange=(e)=>{
+      const genre=e.target.value;
+      if(!genre){
+        this.currentGenre=null;
+        document.getElementById('genreInfo').style.display='none';
+        return;
+      }
+      this.applyGenrePreset(genre);
+    };
+  }
+  
+  applyGenrePreset(genre){
+    const preset=this.genrePresets[genre];
+    if(!preset)return;
+    
+    this.currentGenre=genre;
+    
+    // Apply preset to current mode
+    this.targets[this.mode]={
+      bass:preset.bass,
+      lowMid:preset.lowMid,
+      mid:preset.mid,
+      highMid:preset.highMid,
+      high:preset.high,
+      tol:preset.tol,
+      desc:preset.desc
+    };
+    
+    // Update UI
+    this.updateTargets();
+    this.resetBands();
+    
+    // Show genre info
+    const infoPanel=document.getElementById('genreInfo');
+    infoPanel.style.display='block';
+    document.getElementById('genreName').textContent=preset.name;
+    document.getElementById('genreDesc').innerHTML=preset.desc+'<br><span style="color:var(--yellow);margin-top:4px;display:block">💡 '+preset.tips+'</span>';
+    document.getElementById('gBass').textContent=preset.bass+'%';
+    document.getElementById('gLowMid').textContent=preset.lowMid+'%';
+    document.getElementById('gMid').textContent=preset.mid+'%';
+    document.getElementById('gHighMid').textContent=preset.highMid+'%';
+    document.getElementById('gHigh').textContent=preset.high+'%';
+    
+    // Color code the values
+    ['gBass','gLowMid','gMid','gHighMid','gHigh'].forEach(id=>{
+      const el=document.getElementById(id);
+      const val=parseInt(el.textContent);
+      if(val>=50)el.style.color='var(--red)';
+      else if(val>=35)el.style.color='var(--yellow)';
+      else el.style.color='var(--green)';
     });
   }
   updateTargets(){
