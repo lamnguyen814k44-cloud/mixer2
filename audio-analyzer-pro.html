@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0a0a12">
+  <title>🎚️ Audio Analyzer Pro - Soundcraft EFX8</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    :root{--bg:#0a0a12;--card:#16161f;--card2:#1c1c28;--border:#2a2a3c;--accent:#00c8ff;--green:#00e878;--yellow:#ffc400;--red:#ff3860;--purple:#a855f7;--text:#fff;--text2:#9898b0;--text3:#5a5a70}
+    body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    .app{max-width:480px;margin:0 auto;padding-bottom:100px}
+    .header{background:linear-gradient(180deg,#111 0%,transparent 100%);padding:16px;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--purple));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px}
+    .header h1{font-size:1.1rem}
+    .header p{font-size:0.7rem;color:var(--text3)}
+    .nav{display:flex;gap:4px;padding:4px;margin:12px;background:var(--card);border-radius:12px}
+    .nav-btn{flex:1;padding:10px 4px;background:transparent;border:none;border-radius:8px;color:var(--text3);font-size:0.7rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+    .nav-btn.active{background:var(--accent);color:#000}
+    .nav-btn span:first-child{font-size:1.2rem}
+    .section{display:none;padding:0 12px}
+    .section.active{display:block}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px}
+    .card-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .card-icon{width:36px;height:36px;background:var(--card2);border-radius:8px;display:flex;align-items:center;justify-content:center}
+    .card-title{font-size:0.95rem;font-weight:700}
+    .card-sub{font-size:0.7rem;color:var(--text3)}
+    .mode-sel{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+    .mode-btn{padding:14px 8px;background:var(--card);border:2px solid var(--border);border-radius:12px;color:var(--text2);font-size:0.8rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px}
+    .mode-btn.active{background:rgba(0,200,255,0.15);border-color:var(--accent);color:var(--accent)}
+    .mode-btn span:first-child{font-size:1.8rem}
+    .start-btn{width:100%;padding:18px;margin-bottom:16px;background:linear-gradient(135deg,var(--accent),#0090ff);border:none;border-radius:16px;color:#000;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 20px rgba(0,200,255,0.4)}
+    .start-btn.rec{background:linear-gradient(135deg,var(--red),#ff0040);animation:pulse 1.5s infinite}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,56,96,0.5)}50%{box-shadow:0 0 0 15px rgba(255,56,96,0)}}
+    .status{display:flex;justify-content:space-between;padding:12px 16px;background:#111;border-radius:12px;margin-bottom:16px;font-size:0.8rem}
+    .status-dot{width:8px;height:8px;background:var(--text3);border-radius:50%;display:inline-block;margin-right:8px}
+    .status-dot.on{background:var(--green);box-shadow:0 0 10px var(--green);animation:blink 1s infinite}
+    @keyframes blink{50%{opacity:0.5}}
+    .spectrum{background:var(--bg);border-radius:12px;margin-bottom:16px;padding:2px}
+    #canvas{width:100%;height:140px;display:block}
+    .bands{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+    .band{background:var(--card2);border-radius:8px;padding:10px 6px;text-align:center}
+    .band-meter{height:70px;background:var(--bg);border-radius:6px;margin-bottom:6px;position:relative;overflow:hidden}
+    .band-fill{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,var(--green),var(--yellow),var(--red));transition:height 0.1s}
+    .band-target{position:absolute;left:0;right:0;height:2px;background:var(--accent);box-shadow:0 0 6px var(--accent)}
+    .band-name{font-size:0.55rem;color:var(--text3)}
+    .band-val{font-size:0.75rem;font-weight:700}
+    .band-sts{font-size:0.5rem;font-weight:700;padding:2px 6px;border-radius:4px;margin-top:4px;display:inline-block}
+    .band-sts.ok{background:rgba(0,232,120,0.2);color:var(--green)}
+    .band-sts.hi{background:rgba(255,56,96,0.2);color:var(--red)}
+    .band-sts.lo{background:rgba(0,200,255,0.2);color:var(--accent)}
+    .results{display:none}
+    .results.show{display:block}
+    .score-card{background:linear-gradient(135deg,var(--card),var(--card2));border-radius:20px;padding:24px;text-align:center;margin-bottom:16px}
+    .score-ring{width:130px;height:130px;margin:0 auto 16px;position:relative}
+    .score-ring svg{transform:rotate(-90deg);width:100%;height:100%}
+    .score-bg{fill:none;stroke:var(--bg);stroke-width:8}
+    .score-prog{fill:none;stroke:var(--green);stroke-width:8;stroke-linecap:round;stroke-dasharray:377;stroke-dashoffset:377;transition:all 1s}
+    .score-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .score-num{font-size:2.5rem;font-weight:700}
+    .score-lbl{font-size:0.65rem;color:var(--text3);text-transform:uppercase}
+    .score-msg{font-size:1rem;font-weight:700}
+    .score-hint{font-size:0.8rem;color:var(--text2)}
+    .problem{background:var(--card2);border-radius:12px;padding:14px;margin-bottom:10px;border-left:4px solid var(--yellow)}
+    .problem.crit{border-left-color:var(--red)}
+    .problem.good{border-left-color:var(--green)}
+    .problem-head{display:flex;justify-content:space-between;margin-bottom:8px}
+    .problem-title{font-size:0.9rem;font-weight:700}
+    .problem-badge{font-size:0.6rem;font-weight:700;padding:4px 8px;border-radius:20px}
+    .badge-crit{background:rgba(255,56,96,0.2);color:var(--red)}
+    .badge-warn{background:rgba(255,196,0,0.2);color:var(--yellow)}
+    .badge-good{background:rgba(0,232,120,0.2);color:var(--green)}
+    .problem-desc{font-size:0.8rem;color:var(--text2);margin-bottom:12px}
+    .solution{background:var(--card);border-radius:8px;padding:12px}
+    .solution-label{font-size:0.75rem;font-weight:700;color:var(--accent);margin-bottom:8px}
+    .sol-step{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--card2);border-radius:8px;margin-bottom:8px}
+    .sol-knob{width:44px;height:44px;background:linear-gradient(145deg,#3a3a4a,#28283a);border-radius:50%;position:relative;flex-shrink:0}
+    .sol-knob-ptr{position:absolute;width:3px;height:14px;background:var(--accent);border-radius:2px;top:5px;left:50%;transform-origin:bottom center;box-shadow:0 0 6px var(--accent)}
+    .sol-knob-lbl{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:0.55rem;font-weight:700;color:var(--text3);white-space:nowrap}
+    .sol-info{flex:1}
+    .sol-action{font-size:0.85rem;font-weight:700}
+    .sol-detail{font-size:0.75rem;color:var(--text2)}
+    .sol-turn{display:inline-flex;padding:3px 8px;background:rgba(0,200,255,0.15);border-radius:4px;font-size:0.7rem;font-weight:700;color:var(--accent);margin-top:6px}
+    .mixer{background:linear-gradient(145deg,#1e1e2a,#16161f);border-radius:16px;padding:16px;margin-bottom:16px}
+    .mixer-label{text-align:center;font-size:0.75rem;color:var(--accent);padding:8px;background:var(--bg);border-radius:8px;margin-bottom:16px;letter-spacing:2px}
+    .channel{background:var(--card);border-radius:12px;padding:14px;margin-bottom:12px}
+    .channel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+    .channel-name{font-size:0.9rem;font-weight:700;display:flex;align-items:center;gap:8px}
+    .channel-badge{padding:4px 10px;background:var(--accent);border-radius:20px;font-size:0.6rem;font-weight:700;color:#000}
+    .knobs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+    .knob-item{text-align:center}
+    .knob{width:40px;height:40px;margin:0 auto 6px;background:linear-gradient(145deg,#3a3a4a,#28283a);border-radius:50%;position:relative;box-shadow:0 3px 8px rgba(0,0,0,0.4)}
+    .knob-ptr{position:absolute;width:3px;height:12px;background:var(--accent);border-radius:2px;top:5px;left:50%;transform-origin:bottom center;box-shadow:0 0 6px var(--accent)}
+    .knob-name{font-size:0.55rem;color:var(--text3)}
+    .knob-val{font-size:0.7rem;font-weight:700}
+    .knob-val.pos{color:var(--green)}
+    .knob-val.neg{color:var(--red)}
+    .knob-turn{font-size:0.5rem;color:var(--yellow)}
+    .channel-freq{display:flex;justify-content:center;gap:8px;margin-top:12px;padding:8px;background:var(--card2);border-radius:8px;font-size:0.75rem}
+    .channel-freq span:first-child{color:var(--text3)}
+    .channel-freq span:last-child{font-weight:700;color:var(--purple)}
+    .fx-panel{background:linear-gradient(135deg,rgba(168,85,247,0.1),transparent);border:1px solid rgba(168,85,247,0.3);border-radius:12px;padding:14px}
+    .fx-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:0.9rem;font-weight:700;color:var(--purple)}
+    .fx-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .fx-item{background:var(--card);border-radius:8px;padding:10px}
+    .fx-item-lbl{font-size:0.6rem;color:var(--text3)}
+    .fx-item-val{font-size:0.85rem;font-weight:700;color:var(--purple)}
+    .steps{display:flex;flex-direction:column;gap:10px}
+    .step{display:flex;gap:12px;padding:14px;background:var(--card2);border-radius:12px;border:2px solid var(--border)}
+    .step.active{border-color:var(--accent);background:rgba(0,200,255,0.05)}
+    .step.done{border-color:var(--green);opacity:0.7}
+    .step-num{width:32px;height:32px;background:var(--card);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+    .step.active .step-num{background:var(--accent);color:#000}
+    .step.done .step-num{background:var(--green);color:#000}
+    .step-content{flex:1}
+    .step-title{font-size:0.9rem;font-weight:700;margin-bottom:4px}
+    .step-desc{font-size:0.8rem;color:var(--text2);line-height:1.5;margin-bottom:10px}
+    .step-visual{display:flex;align-items:center;gap:12px;padding:10px;background:var(--card);border-radius:8px;margin-bottom:10px}
+    .step-vis-knob{width:36px;height:36px;background:linear-gradient(145deg,#3a3a4a,#28283a);border-radius:50%;position:relative;flex-shrink:0}
+    .step-vis-ptr{position:absolute;width:3px;height:10px;background:var(--accent);border-radius:2px;top:5px;left:50%;transform-origin:bottom center}
+    .step-vis-text{font-size:0.75rem}
+    .step-btn{width:100%;padding:10px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.8rem;cursor:pointer}
+    .step.done .step-btn{background:var(--green);color:#000}
+    .clock-ref{display:flex;justify-content:center;gap:12px;padding:12px;background:var(--card);border-radius:12px;margin-bottom:16px}
+    .clock-item{text-align:center}
+    .clock-vis{width:32px;height:32px;background:var(--card2);border-radius:50%;margin:0 auto 4px;position:relative;border:2px solid var(--border)}
+    .clock-hand{position:absolute;width:2px;height:10px;background:var(--accent);top:5px;left:50%;transform-origin:bottom center}
+    .clock-val{font-size:0.65rem;font-weight:600}
+    .clock-lbl{font-size:0.5rem;color:var(--text3)}
+    .tip{display:flex;gap:12px;padding:12px;background:var(--card2);border-radius:10px;margin-bottom:8px}
+    .tip-icon{font-size:1.3rem}
+    .tip-title{font-size:0.8rem;font-weight:700;margin-bottom:4px}
+    .tip-text{font-size:0.7rem;color:var(--text2);line-height:1.5}
+    .history-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--card2);border-radius:10px;margin-bottom:8px}
+    .history-score{width:44px;height:44px;background:var(--card);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700}
+    .history-info{flex:1}
+    .history-mode{font-size:0.8rem;font-weight:600}
+    .history-time{font-size:0.65rem;color:var(--text3)}
+    .history-btn{padding:6px 10px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.7rem;cursor:pointer}
+    .empty{text-align:center;padding:40px;color:var(--text3)}
+    .empty-icon{font-size:2.5rem;margin-bottom:12px;opacity:0.5}
+    .detail-tbl{width:100%;border-collapse:collapse;font-size:0.75rem}
+    .detail-tbl th{padding:8px;background:var(--card2);text-align:left;color:var(--text3);border-bottom:1px solid var(--border)}
+    .detail-tbl td{padding:8px;border-bottom:1px solid var(--border)}
+    .detail-bar{height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
+    .detail-bar-fill{height:100%;border-radius:3px}
+    .detail-sts{font-weight:700}
+    .detail-sts.hi{color:var(--red)}
+    .detail-sts.ok{color:var(--green)}
+    .detail-sts.lo{color:var(--accent)}
+    .fb-item{display:flex;align-items:center;gap:12px;padding:10px;background:var(--card);border-radius:8px;margin-bottom:8px;border-left:4px solid var(--red)}
+    .fb-freq{font-size:1.1rem;font-weight:700;color:var(--red);min-width:70px}
+    .fb-info{flex:1}
+    .fb-name{font-size:0.8rem;font-weight:600}
+    .fb-level{font-size:0.65rem;color:var(--text3)}
+    .fb-meter{width:60px;height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
+    .fb-meter-fill{height:100%;background:linear-gradient(90deg,var(--yellow),var(--red));border-radius:4px}
+    .compare-band{display:flex;align-items:center;gap:10px;padding:10px;background:var(--card);border-radius:8px;margin-bottom:8px}
+    .compare-band-name{font-size:0.75rem;font-weight:600;width:70px}
+    .compare-band-bars{flex:1;display:flex;gap:4px;align-items:center}
+    .compare-band-bar{height:8px;border-radius:4px}
+    .compare-band-change{font-size:0.7rem;font-weight:700;min-width:50px;text-align:right}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="logo">🎚️</div>
+    <div><h1>Audio Analyzer Pro</h1><p>SOUNDCRAFT EFX8</p></div>
+  </header>
+  
+  <nav class="nav">
+    <button class="nav-btn active" data-s="analyze"><span>📊</span><span>Phân Tích</span></button>
+    <button class="nav-btn" data-s="compare"><span>⚖️</span><span>So Sánh</span></button>
+    <button class="nav-btn" data-s="feedback"><span>🔊</span><span>Feedback</span></button>
+    <button class="nav-btn" data-s="guide"><span>🎛️</span><span>Hướng Dẫn</span></button>
+    <button class="nav-btn" data-s="history"><span>📋</span><span>Lịch Sử</span></button>
+  </nav>
+  
+  <section class="section active" id="s-analyze">
+    <div class="mode-sel">
+      <button class="mode-btn active" data-m="vocal"><span>🎤</span><span>Vocal</span></button>
+      <button class="mode-btn" data-m="guitar"><span>🎸</span><span>Guitar</span></button>
+      <button class="mode-btn" data-m="full"><span>🎵</span><span>Full Mix</span></button>
+    </div>
+    <div class="mode-sel" style="margin-top:-8px">
+      <button class="mode-btn" data-m="broadcast"><span>📻</span><span>Broadcast</span></button>
+      <button class="mode-btn" data-m="live"><span>🎪</span><span>Live</span></button>
+      <button class="mode-btn" data-m="custom" id="customModeBtn" style="border-color:var(--purple)"><span>⭐</span><span>Của tôi</span></button>
+    </div>
+    
+    <div id="learnPanel" style="background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(0,200,255,0.1));border:1px solid var(--purple);border-radius:12px;padding:14px;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span style="font-size:1.3rem">🎓</span>
+        <div>
+          <div style="font-size:0.9rem;font-weight:700;color:var(--purple)">Chế độ HỌC (Learn)</div>
+          <div style="font-size:0.7rem;color:var(--text2)">Khi âm thanh HAY → Lưu làm chuẩn của bạn</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button onclick="app.learnFromCurrent()" style="padding:12px;background:var(--purple);border:none;border-radius:8px;color:#fff;font-weight:700;font-size:0.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">
+          <span>💾</span> Lưu làm CHUẨN
+        </button>
+        <button onclick="app.resetToDefault()" style="padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.75rem;cursor:pointer">
+          🔄 Reset về mặc định
+        </button>
+      </div>
+      <div id="customInfo" style="margin-top:10px;padding:10px;background:var(--card);border-radius:8px;font-size:0.7rem;display:none">
+        <div style="color:var(--green);font-weight:700;margin-bottom:4px">✅ Đã có chuẩn của bạn!</div>
+        <div id="customDetails" style="color:var(--text2)"></div>
+      </div>
+    </div>
+    
+    <button class="start-btn" id="startBtn"><span id="startIcon">🎙️</span><span id="startText">BẮT ĐẦU PHÂN TÍCH</span></button>
+    
+    <div class="status">
+      <div><span class="status-dot" id="dot"></span><span id="sts">Chờ kết nối</span></div>
+      <div>🔊 <span id="db">--dB</span></div>
+      <div>⏱️ <span id="dur">0s</span></div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📈</div>
+        <div><div class="card-title">Phổ Tần Số Real-time</div><div class="card-sub">Frequency Spectrum</div></div>
+      </div>
+      <div class="spectrum"><canvas id="canvas"></canvas></div>
+      <div class="bands">
+        <div class="band"><div class="band-meter"><div class="band-fill" id="fBass"></div><div class="band-target" id="tBass"></div></div><div class="band-name">BASS</div><div class="band-val" id="vBass">0%</div><div class="band-sts ok" id="sBass">OK</div></div>
+        <div class="band"><div class="band-meter"><div class="band-fill" id="fLowMid"></div><div class="band-target" id="tLowMid"></div></div><div class="band-name">LOW-MID</div><div class="band-val" id="vLowMid">0%</div><div class="band-sts ok" id="sLowMid">OK</div></div>
+        <div class="band"><div class="band-meter"><div class="band-fill" id="fMid"></div><div class="band-target" id="tMid"></div></div><div class="band-name">MID</div><div class="band-val" id="vMid">0%</div><div class="band-sts ok" id="sMid">OK</div></div>
+        <div class="band"><div class="band-meter"><div class="band-fill" id="fHighMid"></div><div class="band-target" id="tHighMid"></div></div><div class="band-name">HI-MID</div><div class="band-val" id="vHighMid">0%</div><div class="band-sts ok" id="sHighMid">OK</div></div>
+        <div class="band"><div class="band-meter"><div class="band-fill" id="fHigh"></div><div class="band-target" id="tHigh"></div></div><div class="band-name">HIGH</div><div class="band-val" id="vHigh">0%</div><div class="band-sts ok" id="sHigh">OK</div></div>
+      </div>
+    </div>
+    
+    <div class="results" id="results">
+      <div class="score-card">
+        <div class="score-ring">
+          <svg viewBox="0 0 130 130"><circle class="score-bg" cx="65" cy="65" r="60"/><circle class="score-prog" id="scoreRing" cx="65" cy="65" r="60"/></svg>
+          <div class="score-inner"><div class="score-num" id="scoreNum">0</div><div class="score-lbl">ĐIỂM</div></div>
+        </div>
+        <div class="score-msg" id="scoreMsg">Đang phân tích...</div>
+        <div class="score-hint" id="scoreHint">Vui lòng chờ</div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-icon">🔍</div><div><div class="card-title">Vấn Đề & Cách Sửa</div><div class="card-sub">Chi tiết vặn núm</div></div></div>
+        <div id="probList"></div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="section" id="s-compare">
+    <div class="card">
+      <div class="card-header"><div class="card-icon">⚖️</div><div><div class="card-title">So Sánh TRƯỚC / SAU</div><div class="card-sub">Xem hiệu quả chỉnh mixer</div></div></div>
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div style="background:var(--card2);border-radius:12px;padding:14px;text-align:center;border:2px solid var(--border)" id="compareLeft">
+          <div style="font-size:0.7rem;color:var(--text3);margin-bottom:8px">TRƯỚC KHI CHỈNH</div>
+          <div style="font-size:2.5rem;font-weight:700;color:var(--text3)" id="scoreBefore">--</div>
+          <div style="font-size:0.65rem;color:var(--text3)">điểm</div>
+          <button style="margin-top:12px;width:100%;padding:10px;background:var(--accent);border:none;border-radius:8px;color:#000;font-weight:700;font-size:0.75rem;cursor:pointer" onclick="app.saveCompare('before')">📌 Lưu kết quả TRƯỚC</button>
+        </div>
+        <div style="background:var(--card2);border-radius:12px;padding:14px;text-align:center;border:2px solid var(--border)" id="compareRight">
+          <div style="font-size:0.7rem;color:var(--text3);margin-bottom:8px">SAU KHI CHỈNH</div>
+          <div style="font-size:2.5rem;font-weight:700;color:var(--text3)" id="scoreAfter">--</div>
+          <div style="font-size:0.65rem;color:var(--text3)">điểm</div>
+          <button style="margin-top:12px;width:100%;padding:10px;background:var(--green);border:none;border-radius:8px;color:#000;font-weight:700;font-size:0.75rem;cursor:pointer" onclick="app.saveCompare('after')">📌 Lưu kết quả SAU</button>
+        </div>
+      </div>
+      
+      <div style="background:var(--card2);border-radius:12px;padding:16px;text-align:center;margin-bottom:16px" id="compareResult">
+        <div style="font-size:0.8rem;color:var(--text3);margin-bottom:8px">KẾT QUẢ CẢI THIỆN</div>
+        <div style="font-size:2rem;font-weight:700" id="compareChange">Chưa có dữ liệu</div>
+        <div style="font-size:0.75rem;color:var(--text2);margin-top:8px" id="compareMsg">Phân tích → Lưu TRƯỚC → Chỉnh mixer → Phân tích lại → Lưu SAU</div>
+      </div>
+      
+      <div id="compareBands" style="display:none">
+        <div style="font-size:0.8rem;font-weight:700;margin-bottom:12px">📊 Chi tiết từng band:</div>
+        <div id="compareBandsList"></div>
+      </div>
+      
+      <button style="width:100%;padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.8rem;cursor:pointer;margin-top:12px" onclick="app.resetCompare()">🔄 Reset so sánh</button>
+    </div>
+    
+    <div class="card">
+      <div class="card-header"><div class="card-icon">💡</div><div><div class="card-title">Cách sử dụng</div><div class="card-sub">Quy trình so sánh</div></div></div>
+      <div class="tip"><span class="tip-icon">1️⃣</span><div><div class="tip-title">Phân tích lần 1</div><div class="tip-text">Quay lại tab Phân Tích, thu âm 15-20 giây với setting hiện tại.</div></div></div>
+      <div class="tip"><span class="tip-icon">2️⃣</span><div><div class="tip-title">Lưu kết quả TRƯỚC</div><div class="tip-text">Nhấn nút "Lưu kết quả TRƯỚC" để ghi nhớ điểm số ban đầu.</div></div></div>
+      <div class="tip"><span class="tip-icon">3️⃣</span><div><div class="tip-title">Chỉnh mixer</div><div class="tip-text">Vào tab Hướng Dẫn, làm theo các bước chỉnh mixer.</div></div></div>
+      <div class="tip"><span class="tip-icon">4️⃣</span><div><div class="tip-title">Phân tích lần 2</div><div class="tip-text">Quay lại tab Phân Tích, thu âm lại với setting mới.</div></div></div>
+      <div class="tip"><span class="tip-icon">5️⃣</span><div><div class="tip-title">Lưu kết quả SAU</div><div class="tip-text">Nhấn "Lưu kết quả SAU" để xem mức cải thiện!</div></div></div>
+    </div>
+  </section>
+  
+  <section class="section" id="s-feedback">
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🔊</div><div><div class="card-title">Phát Hiện Feedback</div><div class="card-sub">Tìm tần số dễ bị hú</div></div></div>
+      
+      <button class="start-btn" id="feedbackBtn" onclick="app.toggleFeedback()">
+        <span id="fbIcon">🎤</span>
+        <span id="fbText">BẮT ĐẦU TÌM FEEDBACK</span>
+      </button>
+      
+      <div style="background:var(--bg);border-radius:12px;padding:2px;margin-bottom:16px">
+        <canvas id="fbCanvas" style="width:100%;height:120px;display:block"></canvas>
+      </div>
+      
+      <div style="background:var(--card2);border-radius:12px;padding:14px;margin-bottom:16px">
+        <div style="font-size:0.8rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+          <span>⚠️</span> TẦN SỐ NGUY HIỂM (Dễ hú)
+        </div>
+        <div id="feedbackList">
+          <div style="text-align:center;color:var(--text3);padding:20px;font-size:0.8rem">
+            Nhấn "Bắt đầu" và tăng dần volume để tìm điểm feedback
+          </div>
+        </div>
+      </div>
+      
+      <div id="feedbackTips" style="display:none">
+        <div style="font-size:0.8rem;font-weight:700;margin-bottom:12px">🛠️ Cách xử lý Feedback:</div>
+        <div id="feedbackSolutions"></div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📚</div><div><div class="card-title">Kiến thức về Feedback</div><div class="card-sub">Hiểu để xử lý tốt hơn</div></div></div>
+      <div class="tip"><span class="tip-icon">❓</span><div><div class="tip-title">Feedback là gì?</div><div class="tip-text">Là hiện tượng âm thanh từ loa quay lại mic, tạo vòng lặp và phát ra tiếng hú chói tai. Thường xảy ra ở một số tần số nhất định.</div></div></div>
+      <div class="tip"><span class="tip-icon">🎯</span><div><div class="tip-title">Tần số hay bị hú nhất</div><div class="tip-text"><b>250-500Hz</b> (ù ù), <b>1-2kHz</b> (hú trầm), <b>2.5-4kHz</b> (hú chói - phổ biến nhất!), <b>8kHz+</b> (rít tai)</div></div></div>
+      <div class="tip"><span class="tip-icon">🔧</span><div><div class="tip-title">Cách xử lý</div><div class="tip-text"><b>1.</b> Giảm volume tổng. <b>2.</b> Di chuyển mic xa loa hơn. <b>3.</b> Vặn MID FREQ về tần số hú và CẮT MID. <b>4.</b> Giảm FX/reverb.</div></div></div>
+      <div class="tip"><span class="tip-icon">💡</span><div><div class="tip-title">Mẹo phòng tránh</div><div class="tip-text">Đừng để mic hướng thẳng vào loa. Sử dụng mic cardioid (hướng tính). Giữ khoảng cách mic-loa ít nhất 2-3m.</div></div></div>
+    </div>
+  </section>
+  
+  <section class="section" id="s-guide">
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🕐</div><div><div class="card-title">Quy Ước Vị Trí Núm</div><div class="card-sub">Dùng đồng hồ để dễ hiểu</div></div></div>
+      <div class="clock-ref">
+        <div class="clock-item"><div class="clock-vis"><div class="clock-hand" style="transform:translateX(-50%) rotate(-90deg)"></div></div><div class="clock-val">9 giờ</div><div class="clock-lbl">Giảm max</div></div>
+        <div class="clock-item"><div class="clock-vis"><div class="clock-hand" style="transform:translateX(-50%) rotate(-45deg)"></div></div><div class="clock-val">10-11h</div><div class="clock-lbl">Giảm nhẹ</div></div>
+        <div class="clock-item"><div class="clock-vis"><div class="clock-hand" style="transform:translateX(-50%) rotate(0deg)"></div></div><div class="clock-val">12 giờ</div><div class="clock-lbl">Trung tâm</div></div>
+        <div class="clock-item"><div class="clock-vis"><div class="clock-hand" style="transform:translateX(-50%) rotate(45deg)"></div></div><div class="clock-val">1-2 giờ</div><div class="clock-lbl">Tăng nhẹ</div></div>
+        <div class="clock-item"><div class="clock-vis"><div class="clock-hand" style="transform:translateX(-50%) rotate(90deg)"></div></div><div class="clock-val">3 giờ</div><div class="clock-lbl">Tăng max</div></div>
+      </div>
+      <div style="padding:10px;background:var(--card2);border-radius:8px;font-size:0.75rem;color:var(--text2);line-height:1.8">
+        <strong style="color:var(--accent)">💡 CÁCH ĐỌC VỊ TRÍ NÚM:</strong><br>
+        • <b>1/8 vòng</b> = 22.5° = từ 12h → 1h (hoặc 12h → 11h) - thay đổi NHẸ<br>
+        • <b>1/4 vòng</b> = 45° = từ 12h → 3h (hoặc 12h → 9h) - thay đổi VỪA<br>
+        • <b>3/8 vòng</b> = 67.5° = từ 12h gần tới 3h - thay đổi KHÁ NHIỀU<br>
+        • <b>1/2 vòng</b> = 90° = nửa vòng tròn - thay đổi TỐI ĐA<br><br>
+        <strong style="color:var(--yellow)">⚠️ QUY TẮC VÀNG:</strong><br>
+        • <b>Vặn TRÁI</b> = GIẢM = cắt bớt tần số đó<br>
+        • <b>Vặn PHẢI</b> = TĂNG = thêm tần số đó<br>
+        • <b>12 giờ</b> = Vị trí trung tâm = 0dB = không thay đổi
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🎛️</div><div><div class="card-title">Gợi Ý Chỉnh Mixer</div><div class="card-sub">Dựa trên phân tích</div></div></div>
+      <div class="mixer">
+        <div class="mixer-label">══ SOUNDCRAFT EFX8 ══</div>
+        <div class="channel">
+          <div class="channel-head"><div class="channel-name"><span>🎤</span>KÊNH VOCAL</div><div class="channel-badge">CH 1-2</div></div>
+          <div class="knobs">
+            <div class="knob-item"><div class="knob"><div class="knob-ptr" id="kVGain" style="transform:translateX(-50%) rotate(0)"></div></div><div class="knob-name">GAIN</div><div class="knob-val" id="vVGain">0</div><div class="knob-turn" id="tVGain"></div></div>
+            <div class="knob-item"><div class="knob"><div class="knob-ptr" id="kVHi" style="transform:translateX(-50%) rotate(0)"></div></div><div class="knob-name">HI</div><div class="knob-val" id="vVHi">0dB</div><div class="knob-turn" id="tVHi"></div></div>
+            <div class="knob-item"><div class="knob"><div class="knob-ptr" id="kVMid" style="transform:translateX(-50%) rotate(0)"></div></div><div class="knob-name">MID</div><div class="knob-val" id="vVMid">0dB</div><div class="knob-turn" id="tVMid"></div></div>
+            <div class="knob-item"><div class="knob"><div class="knob-ptr" id="kVLo" style="transform:translateX(-50%) rotate(0)"></div></div><div class="knob-name">LO</div><div class="knob-val" id="vVLo">0dB</div><div class="knob-turn" id="tVLo"></div></div>
+            <div class="knob-item"><div class="knob"><div class="knob-ptr" id="kVFx" style="transform:translateX(-50%) rotate(-45deg)"></div></div><div class="knob-name">FX</div><div class="knob-val" id="vVFx">25%</div><div class="knob-turn" id="tVFx">11h</div></div>
+          </div>
+          <div class="channel-freq"><span>MID FREQ:</span><span id="fqV">2.5kHz</span></div>
+          <div style="margin-top:8px;padding:8px;background:rgba(255,196,0,0.1);border-radius:6px;font-size:0.7rem;color:var(--yellow)">💡 <b>HPF (nút bấm):</b> Nếu có, BẬT lên để cắt bass dưới 80Hz!</div>
+        </div>
+        <div class="channel">
+          <div class="channel-head"><div class="channel-name"><span>🎸</span>KÊNH GUITAR</div><div class="channel-badge">CH 3-4</div></div>
+          <div class="knobs">
+            <div class="knob-item"><div class="knob"><div class="knob-ptr" id="kGGain" style="transform:translateX(-50%) rotate(0)"></div></div><div class="knob-name">GAIN</div><div class="knob-val" id="vGGain">0</div><div class="knob-turn" id="tGGain"></div></div>
+            <div class="knob-item"><div class="knob"><div class="knob-ptr" id="kGHi" style="transform:translateX(-50%) rotate(0)"></div></div><div class="knob-name">HI</div><div class="knob-val" id="vGHi">0dB</div><div class="knob-turn" id="tGHi"></div></div>
+            <div class="knob-item"><div class="knob"><div class="knob-ptr" id="kGMid" style="transform:translateX(-50%) rotate(0)"></div></div><div class="knob-name">MID</div><div class="knob-val" id="vGMid">0dB</div><div class="knob-turn" id="tGMid"></div></div>
+            <div class="knob-item"><div class="knob"><div class="knob-ptr" id="kGLo" style="transform:translateX(-50%) rotate(0)"></div></div><div class="knob-name">LO</div><div class="knob-val" id="vGLo">0dB</div><div class="knob-turn" id="tGLo"></div></div>
+            <div class="knob-item"><div class="knob"><div class="knob-ptr" id="kGFx" style="transform:translateX(-50%) rotate(-60deg)"></div></div><div class="knob-name">FX</div><div class="knob-val" id="vGFx">15%</div><div class="knob-turn" id="tGFx">10h</div></div>
+          </div>
+          <div class="channel-freq"><span>MID FREQ:</span><span id="fqG">3kHz</span></div>
+        </div>
+        <div class="fx-panel">
+          <div class="fx-head"><span>🌊</span>LEXICON FX (Reverb)</div>
+          <div class="fx-grid">
+            <div class="fx-item"><div class="fx-item-lbl">Chương trình</div><div class="fx-item-val" id="fxProg">Vocal Plate</div></div>
+            <div class="fx-item"><div class="fx-item-lbl">FX Time (Decay)</div><div class="fx-item-val" id="fxTime">10 giờ</div></div>
+            <div class="fx-item"><div class="fx-item-lbl">FX to Mix</div><div class="fx-item-val" id="fxMix">25%</div></div>
+            <div class="fx-item"><div class="fx-item-lbl">Ghi chú</div><div class="fx-item-val" id="fxNote" style="font-size:0.65rem">Vang vừa</div></div>
+          </div>
+          <div style="margin-top:10px;padding:8px;background:var(--card);border-radius:6px;font-size:0.65rem;color:var(--text2);line-height:1.5">
+            <b style="color:var(--purple)">💡 Chọn Program:</b><br>
+            • <b>Plate</b> - Vocal (ngắn, ấm)<br>
+            • <b>Hall</b> - Phòng lớn (dài, rộng)<br>
+            • <b>Room</b> - Phòng nhỏ (tự nhiên)<br>
+            <b style="color:var(--yellow)">⚠️ Ít reverb = giọng RÕ hơn!</b>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📝</div><div><div class="card-title">Hướng Dẫn Từng Bước</div><div class="card-sub">Làm theo thứ tự</div></div></div>
+      <div class="steps" id="stepsBox"></div>
+    </div>
+  </section>
+  
+  <section class="section" id="s-detail">
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📊</div><div><div class="card-title">Bảng Phân Tích Chi Tiết</div><div class="card-sub">Từng dải tần</div></div></div>
+      <table class="detail-tbl"><thead><tr><th>Tần số</th><th>Mức</th><th>Trạng thái</th></tr></thead><tbody id="detailBody"></tbody></table>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📚</div><div><div class="card-title">Giải Thích Tần Số</div><div class="card-sub">Hiểu để chỉnh tốt</div></div></div>
+      <div class="tip"><span class="tip-icon">🔴</span><div><div class="tip-title">Sub/Bass (20-150Hz) - Độ dày, độ ấm</div><div class="tip-text"><b>Quá nhiều = tiếng ùng ục, nặng nề, đục.</b> Với vocal và guitar acoustic, LUÔN cắt vùng này bằng núm LO. Chỉ cần thiết cho bass guitar hoặc kick drum.</div></div></div>
+      <div class="tip"><span class="tip-icon">🟠</span><div><div class="tip-title">Low-Mid (150-500Hz) - VÙNG "BÙN"!</div><div class="tip-text"><b>Đây là vùng GÂY ĐỤC nhất - thường phải CẮT!</b> Vặn MID FREQ về 400Hz rồi giảm MID. Cắt vùng này sẽ làm giọng/đàn trong hơn ngay lập tức.</div></div></div>
+      <div class="tip"><span class="tip-icon">🟢</span><div><div class="tip-title">Mid (500Hz-2kHz) - Thân tiếng</div><div class="tip-text"><b>Vùng quan trọng cho vocal!</b> Chứa ngữ âm, phụ âm. Thiếu = giọng mỏng, xa xôi. Thừa = tiếng "hộp", gò bó. Tăng nhẹ để giọng dày hơn.</div></div></div>
+      <div class="tip"><span class="tip-icon">🔵</span><div><div class="tip-title">Hi-Mid (2-6kHz) - Vùng "PRESENCE"</div><div class="tip-text"><b>QUAN TRỌNG: Làm giọng CẮT QUA mix!</b> Tăng vùng này để giọng nổi bật, nghe rõ từng chữ. Vặn MID FREQ về 2.5-4kHz và tăng MID.</div></div></div>
+      <div class="tip"><span class="tip-icon">🟣</span><div><div class="tip-title">Treble/Air (6-20kHz) - Độ sáng</div><div class="tip-text">Thêm "sparkle", "air", độ sáng. <b>Quá nhiều = chói tai, xèn xẹt.</b> Tăng vừa phải bằng núm HI để giọng/đàn sáng hơn nhưng không chói.</div></div></div>
+    </div>
+  </section>
+  
+  <section class="section" id="s-history">
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📐</div><div><div class="card-title">Quy Chuẩn Chuyên Nghiệp</div><div class="card-sub">Giải thích các tiêu chuẩn</div></div></div>
+      
+      <div class="tip"><span class="tip-icon">🎤</span><div><div class="tip-title">Vocal Mode</div><div class="tip-text">Cắt bass mạnh, tăng presence (2-5kHz). Dựa trên nguyên tắc <b>vocal cutting through mix</b> - giọng hát phải nổi bật.</div></div></div>
+      
+      <div class="tip"><span class="tip-icon">🎸</span><div><div class="tip-title">Guitar Mode</div><div class="tip-text">Giữ bass vừa phải, tăng hi-mid. Dựa trên <b>acoustic guitar frequency response</b> chuẩn 80Hz-12kHz.</div></div></div>
+      
+      <div class="tip"><span class="tip-icon">🎵</span><div><div class="tip-title">Full Mix Mode</div><div class="tip-text">Cân bằng tất cả bands. Dựa trên <b>Pink Noise Reference</b> - năng lượng bằng nhau mỗi octave.</div></div></div>
+      
+      <div class="tip"><span class="tip-icon">📻</span><div><div class="tip-title">Broadcast Mode</div><div class="tip-text">Chuẩn <b>EBU R128 / -24 LUFS</b>. Dùng cho phát thanh, podcast, YouTube. Âm thanh rõ ràng qua mọi thiết bị.</div></div></div>
+      
+      <div class="tip"><span class="tip-icon">🎪</span><div><div class="tip-title">Live Mode</div><div class="tip-text">Cắt low-mid mạnh để <b>chống feedback</b>. Tăng tolerance vì môi trường live thay đổi liên tục.</div></div></div>
+      
+      <div class="tip"><span class="tip-icon">⭐</span><div><div class="tip-title">Của tôi (Custom)</div><div class="tip-text">Chuẩn do BẠN tự tạo. Khi nào thấy âm thanh HAY → nhấn "Lưu làm chuẩn". <b>Chính xác nhất cho setup của bạn!</b></div></div></div>
+      
+      <div style="margin-top:12px;padding:12px;background:var(--card2);border-radius:8px;font-size:0.7rem;color:var(--text2);line-height:1.6">
+        <b style="color:var(--accent)">📚 Tham khảo từ:</b><br>
+        • <b>Fletcher-Munson Curves</b> - Độ nhạy tai người theo tần số<br>
+        • <b>Pink Noise Reference</b> - Năng lượng bằng nhau/octave<br>
+        • <b>Bob Katz K-System</b> - Chuẩn mastering chuyên nghiệp<br>
+        • <b>EBU R128</b> - Chuẩn loudness châu Âu<br>
+        • <b>ITU-R BS.1770</b> - Chuẩn đo loudness quốc tế
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📋</div><div><div class="card-title">Lịch Sử Phân Tích</div><div class="card-sub">So sánh trước/sau</div></div></div>
+      <div id="histList"><div class="empty"><div class="empty-icon">📊</div><div>Chưa có lịch sử</div></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">💡</div><div><div class="card-title">Mẹo Sử Dụng</div><div class="card-sub">Để chính xác hơn</div></div></div>
+      <div class="tip"><span class="tip-icon">📱</span><div><div class="tip-title">Vị trí điện thoại khi đo</div><div class="tip-text">Đặt điện thoại cách loa <b>1-2 mét</b>, hướng mic (thường ở dưới điện thoại) về phía loa. Không để quá gần (bị méo) hoặc quá xa (nhiễu phòng nhiều).</div></div></div>
+      <div class="tip"><span class="tip-icon">🔇</span><div><div class="tip-title">Giảm nhiễu môi trường</div><div class="tip-text"><b>TẮT quạt, máy lạnh, TV</b> khi phân tích. Phòng càng yên tĩnh, kết quả càng chính xác. Đóng cửa sổ nếu ngoài đường ồn.</div></div></div>
+      <div class="tip"><span class="tip-icon">⏱️</span><div><div class="tip-title">Thời gian phân tích</div><div class="tip-text">Thu ít nhất <b>15-20 giây</b>. Hát/đánh đàn LIÊN TỤC, đừng ngắt quãng. Hát ở mức âm lượng bình thường khi biểu diễn.</div></div></div>
+      <div class="tip"><span class="tip-icon">🔄</span><div><div class="tip-title">Nguyên tắc chỉnh</div><div class="tip-text"><b>Chỉnh 1 núm → Nghe → Phân tích lại.</b> Đừng vặn nhiều núm cùng lúc! Mỗi lần chỉ thay đổi 1 thứ để biết cái nào hiệu quả.</div></div></div>
+      <div class="tip"><span class="tip-icon">✂️</span><div><div class="tip-title">Nguyên tắc "Cắt trước Tăng"</div><div class="tip-text"><b>Luôn CẮT tần số thừa trước, rồi mới TĂNG tần số thiếu.</b> Ví dụ: Cắt bass trước, rồi mới tăng mid/treble sau. Cắt không gây méo, tăng có thể gây méo.</div></div></div>
+      <div class="tip"><span class="tip-icon">👂</span><div><div class="tip-title">Tin vào tai bạn!</div><div class="tip-text">App chỉ là công cụ hỗ trợ. <b>Nếu tai bạn thấy hay mà điểm thấp = vẫn OK!</b> Mục tiêu là âm thanh HAY, không phải điểm CAO.</div></div></div>
+    </div>
+  </section>
+</div>
+
+<script>
+class App{
+  constructor(){
+    this.ctx=null;this.an=null;this.src=null;this.stream=null;this.data=null;this.running=false;
+    this.canvas=document.getElementById('canvas');this.c=this.canvas.getContext('2d');
+    this.mode='vocal';this.dur=0;this.timer=null;this.hist=JSON.parse(localStorage.getItem('ah')||'[]');
+    this.bands={bass:{min:20,max:150,vals:[],avg:0},lowMid:{min:150,max:500,vals:[],avg:0},mid:{min:500,max:2000,vals:[],avg:0},highMid:{min:2000,max:6000,vals:[],avg:0},high:{min:6000,max:20000,vals:[],avg:0}};
+    // Professional mixing targets based on:
+    // - Pink noise reference (equal energy per octave)
+    // - Fletcher-Munson equal loudness curves
+    // - Industry mixing standards (broadcast -24 LUFS reference)
+    // - Bob Katz K-System recommendations
+    this.defaultTargets={
+      vocal:{bass:18,lowMid:25,mid:52,highMid:55,high:35,tol:10,desc:'Giọng hát rõ, cắt qua mix'},
+      guitar:{bass:28,lowMid:32,mid:45,highMid:52,high:40,tol:10,desc:'Guitar acoustic ấm, sáng'},
+      full:{bass:42,lowMid:38,mid:42,highMid:45,high:38,tol:12,desc:'Mix cân bằng, tự nhiên'},
+      broadcast:{bass:35,lowMid:35,mid:45,highMid:48,high:40,tol:8,desc:'Chuẩn phát thanh -24 LUFS'},
+      live:{bass:38,lowMid:30,mid:48,highMid:50,high:42,tol:15,desc:'Live performance, chống feedback'}
+    };
+    this.customTarget=JSON.parse(localStorage.getItem('customTarget')||'null');
+    this.targets=JSON.parse(localStorage.getItem('userTargets')||'null')||{...this.defaultTargets};
+    this.compareBefore=null;this.compareAfter=null;
+    this.fbRunning=false;this.fbPeaks=[];
+    this.init();
+  }
+  init(){
+    this.setupCanvas();this.setupEvents();this.updateTargets();this.genSteps();this.updateDetail();this.renderHist();this.initLearnPanel();
+  }
+  setupCanvas(){
+    const r=()=>{const rc=this.canvas.parentElement.getBoundingClientRect();const d=window.devicePixelRatio||1;this.canvas.width=rc.width*d;this.canvas.height=140*d;this.c.scale(d,d);this.w=rc.width;this.h=140;};
+    r();window.addEventListener('resize',r);
+  }
+  setupEvents(){
+    document.getElementById('startBtn').onclick=()=>this.toggle();
+    document.querySelectorAll('.mode-btn').forEach(b=>{b.onclick=e=>{document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));e.currentTarget.classList.add('active');this.mode=e.currentTarget.dataset.m;this.updateTargets();this.resetBands();};});
+    document.querySelectorAll('.nav-btn').forEach(b=>{b.onclick=e=>{const s=e.currentTarget.dataset.s;document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));e.currentTarget.classList.add('active');document.getElementById('s-'+s).classList.add('active');};});
+  }
+  updateTargets(){
+    const t=this.targets[this.mode];
+    ['Bass','LowMid','Mid','HighMid','High'].forEach((n,i)=>{const k=['bass','lowMid','mid','highMid','high'][i];const el=document.getElementById('t'+n);if(el)el.style.bottom=t[k]+'%';});
+  }
+  resetBands(){Object.keys(this.bands).forEach(k=>{this.bands[k].vals=[];this.bands[k].avg=0;});}
+  async start(){
+    try{
+      this.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+      this.ctx=new(window.AudioContext||window.webkitAudioContext)();this.an=this.ctx.createAnalyser();this.an.fftSize=4096;this.an.smoothingTimeConstant=0.8;
+      this.src=this.ctx.createMediaStreamSource(this.stream);this.src.connect(this.an);this.data=new Uint8Array(this.an.frequencyBinCount);
+      this.running=true;this.dur=0;this.resetBands();this.updateUI(true);this.startTimer();this.draw();
+    }catch(e){alert('Không thể truy cập mic!');console.error(e);}
+  }
+  stop(){this.running=false;this.stopTimer();if(this.stream)this.stream.getTracks().forEach(t=>t.stop());if(this.ctx)this.ctx.close();this.updateUI(false);this.genReport();this.saveHist();}
+  toggle(){this.running?this.stop():this.start();}
+  startTimer(){this.timer=setInterval(()=>{this.dur++;document.getElementById('dur').textContent=this.dur+'s';},1000);}
+  stopTimer(){if(this.timer){clearInterval(this.timer);this.timer=null;}}
+  updateUI(on){
+    const btn=document.getElementById('startBtn'),icon=document.getElementById('startIcon'),txt=document.getElementById('startText'),dot=document.getElementById('dot'),sts=document.getElementById('sts');
+    if(on){btn.classList.add('rec');icon.textContent='⏹️';txt.textContent='DỪNG PHÂN TÍCH';dot.classList.add('on');sts.textContent='Đang thu...';document.getElementById('results').classList.remove('show');}
+    else{btn.classList.remove('rec');icon.textContent='🎙️';txt.textContent='BẮT ĐẦU PHÂN TÍCH';dot.classList.remove('on');sts.textContent='Đã dừng';}
+  }
+  fToI(f){return Math.round(f/(this.ctx.sampleRate/this.an.fftSize));}
+  getBand(min,max){const mi=this.fToI(min),ma=Math.min(this.fToI(max),this.data.length-1);let s=0,c=0;for(let i=mi;i<=ma;i++){s+=this.data[i];c++;}return c>0?(s/c/255)*100:0;}
+  analyze(){
+    let total=0;
+    Object.keys(this.bands).forEach(k=>{
+      const b=this.bands[k],lv=this.getBand(b.min,b.max);b.vals.push(lv);if(b.vals.length>100)b.vals.shift();b.avg=b.vals.reduce((a,c)=>a+c,0)/b.vals.length;total+=lv;this.updateBandUI(k,lv);
+    });
+    const db=20*Math.log10((total/5)/100);document.getElementById('db').textContent=isFinite(db)?db.toFixed(1)+'dB':'--dB';this.updateDetail();
+  }
+  updateBandUI(k,lv){
+    const nm={bass:'Bass',lowMid:'LowMid',mid:'Mid',highMid:'HighMid',high:'High'}[k],t=this.targets[this.mode][k],d=this.bands[k].avg-t,tol=this.targets[this.mode].tol;
+    document.getElementById('f'+nm).style.height=Math.min(100,lv)+'%';document.getElementById('v'+nm).textContent=Math.round(this.bands[k].avg)+'%';
+    const s=document.getElementById('s'+nm);if(Math.abs(d)<=tol){s.className='band-sts ok';s.textContent='OK';}else if(d>0){s.className='band-sts hi';s.textContent='THỪA';}else{s.className='band-sts lo';s.textContent='THIẾU';}
+  }
+  updateDetail(){
+    const fd=[{n:'Sub Bass',r:'20-60Hz',k:'bass',m:0.4},{n:'Bass',r:'60-150Hz',k:'bass',m:0.6},{n:'Low-Mid',r:'150-500Hz',k:'lowMid',m:1},{n:'Mid',r:'500Hz-2kHz',k:'mid',m:1},{n:'Hi-Mid',r:'2-6kHz',k:'highMid',m:1},{n:'Treble',r:'6-12kHz',k:'high',m:0.7},{n:'Air',r:'12-20kHz',k:'high',m:0.3}];
+    document.getElementById('detailBody').innerHTML=fd.map(f=>{const v=this.bands[f.k].avg*f.m,t=this.targets[this.mode][f.k]*f.m,d=v-t;let st,cl,co;if(Math.abs(d)<=10){st='OK';cl='ok';co='var(--green)';}else if(d>0){st='+'+Math.round(d)+'%';cl='hi';co='var(--red)';}else{st=Math.round(d)+'%';cl='lo';co='var(--accent)';}return`<tr><td><b>${f.n}</b><br><small style="color:var(--text3)">${f.r}</small></td><td><div class="detail-bar"><div class="detail-bar-fill" style="width:${Math.min(100,v)}%;background:${co}"></div></div></td><td class="detail-sts ${cl}">${st}</td></tr>`;}).join('');
+  }
+  draw(){
+    if(!this.running)return;requestAnimationFrame(()=>this.draw());this.an.getByteFrequencyData(this.data);this.analyze();
+    this.c.fillStyle='#0a0a12';this.c.fillRect(0,0,this.w,this.h);
+    const bars=64,bw=this.w/bars;
+    for(let i=0;i<bars;i++){const idx=Math.floor(Math.pow(i/bars,2)*this.data.length*0.5),v=this.data[idx]/255,ht=v*this.h*0.9;let hue;if(i<bars*0.15)hue=350;else if(i<bars*0.3)hue=40;else if(i<bars*0.5)hue=150;else if(i<bars*0.75)hue=190;else hue=270;const g=this.c.createLinearGradient(0,this.h,0,this.h-ht);g.addColorStop(0,`hsla(${hue},100%,50%,0.9)`);g.addColorStop(1,`hsla(${hue},100%,70%,0.6)`);this.c.fillStyle=g;this.c.fillRect(i*bw+1,this.h-ht,bw-2,ht);}
+  }
+  dbToTurn(db){const a=Math.abs(db),dir=db>0?'phải':'trái',act=db>0?'Tăng':'Giảm';if(a<1)return{txt:'Giữ nguyên',clk:'12h',trn:''};if(a<=3)return{txt:`Vặn ${dir} ~1/8 vòng`,clk:db>0?'1h':'11h',trn:`${act} ~${Math.round(a)}dB`};if(a<=6)return{txt:`Vặn ${dir} ~1/4 vòng`,clk:db>0?'2h':'10h',trn:`${act} ~${Math.round(a)}dB`};if(a<=9)return{txt:`Vặn ${dir} ~3/8 vòng`,clk:db>0?'2-3h':'9-10h',trn:`${act} ~${Math.round(a)}dB`};return{txt:`Vặn ${dir} ~1/2 vòng`,clk:db>0?'3h':'9h',trn:`${act} max`};}
+  dbToRot(db){return(db/15)*135;}
+  genReport(){
+    const t=this.targets[this.mode],tol=t.tol,probs=[];
+    const calcEQ=(k,mx=12)=>{const d=t[k]-this.bands[k].avg;return Math.max(-mx,Math.min(mx,d/4));};
+    const eqV={hi:calcEQ('high',6),mid:calcEQ('mid',6)+calcEQ('highMid',6)/2,lo:-(this.bands.bass.avg-t.bass)/3-(this.bands.lowMid.avg-t.lowMid)/4};
+    const eqG={hi:calcEQ('high',4),mid:calcEQ('highMid',4),lo:calcEQ('bass',6)};
+    const bn={bass:'Bass (20-150Hz)',lowMid:'Low-Mid (150-500Hz)',mid:'Mid (500Hz-2kHz)',highMid:'Hi-Mid (2-6kHz)',high:'Treble (6-20kHz)'};
+    const sols={bass:{high:{t:'🔴 Giảm núm LO - Loại bỏ tiếng ùng ục',s:[{k:'LO',a:'Vặn TRÁI từ từ',d:'Bắt đầu từ 12h, vặn dần về 9-10h. Nghe thấy tiếng bớt nặng là được.',tr:'1/4 vòng TRÁI (45°)'},{k:'HPF',a:'BẬT nút HPF (nếu có)',d:'High Pass Filter cắt tần số dưới 80Hz, giúp loại bỏ tiếng ù.',tr:'Nhấn nút xuống'}]},low:{t:'🟢 Tăng núm LO nhẹ - Thêm độ ấm',s:[{k:'LO',a:'Vặn PHẢI nhẹ',d:'Từ 12h về 1h. Cẩn thận đừng tăng quá nhiều sẽ bị ùng ục.',tr:'1/8 vòng PHẢI (22°)'}]}},lowMid:{high:{t:'🔴 Cắt vùng "bùn" 200-500Hz - RẤT QUAN TRỌNG!',s:[{k:'MID FREQ',a:'Vặn núm nhỏ về 400Hz',d:'Tìm vạch đánh dấu 400 hoặc 0.4k trên mixer. Đây là tần số gây đục nhất!',tr:'Tìm vị trí 400Hz'},{k:'MID',a:'Vặn TRÁI mạnh tay',d:'Từ 12h về 9-10h. Đây là bước quan trọng nhất để giọng/đàn rõ hơn.',tr:'1/4 đến 1/2 vòng TRÁI'}]},low:{t:'🟢 Low-Mid đang tốt',s:[{k:'MID',a:'Giữ nguyên vị trí',d:'Vùng này thường cần cắt. Nếu thiếu thì không cần tăng.',tr:'Không cần chỉnh'}]}},mid:{high:{t:'🟡 Giảm MID nhẹ - Bớt tiếng "hộp"',s:[{k:'MID FREQ',a:'Vặn về 1kHz',d:'Tìm vạch 1k hoặc 1000.',tr:'Tìm vị trí 1kHz'},{k:'MID',a:'Vặn TRÁI nhẹ',d:'Từ 12h về 11h. Chỉ giảm nhẹ thôi, đừng cắt quá nhiều.',tr:'1/8 vòng TRÁI (22°)'}]},low:{t:'🔴 Tăng MID - Giọng/đàn sẽ rõ hơn nhiều!',s:[{k:'MID FREQ',a:'Vặn về 1-2kHz',d:'Vùng 1-2kHz là thân tiếng của giọng hát và guitar.',tr:'Tìm vị trí 1-2kHz'},{k:'MID',a:'Vặn PHẢI',d:'Từ 12h về 1-2h. Giọng sẽ dày và rõ ràng hơn.',tr:'1/4 vòng PHẢI (45°)'}]}},highMid:{high:{t:'🟡 Giảm Hi-Mid - Bớt chói tai',s:[{k:'MID FREQ',a:'Vặn về 3-4kHz',d:'Tìm vạch 3k hoặc 4k.',tr:'Tìm vị trí 3-4kHz'},{k:'MID',a:'Vặn TRÁI nhẹ',d:'Từ 12h về 11h. Sẽ bớt chói và dễ nghe hơn.',tr:'1/8 vòng TRÁI (22°)'}]},low:{t:'🔴 Tăng Hi-Mid - Giọng cắt qua mix, nghe RÕ hơn!',s:[{k:'MID FREQ',a:'Vặn về 2.5-4kHz',d:'Đây là vùng "presence" - làm giọng nổi bật lên trên nhạc!',tr:'Tìm vị trí 2.5-4kHz'},{k:'MID',a:'Vặn PHẢI',d:'Từ 12h về 1-2h. Giọng sẽ cắt qua mix, nghe rõ từng chữ.',tr:'1/4 vòng PHẢI (45°)'}]}},high:{high:{t:'🟡 Giảm Treble - Bớt xèn xẹt',s:[{k:'HI',a:'Vặn TRÁI',d:'Từ 12h về 10-11h. Giảm độ chói, dễ nghe hơn.',tr:'1/8 vòng TRÁI (22°)'}]},low:{t:'🟢 Tăng Treble - Thêm độ sáng, sparkle',s:[{k:'HI',a:'Vặn PHẢI',d:'Từ 12h về 1-2h. Thêm "air" và độ sáng cho giọng/đàn.',tr:'1/4 vòng PHẢI (45°)'}}]}};
+    let sc=0;
+    Object.keys(this.bands).forEach(k=>{const avg=this.bands[k].avg,d=avg-t[k],bs=Math.max(0,100-Math.abs(d)*2.5);sc+=bs;if(Math.abs(d)>tol){const hi=d>0,sev=Math.abs(d)>tol*1.8?'crit':'warn',sol=sols[k][hi?'high':'low'];probs.push({k,n:bn[k],sev,hi,d:Math.round(d),avg:Math.round(avg),t:t[k],sol});}});
+    sc=Math.round(sc/5);this.showScore(sc);this.showProbs(probs);this.updateMixer(eqV,eqG);this.genSteps(probs);document.getElementById('results').classList.add('show');
+  }
+  showScore(sc){
+    const ring=document.getElementById('scoreRing'),num=document.getElementById('scoreNum'),msg=document.getElementById('scoreMsg'),hint=document.getElementById('scoreHint');
+    const circ=2*Math.PI*60,off=circ-(sc/100)*circ;ring.style.strokeDashoffset=off;
+    let col;if(sc>=80)col='var(--green)';else if(sc>=55)col='var(--yellow)';else col='var(--red)';ring.style.stroke=col;num.style.color=col;num.textContent=sc;
+    if(sc>=85){msg.textContent='🎉 Xuất sắc!';hint.textContent='Âm thanh rất cân bằng. Giữ nguyên setting này!';}else if(sc>=70){msg.textContent='👍 Khá tốt!';hint.textContent='Gần hoàn hảo rồi! Chỉnh thêm chút theo hướng dẫn.';}else if(sc>=55){msg.textContent='⚡ Cần điều chỉnh';hint.textContent='Có vấn đề cần sửa. Làm theo hướng dẫn bên dưới.';}else{msg.textContent='⚠️ Cần chỉnh nhiều';hint.textContent='Có vấn đề rõ ràng. Xem chi tiết và làm từng bước.';}
+  }
+  showProbs(probs){
+    const c=document.getElementById('probList');
+    if(!probs.length){c.innerHTML='<div class="problem good"><div class="problem-head"><div class="problem-title">✅ Âm thanh cân bằng!</div><span class="problem-badge badge-good">TUYỆT</span></div><div class="problem-desc">Giữ nguyên setting hiện tại!</div></div>';return;}
+    probs.sort((a,b)=>a.sev==='crit'?-1:1);
+    c.innerHTML=probs.map(p=>`<div class="problem ${p.sev}"><div class="problem-head"><div class="problem-title">${p.sev==='crit'?'🔴':'🟡'} ${p.n} ${p.hi?'THỪA':'THIẾU'}</div><span class="problem-badge badge-${p.sev}">${p.hi?'+':''}${p.d}%</span></div><div class="problem-desc">Hiện tại: <b>${p.avg}%</b>, lý tưởng: <b>${p.t}%</b> → ${p.hi?'Cần GIẢM':'Cần TĂNG'}</div><div class="solution"><div class="solution-label">🔧 ${p.sol.t}</div>${p.sol.s.map(s=>`<div class="sol-step"><div class="sol-knob"><div class="sol-knob-ptr" style="transform:translateX(-50%) rotate(${s.a.includes('TRÁI')?-60:s.a.includes('PHẢI')?60:0}deg)"></div><div class="sol-knob-lbl">${s.k}</div></div><div class="sol-info"><div class="sol-action">${s.a}</div><div class="sol-detail">${s.d}</div>${s.tr?`<div class="sol-turn">↻ ${s.tr}</div>`:''}</div></div>`).join('')}</div></div>`).join('');
+  }
+  updateMixer(eqV,eqG){
+    this.updateKnob('V','Gain',0,'0','');this.updateKnob('V','Hi',eqV.hi);this.updateKnob('V','Mid',eqV.mid);this.updateKnob('V','Lo',eqV.lo);
+    this.updateKnob('G','Gain',0,'0','');this.updateKnob('G','Hi',eqG.hi);this.updateKnob('G','Mid',eqG.mid);this.updateKnob('G','Lo',eqG.lo);
+    const cut=this.bands.lowMid.avg>this.targets[this.mode].lowMid+10;
+    document.getElementById('fqV').textContent=cut?'400Hz (cắt)':'2.5kHz';document.getElementById('fqG').textContent=cut?'500Hz (cắt)':'3kHz';
+    const mud=this.bands.lowMid.avg>this.targets[this.mode].lowMid+15;
+    document.getElementById('fxProg').textContent=mud?'Plate':'Vocal Plate';document.getElementById('fxTime').textContent=mud?'9h':'10h';document.getElementById('fxMix').textContent=mud?'20%':'25%';document.getElementById('fxNote').textContent=mud?'Giảm vang':'Vang vừa';
+  }
+  updateKnob(ch,p,db,dv=null,tv=null){
+    const knob=document.getElementById('k'+ch+p),val=document.getElementById('v'+ch+p),trn=document.getElementById('t'+ch+p);
+    knob.style.transform=`translateX(-50%) rotate(${this.dbToRot(db)}deg)`;
+    if(dv!==null){val.textContent=dv;val.className='knob-val';}else{const s=db>0?'+':'';val.textContent=s+Math.round(db)+'dB';val.className='knob-val '+(db>0?'pos':db<0?'neg':'');}
+    if(trn){if(tv!==null)trn.textContent=tv;else{const t=this.dbToTurn(db);trn.textContent=t.trn||t.clk;}}
+  }
+  genSteps(){
+    const steps=[
+      {t:'1. 🎚️ Kiểm tra GAIN (Độ nhạy)',d:'Hát/đàn TO NHẤT có thể. Nhìn đèn PEAK (đèn đỏ nhỏ gần fader). Vặn GAIN sao cho đèn PEAK chớp nháy 1-2 lần khi hát to, KHÔNG sáng liên tục.',v:{r:0,x:'✓ Đèn peak chớp nhẹ = ĐÚNG\n✗ Sáng liên tục = Giảm GAIN\n✗ Không sáng = Tăng GAIN'}},
+      {t:'2. 🔴 CẮT BASS - QUAN TRỌNG NHẤT!',d:'Đây là bước quan trọng nhất! Vặn núm LO sang TRÁI về hướng 9-10 giờ. Tiếng sẽ bớt ùng ục, nặng nề ngay lập tức.',v:{r:-90,x:'Vặn LO sang TRÁI\n→ 1/4 vòng (từ 12h về 9h)\n→ Khoảng 45 độ'}},
+      {t:'3. 🎯 Đặt MID FREQ (Tần số trung tâm)',d:'Núm MID FREQ là núm NHỎ nằm gần núm MID. Vặn về: 2.5kHz cho VOCAL, 3kHz cho GUITAR. Nếu tiếng đục thì vặn về 400Hz để cắt "bùn".',v:{r:30,x:'Tìm vạch 2.5k hoặc 3k\nNếu đục: chọn 400Hz'}},
+      {t:'4. ⬆️ TĂNG MID - Giọng rõ hơn!',d:'Vặn núm MID sang PHẢI về hướng 1-2 giờ. Giọng hát sẽ dày hơn, rõ từng chữ hơn. Guitar sẽ có thân tiếng hơn.',v:{r:60,x:'Vặn MID sang PHẢI\n→ 1/4 vòng (từ 12h về 2-3h)\n→ Khoảng 45-60 độ'}},
+      {t:'5. ✨ Thêm HI (Treble) - Thêm sáng',d:'Vặn núm HI sang PHẢI NHẸ về hướng 1 giờ. Thêm độ sáng, "air" cho giọng/đàn. Đừng tăng quá nhiều sẽ chói tai!',v:{r:30,x:'Vặn HI sang PHẢI NHẸ\n→ 1/8 vòng (từ 12h về 1h)\n→ Khoảng 20-30 độ'}},
+      {t:'6. 🌊 Chỉnh FX Send (Reverb)',d:'Núm FX điều khiển lượng reverb. VOCAL: 25-30% (vặn về 10-11h). GUITAR: 15-20% (vặn về 9-10h). Đừng để quá nhiều reverb sẽ bị "nhòe"!',v:{r:-30,x:'VOCAL: FX ở 10-11 giờ\nGUITAR: FX ở 9-10 giờ\n⚠️ Ít reverb = rõ hơn'}},
+      {t:'7. 📊 Cân bằng Fader (Volume)',d:'Kéo fader VOCAL lên vạch 0dB (vạch đậm, gọi là Unity). Fader GUITAR để THẤP HƠN khoảng 1-2 vạch để không lấn át giọng hát.',v:{r:0,x:'VOCAL: Fader ở 0dB (Unity)\nGUITAR: Fader ở -3 đến -5dB\n→ Giọng hát luôn nổi hơn đàn'}}
+    ];
+    document.getElementById('stepsBox').innerHTML=steps.map((s,i)=>`<div class="step ${i===0?'active':''}" data-i="${i}"><div class="step-num">${i+1}</div><div class="step-content"><div class="step-title">${s.t}</div><div class="step-desc">${s.d}</div><div class="step-visual"><div class="step-vis-knob"><div class="step-vis-ptr" style="transform:translateX(-50%) rotate(${s.v.r}deg)"></div></div><div class="step-vis-text" style="white-space:pre-line;font-size:0.7rem;line-height:1.4">${s.v.x}</div></div><button class="step-btn" onclick="app.doneStep(${i})">✓ Đã xong bước này</button></div></div>`).join('');
+  }
+  doneStep(i){const ss=document.querySelectorAll('.step');ss[i].classList.remove('active');ss[i].classList.add('done');if(i<ss.length-1)ss[i+1].classList.add('active');}
+  saveHist(){
+    const sc=parseInt(document.getElementById('scoreNum').textContent)||0;
+    this.hist.unshift({id:Date.now(),mode:this.mode,score:sc,dur:this.dur,time:new Date().toISOString()});
+    if(this.hist.length>20)this.hist.pop();localStorage.setItem('ah',JSON.stringify(this.hist));this.renderHist();
+  }
+  renderHist(){
+    const c=document.getElementById('histList');
+    if(!this.hist.length){c.innerHTML='<div class="empty"><div class="empty-icon">📊</div><div>Chưa có lịch sử</div></div>';return;}
+    c.innerHTML=this.hist.map(h=>{const d=new Date(h.time),ts=d.toLocaleDateString('vi-VN')+' '+d.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}),ml=h.mode==='vocal'?'🎤 Vocal':h.mode==='guitar'?'🎸 Guitar':'🎵 Full';let col='var(--green)';if(h.score<55)col='var(--red)';else if(h.score<75)col='var(--yellow)';return`<div class="history-item"><div class="history-score" style="color:${col}">${h.score}</div><div class="history-info"><div class="history-mode">${ml}</div><div class="history-time">${ts} • ${h.dur}s</div></div><button class="history-btn" onclick="app.delHist(${h.id})">🗑️</button></div>`;}).join('');
+  }
+  delHist(id){this.hist=this.hist.filter(h=>h.id!==id);localStorage.setItem('ah',JSON.stringify(this.hist));this.renderHist();}
+  
+  // COMPARE FEATURE
+  saveCompare(type){
+    const sc=parseInt(document.getElementById('scoreNum').textContent)||0;
+    if(sc===0){alert('Chưa có kết quả phân tích! Hãy phân tích trước.');return;}
+    
+    const bandsData={};
+    Object.keys(this.bands).forEach(k=>{bandsData[k]=Math.round(this.bands[k].avg);});
+    
+    if(type==='before'){
+      this.compareBefore={score:sc,bands:bandsData};
+      document.getElementById('scoreBefore').textContent=sc;
+      document.getElementById('scoreBefore').style.color=sc>=70?'var(--green)':sc>=50?'var(--yellow)':'var(--red)';
+      document.getElementById('compareLeft').style.borderColor='var(--accent)';
+    }else{
+      this.compareAfter={score:sc,bands:bandsData};
+      document.getElementById('scoreAfter').textContent=sc;
+      document.getElementById('scoreAfter').style.color=sc>=70?'var(--green)':sc>=50?'var(--yellow)':'var(--red)';
+      document.getElementById('compareRight').style.borderColor='var(--green)';
+    }
+    
+    this.updateCompare();
+  }
+  
+  updateCompare(){
+    if(!this.compareBefore||!this.compareAfter)return;
+    
+    const diff=this.compareAfter.score-this.compareBefore.score;
+    const el=document.getElementById('compareChange');
+    const msg=document.getElementById('compareMsg');
+    
+    if(diff>0){
+      el.innerHTML=`<span style="color:var(--green)">+${diff} điểm 🎉</span>`;
+      msg.textContent=diff>=20?'Cải thiện TUYỆT VỜI! Giữ nguyên setting này!':diff>=10?'Cải thiện tốt! Có thể chỉnh thêm.':'Có cải thiện. Tiếp tục chỉnh!';
+    }else if(diff<0){
+      el.innerHTML=`<span style="color:var(--red)">${diff} điểm 😢</span>`;
+      msg.textContent='Tệ hơn trước! Hãy quay lại setting cũ.';
+    }else{
+      el.innerHTML=`<span style="color:var(--yellow)">Không đổi</span>`;
+      msg.textContent='Không có thay đổi. Thử chỉnh khác đi.';
+    }
+    
+    // Show bands comparison
+    document.getElementById('compareBands').style.display='block';
+    const bandNames={bass:'Bass',lowMid:'Low-Mid',mid:'Mid',highMid:'Hi-Mid',high:'High'};
+    document.getElementById('compareBandsList').innerHTML=Object.keys(bandNames).map(k=>{
+      const before=this.compareBefore.bands[k]||0;
+      const after=this.compareAfter.bands[k]||0;
+      const target=this.targets[this.mode][k];
+      const beforeDiff=Math.abs(before-target);
+      const afterDiff=Math.abs(after-target);
+      const improved=afterDiff<beforeDiff;
+      const change=after-before;
+      return`<div class="compare-band">
+        <div class="compare-band-name">${bandNames[k]}</div>
+        <div class="compare-band-bars">
+          <div class="compare-band-bar" style="width:${before}%;background:var(--text3)"></div>
+          <span style="font-size:0.6rem;color:var(--text3)">→</span>
+          <div class="compare-band-bar" style="width:${after}%;background:${improved?'var(--green)':'var(--yellow)'}"></div>
+        </div>
+        <div class="compare-band-change" style="color:${improved?'var(--green)':'var(--yellow)'}">${change>0?'+':''}${change}%</div>
+      </div>`;
+    }).join('');
+  }
+  
+  resetCompare(){
+    this.compareBefore=null;this.compareAfter=null;
+    document.getElementById('scoreBefore').textContent='--';
+    document.getElementById('scoreBefore').style.color='var(--text3)';
+    document.getElementById('scoreAfter').textContent='--';
+    document.getElementById('scoreAfter').style.color='var(--text3)';
+    document.getElementById('compareLeft').style.borderColor='var(--border)';
+    document.getElementById('compareRight').style.borderColor='var(--border)';
+    document.getElementById('compareChange').textContent='Chưa có dữ liệu';
+    document.getElementById('compareMsg').textContent='Phân tích → Lưu TRƯỚC → Chỉnh mixer → Phân tích lại → Lưu SAU';
+    document.getElementById('compareBands').style.display='none';
+  }
+  
+  // FEEDBACK DETECTION
+  toggleFeedback(){
+    if(this.fbRunning){this.stopFeedback();}else{this.startFeedback();}
+  }
+  
+  async startFeedback(){
+    try{
+      this.fbStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+      this.fbCtx=new(window.AudioContext||window.webkitAudioContext)();
+      this.fbAn=this.fbCtx.createAnalyser();this.fbAn.fftSize=8192;this.fbAn.smoothingTimeConstant=0.5;
+      this.fbSrc=this.fbCtx.createMediaStreamSource(this.fbStream);this.fbSrc.connect(this.fbAn);
+      this.fbData=new Uint8Array(this.fbAn.frequencyBinCount);
+      this.fbRunning=true;this.fbPeaks=[];
+      document.getElementById('feedbackBtn').classList.add('rec');
+      document.getElementById('fbIcon').textContent='⏹️';
+      document.getElementById('fbText').textContent='DỪNG TÌM FEEDBACK';
+      this.fbCanvas=document.getElementById('fbCanvas');
+      this.fbC=this.fbCanvas.getContext('2d');
+      const r=this.fbCanvas.parentElement.getBoundingClientRect();
+      this.fbCanvas.width=r.width*2;this.fbCanvas.height=120*2;this.fbC.scale(2,2);
+      this.fbW=r.width;this.fbH=120;
+      this.drawFeedback();
+    }catch(e){alert('Không thể truy cập mic!');console.error(e);}
+  }
+  
+  stopFeedback(){
+    this.fbRunning=false;
+    if(this.fbStream)this.fbStream.getTracks().forEach(t=>t.stop());
+    if(this.fbCtx)this.fbCtx.close();
+    document.getElementById('feedbackBtn').classList.remove('rec');
+    document.getElementById('fbIcon').textContent='🎤';
+    document.getElementById('fbText').textContent='BẮT ĐẦU TÌM FEEDBACK';
+  }
+  
+  drawFeedback(){
+    if(!this.fbRunning)return;
+    requestAnimationFrame(()=>this.drawFeedback());
+    this.fbAn.getByteFrequencyData(this.fbData);
+    
+    // Find peaks
+    const peaks=[];const threshold=200;
+    for(let i=10;i<this.fbData.length-10;i++){
+      if(this.fbData[i]>threshold&&this.fbData[i]>this.fbData[i-1]&&this.fbData[i]>this.fbData[i+1]){
+        const freq=i*this.fbCtx.sampleRate/this.fbAn.fftSize;
+        if(freq>100&&freq<10000){peaks.push({freq,level:this.fbData[i]});}
+      }
+    }
+    
+    // Sort by level and keep top 5
+    peaks.sort((a,b)=>b.level-a.level);
+    const topPeaks=peaks.slice(0,5);
+    
+    // Update peaks history
+    topPeaks.forEach(p=>{
+      const existing=this.fbPeaks.find(x=>Math.abs(x.freq-p.freq)<100);
+      if(existing){existing.count++;existing.level=Math.max(existing.level,p.level);}
+      else{this.fbPeaks.push({...p,count:1});}
+    });
+    
+    // Draw spectrum
+    this.fbC.fillStyle='#0a0a12';this.fbC.fillRect(0,0,this.fbW,this.fbH);
+    const bars=128,bw=this.fbW/bars;
+    for(let i=0;i<bars;i++){
+      const idx=Math.floor(Math.pow(i/bars,1.5)*this.fbData.length*0.3);
+      const v=this.fbData[idx]/255;
+      const h=v*this.fbH*0.9;
+      const danger=v>0.78;
+      this.fbC.fillStyle=danger?'rgba(255,56,96,0.9)':'rgba(0,200,255,0.6)';
+      this.fbC.fillRect(i*bw+0.5,this.fbH-h,bw-1,h);
+    }
+    
+    // Update feedback list
+    const dangerous=this.fbPeaks.filter(p=>p.level>200&&p.count>3).sort((a,b)=>b.level-a.level).slice(0,5);
+    if(dangerous.length>0){
+      document.getElementById('feedbackList').innerHTML=dangerous.map(p=>{
+        const freqName=this.getFreqName(p.freq);
+        return`<div class="fb-item">
+          <div class="fb-freq">${p.freq<1000?Math.round(p.freq)+'Hz':(p.freq/1000).toFixed(1)+'kHz'}</div>
+          <div class="fb-info">
+            <div class="fb-name">${freqName.name}</div>
+            <div class="fb-level">${freqName.desc} • Độ nguy hiểm: ${Math.round(p.level/255*100)}%</div>
+          </div>
+          <div class="fb-meter"><div class="fb-meter-fill" style="width:${p.level/255*100}%"></div></div>
+        </div>`;
+      }).join('');
+      
+      // Show solutions
+      document.getElementById('feedbackTips').style.display='block';
+      document.getElementById('feedbackSolutions').innerHTML=dangerous.slice(0,3).map(p=>{
+        const sol=this.getFeedbackSolution(p.freq);
+        return`<div class="tip"><span class="tip-icon">🔧</span><div>
+          <div class="tip-title">${p.freq<1000?Math.round(p.freq)+'Hz':(p.freq/1000).toFixed(1)+'kHz'} - ${sol.title}</div>
+          <div class="tip-text">${sol.action}</div>
+        </div></div>`;
+      }).join('');
+    }
+  }
+  
+  getFreqName(freq){
+    if(freq<200)return{name:'Sub/Bass',desc:'Tiếng ù trầm'};
+    if(freq<500)return{name:'Low-Mid',desc:'Tiếng ù đục'};
+    if(freq<1000)return{name:'Mid',desc:'Tiếng hú trầm'};
+    if(freq<2500)return{name:'Hi-Mid',desc:'Tiếng hú giữa'};
+    if(freq<5000)return{name:'Presence',desc:'Tiếng hú chói - PHỔ BIẾN!'};
+    return{name:'Treble',desc:'Tiếng rít cao'};
+  }
+  
+  getFeedbackSolution(freq){
+    if(freq<200)return{title:'Giảm LO',action:'Vặn núm LO sang TRÁI ~1/4 vòng. Hoặc bật HPF.'};
+    if(freq<500)return{title:'Cắt Low-Mid',action:'Vặn MID FREQ về 400Hz, giảm MID ~1/4 vòng TRÁI.'};
+    if(freq<1000)return{title:'Giảm Mid nhẹ',action:'Vặn MID FREQ về 800Hz-1kHz, giảm MID ~1/8 vòng.'};
+    if(freq<2500)return{title:'Cắt Hi-Mid',action:'Vặn MID FREQ về '+(freq/1000).toFixed(1)+'kHz, giảm MID ~1/4 vòng TRÁI.'};
+    if(freq<5000)return{title:'Cắt Presence (Quan trọng!)',action:'Vặn MID FREQ về '+(freq/1000).toFixed(1)+'kHz, giảm MID ~1/4 vòng. Đây là vùng hay hú nhất!'};
+    return{title:'Giảm HI',action:'Vặn núm HI sang TRÁI ~1/8 vòng.'};
+  }
+  
+  // LEARN FEATURE - Lưu âm thanh hay làm chuẩn
+  learnFromCurrent(){
+    // Check if we have analysis data
+    const hasData = Object.values(this.bands).some(b => b.avg > 0);
+    if(!hasData){
+      alert('⚠️ Chưa có dữ liệu phân tích!\n\nHãy:\n1. Nhấn "Bắt đầu phân tích"\n2. Hát/đánh đàn 15-20 giây\n3. Nhấn "Dừng"\n4. Rồi mới nhấn "Lưu làm chuẩn"');
+      return;
+    }
+    
+    // Create custom target from current analysis
+    this.customTarget = {
+      bass: Math.round(this.bands.bass.avg),
+      lowMid: Math.round(this.bands.lowMid.avg),
+      mid: Math.round(this.bands.mid.avg),
+      highMid: Math.round(this.bands.highMid.avg),
+      high: Math.round(this.bands.high.avg),
+      tol: 10,
+      desc: 'Chuẩn của tôi - ' + new Date().toLocaleDateString('vi-VN'),
+      savedAt: new Date().toISOString()
+    };
+    
+    // Save to targets
+    this.targets.custom = this.customTarget;
+    
+    // Persist to localStorage
+    localStorage.setItem('customTarget', JSON.stringify(this.customTarget));
+    localStorage.setItem('userTargets', JSON.stringify(this.targets));
+    
+    // Switch to custom mode
+    this.mode = 'custom';
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('customModeBtn').classList.add('active');
+    this.updateTargets();
+    this.showCustomInfo();
+    
+    alert('✅ Đã lưu thành công!\n\nÂm thanh hiện tại đã được lưu làm CHUẨN của bạn.\n\nTừ giờ khi chọn "⭐ Của tôi", app sẽ so sánh với chuẩn này.');
+  }
+  
+  resetToDefault(){
+    if(!confirm('Bạn có chắc muốn xóa chuẩn tự tạo và quay về mặc định?')) return;
+    
+    this.customTarget = null;
+    this.targets = {...this.defaultTargets};
+    
+    localStorage.removeItem('customTarget');
+    localStorage.removeItem('userTargets');
+    
+    // Switch back to vocal mode
+    this.mode = 'vocal';
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-m="vocal"]').classList.add('active');
+    this.updateTargets();
+    this.hideCustomInfo();
+    
+    alert('✅ Đã reset về mặc định!');
+  }
+  
+  showCustomInfo(){
+    const panel = document.getElementById('customInfo');
+    const details = document.getElementById('customDetails');
+    if(this.customTarget){
+      panel.style.display = 'block';
+      const date = this.customTarget.savedAt ? new Date(this.customTarget.savedAt).toLocaleDateString('vi-VN') : 'N/A';
+      details.innerHTML = `
+        Bass: ${this.customTarget.bass}% | Low-Mid: ${this.customTarget.lowMid}% | Mid: ${this.customTarget.mid}%<br>
+        Hi-Mid: ${this.customTarget.highMid}% | High: ${this.customTarget.high}%<br>
+        <span style="color:var(--text3)">Lưu ngày: ${date}</span>
+      `;
+    }
+  }
+  
+  hideCustomInfo(){
+    document.getElementById('customInfo').style.display = 'none';
+  }
+  
+  initLearnPanel(){
+    if(this.customTarget){
+      this.targets.custom = this.customTarget;
+      this.showCustomInfo();
+    }
+  }
+}
+const app=new App();
+</script>
+</body>
+</html>
