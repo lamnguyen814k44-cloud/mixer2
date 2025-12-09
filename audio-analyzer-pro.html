@@ -499,8 +499,30 @@ class App{
   }
   setupEvents(){
     document.getElementById('startBtn').onclick=()=>this.toggle();
-    document.querySelectorAll('.mode-btn').forEach(b=>{b.onclick=e=>{document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));e.currentTarget.classList.add('active');this.mode=e.currentTarget.dataset.m;this.updateTargets();this.resetBands();};});
-    document.querySelectorAll('.nav-btn').forEach(b=>{b.onclick=e=>{const s=e.currentTarget.dataset.s;document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));e.currentTarget.classList.add('active');document.getElementById('s-'+s).classList.add('active');};});
+    document.querySelectorAll('.mode-btn').forEach(b=>{
+      b.onclick=e=>{
+        document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        this.mode=e.currentTarget.dataset.m;
+        this.updateTargets();
+        this.resetBands();
+        // Handle custom info display
+        if(this.mode==='custom'&&this.customTarget){
+          this.showCustomInfo();
+        }else{
+          this.hideCustomInfo();
+        }
+      };
+    });
+    document.querySelectorAll('.nav-btn').forEach(b=>{
+      b.onclick=e=>{
+        const s=e.currentTarget.dataset.s;
+        document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        document.getElementById('s-'+s).classList.add('active');
+      };
+    });
   }
   updateTargets(){
     const t=this.targets[this.mode];
@@ -887,38 +909,13 @@ class App{
     }
   }
 }
-const app=new App();
 
-// Initialize UI event listeners
-document.querySelectorAll('.nav-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const sec=btn.dataset.s;
-    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.getElementById('s-'+sec).classList.add('active');
-  });
+// Initialize app
+let app;
+document.addEventListener('DOMContentLoaded', function() {
+  app = new App();
+  console.log('✅ App initialized');
 });
-
-// Mode buttons
-document.querySelectorAll('.mode-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const mode=btn.dataset.m;
-    if(!mode)return;
-    app.mode=mode;
-    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    app.updateTargets();
-    if(mode==='custom'&&app.customTarget){
-      app.showCustomInfo();
-    }else{
-      app.hideCustomInfo();
-    }
-  });
-});
-
-// Initialize learn panel on load
-app.initLearnPanel();
 </script>
 </body>
 </html>
