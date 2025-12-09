@@ -498,12 +498,25 @@ class App{
     r();window.addEventListener('resize',r);
   }
   setupEvents(){
-    document.getElementById('startBtn').onclick=()=>this.toggle();
+    document.getElementById('startBtn').onclick=(e)=>{
+      e.preventDefault();
+      this.toggle();
+    };
     document.querySelectorAll('.mode-btn').forEach(b=>{
       b.onclick=e=>{
+        e.preventDefault();
+        e.stopPropagation();
+        const newMode=e.currentTarget.dataset.m;
+        
+        // Check if custom mode is selected but no custom target exists
+        if(newMode==='custom' && !this.customTarget){
+          alert('⚠️ Chưa có chuẩn của bạn!\n\nHãy:\n1. Phân tích âm thanh khi bạn thấy HAY\n2. Nhấn "Lưu làm CHUẨN" để tạo chuẩn riêng');
+          return;
+        }
+        
         document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));
         e.currentTarget.classList.add('active');
-        this.mode=e.currentTarget.dataset.m;
+        this.mode=newMode;
         this.updateTargets();
         this.resetBands();
         // Handle custom info display
@@ -516,17 +529,25 @@ class App{
     });
     document.querySelectorAll('.nav-btn').forEach(b=>{
       b.onclick=e=>{
+        e.preventDefault();
+        e.stopPropagation();
         const s=e.currentTarget.dataset.s;
         document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
         document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
         e.currentTarget.classList.add('active');
-        document.getElementById('s-'+s).classList.add('active');
+        const section=document.getElementById('s-'+s);
+        if(section) section.classList.add('active');
       };
     });
   }
   updateTargets(){
-    const t=this.targets[this.mode];
-    ['Bass','LowMid','Mid','HighMid','High'].forEach((n,i)=>{const k=['bass','lowMid','mid','highMid','high'][i];const el=document.getElementById('t'+n);if(el)el.style.bottom=t[k]+'%';});
+    // Fallback to vocal mode if custom target doesn't exist
+    let t=this.targets[this.mode];
+    if(!t){
+      console.warn('Target for mode "'+this.mode+'" not found, using vocal');
+      t=this.targets.vocal;
+    }
+    ['Bass','LowMid','Mid','HighMid','High'].forEach((n,i)=>{const k=['bass','lowMid','mid','highMid','high'][i];const el=document.getElementById('t'+n);if(el&&t[k]!==undefined)el.style.bottom=t[k]+'%';});
   }
   resetBands(){Object.keys(this.bands).forEach(k=>{this.bands[k].vals=[];this.bands[k].avg=0;});}
   async start(){
@@ -556,13 +577,16 @@ class App{
     const db=20*Math.log10((total/5)/100);document.getElementById('db').textContent=isFinite(db)?db.toFixed(1)+'dB':'--dB';this.updateDetail();
   }
   updateBandUI(k,lv){
-    const nm={bass:'Bass',lowMid:'LowMid',mid:'Mid',highMid:'HighMid',high:'High'}[k],t=this.targets[this.mode][k],d=this.bands[k].avg-t,tol=this.targets[this.mode].tol;
+    const nm={bass:'Bass',lowMid:'LowMid',mid:'Mid',highMid:'HighMid',high:'High'}[k];
+    const target=this.targets[this.mode]||this.targets.vocal;
+    const t=target[k],d=this.bands[k].avg-t,tol=target.tol||10;
     document.getElementById('f'+nm).style.height=Math.min(100,lv)+'%';document.getElementById('v'+nm).textContent=Math.round(this.bands[k].avg)+'%';
     const s=document.getElementById('s'+nm);if(Math.abs(d)<=tol){s.className='band-sts ok';s.textContent='OK';}else if(d>0){s.className='band-sts hi';s.textContent='THỪA';}else{s.className='band-sts lo';s.textContent='THIẾU';}
   }
   updateDetail(){
     const fd=[{n:'Sub Bass',r:'20-60Hz',k:'bass',m:0.4},{n:'Bass',r:'60-150Hz',k:'bass',m:0.6},{n:'Low-Mid',r:'150-500Hz',k:'lowMid',m:1},{n:'Mid',r:'500Hz-2kHz',k:'mid',m:1},{n:'Hi-Mid',r:'2-6kHz',k:'highMid',m:1},{n:'Treble',r:'6-12kHz',k:'high',m:0.7},{n:'Air',r:'12-20kHz',k:'high',m:0.3}];
-    document.getElementById('detailBody').innerHTML=fd.map(f=>{const v=this.bands[f.k].avg*f.m,t=this.targets[this.mode][f.k]*f.m,d=v-t;let st,cl,co;if(Math.abs(d)<=10){st='OK';cl='ok';co='var(--green)';}else if(d>0){st='+'+Math.round(d)+'%';cl='hi';co='var(--red)';}else{st=Math.round(d)+'%';cl='lo';co='var(--accent)';}return`<tr><td><b>${f.n}</b><br><small style="color:var(--text3)">${f.r}</small></td><td><div class="detail-bar"><div class="detail-bar-fill" style="width:${Math.min(100,v)}%;background:${co}"></div></div></td><td class="detail-sts ${cl}">${st}</td></tr>`;}).join('');
+    const target=this.targets[this.mode]||this.targets.vocal;
+    document.getElementById('detailBody').innerHTML=fd.map(f=>{const v=this.bands[f.k].avg*f.m,t=target[f.k]*f.m,d=v-t;let st,cl,co;if(Math.abs(d)<=10){st='OK';cl='ok';co='var(--green)';}else if(d>0){st='+'+Math.round(d)+'%';cl='hi';co='var(--red)';}else{st=Math.round(d)+'%';cl='lo';co='var(--accent)';}return`<tr><td><b>${f.n}</b><br><small style="color:var(--text3)">${f.r}</small></td><td><div class="detail-bar"><div class="detail-bar-fill" style="width:${Math.min(100,v)}%;background:${co}"></div></div></td><td class="detail-sts ${cl}">${st}</td></tr>`;}).join('');
   }
   draw(){
     if(!this.running)return;requestAnimationFrame(()=>this.draw());this.an.getByteFrequencyData(this.data);this.analyze();
@@ -573,12 +597,12 @@ class App{
   dbToTurn(db){const a=Math.abs(db),dir=db>0?'phải':'trái',act=db>0?'Tăng':'Giảm';if(a<1)return{txt:'Giữ nguyên',clk:'12h',trn:''};if(a<=3)return{txt:`Vặn ${dir} ~1/8 vòng`,clk:db>0?'1h':'11h',trn:`${act} ~${Math.round(a)}dB`};if(a<=6)return{txt:`Vặn ${dir} ~1/4 vòng`,clk:db>0?'2h':'10h',trn:`${act} ~${Math.round(a)}dB`};if(a<=9)return{txt:`Vặn ${dir} ~3/8 vòng`,clk:db>0?'2-3h':'9-10h',trn:`${act} ~${Math.round(a)}dB`};return{txt:`Vặn ${dir} ~1/2 vòng`,clk:db>0?'3h':'9h',trn:`${act} max`};}
   dbToRot(db){return(db/15)*135;}
   genReport(){
-    const t=this.targets[this.mode],tol=t.tol,probs=[];
+    const t=this.targets[this.mode]||this.targets.vocal,tol=t.tol||10,probs=[];
     const calcEQ=(k,mx=12)=>{const d=t[k]-this.bands[k].avg;return Math.max(-mx,Math.min(mx,d/4));};
     const eqV={hi:calcEQ('high',6),mid:calcEQ('mid',6)+calcEQ('highMid',6)/2,lo:-(this.bands.bass.avg-t.bass)/3-(this.bands.lowMid.avg-t.lowMid)/4};
     const eqG={hi:calcEQ('high',4),mid:calcEQ('highMid',4),lo:calcEQ('bass',6)};
     const bn={bass:'Bass (20-150Hz)',lowMid:'Low-Mid (150-500Hz)',mid:'Mid (500Hz-2kHz)',highMid:'Hi-Mid (2-6kHz)',high:'Treble (6-20kHz)'};
-    const sols={bass:{high:{t:'🔴 Giảm núm LO - Loại bỏ tiếng ùng ục',s:[{k:'LO',a:'Vặn TRÁI từ từ',d:'Bắt đầu từ 12h, vặn dần về 9-10h. Nghe thấy tiếng bớt nặng là được.',tr:'1/4 vòng TRÁI (45°)'},{k:'HPF',a:'BẬT nút HPF (nếu có)',d:'High Pass Filter cắt tần số dưới 80Hz, giúp loại bỏ tiếng ù.',tr:'Nhấn nút xuống'}]},low:{t:'🟢 Tăng núm LO nhẹ - Thêm độ ấm',s:[{k:'LO',a:'Vặn PHẢI nhẹ',d:'Từ 12h về 1h. Cẩn thận đừng tăng quá nhiều sẽ bị ùng ục.',tr:'1/8 vòng PHẢI (22°)'}]}},lowMid:{high:{t:'🔴 Cắt vùng "bùn" 200-500Hz - RẤT QUAN TRỌNG!',s:[{k:'MID FREQ',a:'Vặn núm nhỏ về 400Hz',d:'Tìm vạch đánh dấu 400 hoặc 0.4k trên mixer. Đây là tần số gây đục nhất!',tr:'Tìm vị trí 400Hz'},{k:'MID',a:'Vặn TRÁI mạnh tay',d:'Từ 12h về 9-10h. Đây là bước quan trọng nhất để giọng/đàn rõ hơn.',tr:'1/4 đến 1/2 vòng TRÁI'}]},low:{t:'🟢 Low-Mid đang tốt',s:[{k:'MID',a:'Giữ nguyên vị trí',d:'Vùng này thường cần cắt. Nếu thiếu thì không cần tăng.',tr:'Không cần chỉnh'}]}},mid:{high:{t:'🟡 Giảm MID nhẹ - Bớt tiếng "hộp"',s:[{k:'MID FREQ',a:'Vặn về 1kHz',d:'Tìm vạch 1k hoặc 1000.',tr:'Tìm vị trí 1kHz'},{k:'MID',a:'Vặn TRÁI nhẹ',d:'Từ 12h về 11h. Chỉ giảm nhẹ thôi, đừng cắt quá nhiều.',tr:'1/8 vòng TRÁI (22°)'}]},low:{t:'🔴 Tăng MID - Giọng/đàn sẽ rõ hơn nhiều!',s:[{k:'MID FREQ',a:'Vặn về 1-2kHz',d:'Vùng 1-2kHz là thân tiếng của giọng hát và guitar.',tr:'Tìm vị trí 1-2kHz'},{k:'MID',a:'Vặn PHẢI',d:'Từ 12h về 1-2h. Giọng sẽ dày và rõ ràng hơn.',tr:'1/4 vòng PHẢI (45°)'}]}},highMid:{high:{t:'🟡 Giảm Hi-Mid - Bớt chói tai',s:[{k:'MID FREQ',a:'Vặn về 3-4kHz',d:'Tìm vạch 3k hoặc 4k.',tr:'Tìm vị trí 3-4kHz'},{k:'MID',a:'Vặn TRÁI nhẹ',d:'Từ 12h về 11h. Sẽ bớt chói và dễ nghe hơn.',tr:'1/8 vòng TRÁI (22°)'}]},low:{t:'🔴 Tăng Hi-Mid - Giọng cắt qua mix, nghe RÕ hơn!',s:[{k:'MID FREQ',a:'Vặn về 2.5-4kHz',d:'Đây là vùng "presence" - làm giọng nổi bật lên trên nhạc!',tr:'Tìm vị trí 2.5-4kHz'},{k:'MID',a:'Vặn PHẢI',d:'Từ 12h về 1-2h. Giọng sẽ cắt qua mix, nghe rõ từng chữ.',tr:'1/4 vòng PHẢI (45°)'}]}},high:{high:{t:'🟡 Giảm Treble - Bớt xèn xẹt',s:[{k:'HI',a:'Vặn TRÁI',d:'Từ 12h về 10-11h. Giảm độ chói, dễ nghe hơn.',tr:'1/8 vòng TRÁI (22°)'}]},low:{t:'🟢 Tăng Treble - Thêm độ sáng, sparkle',s:[{k:'HI',a:'Vặn PHẢI',d:'Từ 12h về 1-2h. Thêm "air" và độ sáng cho giọng/đàn.',tr:'1/4 vòng PHẢI (45°)'}}]}};
+    const sols={bass:{high:{t:'🔴 Giảm núm LO - Loại bỏ tiếng ùng ục',s:[{k:'LO',a:'Vặn TRÁI từ từ',d:'Bắt đầu từ 12h, vặn dần về 9-10h. Nghe thấy tiếng bớt nặng là được.',tr:'1/4 vòng TRÁI (45°)'},{k:'HPF',a:'BẬT nút HPF (nếu có)',d:'High Pass Filter cắt tần số dưới 80Hz, giúp loại bỏ tiếng ù.',tr:'Nhấn nút xuống'}]},low:{t:'🟢 Tăng núm LO nhẹ - Thêm độ ấm',s:[{k:'LO',a:'Vặn PHẢI nhẹ',d:'Từ 12h về 1h. Cẩn thận đừng tăng quá nhiều sẽ bị ùng ục.',tr:'1/8 vòng PHẢI (22°)'}]}},lowMid:{high:{t:'🔴 Cắt vùng "bùn" 200-500Hz - RẤT QUAN TRỌNG!',s:[{k:'MID FREQ',a:'Vặn núm nhỏ về 400Hz',d:'Tìm vạch đánh dấu 400 hoặc 0.4k trên mixer. Đây là tần số gây đục nhất!',tr:'Tìm vị trí 400Hz'},{k:'MID',a:'Vặn TRÁI mạnh tay',d:'Từ 12h về 9-10h. Đây là bước quan trọng nhất để giọng/đàn rõ hơn.',tr:'1/4 đến 1/2 vòng TRÁI'}]},low:{t:'🟢 Low-Mid đang tốt',s:[{k:'MID',a:'Giữ nguyên vị trí',d:'Vùng này thường cần cắt. Nếu thiếu thì không cần tăng.',tr:'Không cần chỉnh'}]}},mid:{high:{t:'🟡 Giảm MID nhẹ - Bớt tiếng "hộp"',s:[{k:'MID FREQ',a:'Vặn về 1kHz',d:'Tìm vạch 1k hoặc 1000.',tr:'Tìm vị trí 1kHz'},{k:'MID',a:'Vặn TRÁI nhẹ',d:'Từ 12h về 11h. Chỉ giảm nhẹ thôi, đừng cắt quá nhiều.',tr:'1/8 vòng TRÁI (22°)'}]},low:{t:'🔴 Tăng MID - Giọng/đàn sẽ rõ hơn nhiều!',s:[{k:'MID FREQ',a:'Vặn về 1-2kHz',d:'Vùng 1-2kHz là thân tiếng của giọng hát và guitar.',tr:'Tìm vị trí 1-2kHz'},{k:'MID',a:'Vặn PHẢI',d:'Từ 12h về 1-2h. Giọng sẽ dày và rõ ràng hơn.',tr:'1/4 vòng PHẢI (45°)'}]}},highMid:{high:{t:'🟡 Giảm Hi-Mid - Bớt chói tai',s:[{k:'MID FREQ',a:'Vặn về 3-4kHz',d:'Tìm vạch 3k hoặc 4k.',tr:'Tìm vị trí 3-4kHz'},{k:'MID',a:'Vặn TRÁI nhẹ',d:'Từ 12h về 11h. Sẽ bớt chói và dễ nghe hơn.',tr:'1/8 vòng TRÁI (22°)'}]},low:{t:'🔴 Tăng Hi-Mid - Giọng cắt qua mix, nghe RÕ hơn!',s:[{k:'MID FREQ',a:'Vặn về 2.5-4kHz',d:'Đây là vùng "presence" - làm giọng nổi bật lên trên nhạc!',tr:'Tìm vị trí 2.5-4kHz'},{k:'MID',a:'Vặn PHẢI',d:'Từ 12h về 1-2h. Giọng sẽ cắt qua mix, nghe rõ từng chữ.',tr:'1/4 vòng PHẢI (45°)'}]}},high:{high:{t:'🟡 Giảm Treble - Bớt xèn xẹt',s:[{k:'HI',a:'Vặn TRÁI',d:'Từ 12h về 10-11h. Giảm độ chói, dễ nghe hơn.',tr:'1/8 vòng TRÁI (22°)'}]},low:{t:'🟢 Tăng Treble - Thêm độ sáng, sparkle',s:[{k:'HI',a:'Vặn PHẢI',d:'Từ 12h về 1-2h. Thêm "air" và độ sáng cho giọng/đàn.',tr:'1/4 vòng PHẢI (45°)'}]}}};
     let sc=0;
     Object.keys(this.bands).forEach(k=>{const avg=this.bands[k].avg,d=avg-t[k],bs=Math.max(0,100-Math.abs(d)*2.5);sc+=bs;if(Math.abs(d)>tol){const hi=d>0,sev=Math.abs(d)>tol*1.8?'crit':'warn',sol=sols[k][hi?'high':'low'];probs.push({k,n:bn[k],sev,hi,d:Math.round(d),avg:Math.round(avg),t:t[k],sol});}});
     sc=Math.round(sc/5);this.showScore(sc);this.showProbs(probs);this.updateMixer(eqV,eqG);this.genSteps(probs);document.getElementById('results').classList.add('show');
