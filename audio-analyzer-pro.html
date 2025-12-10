@@ -762,18 +762,13 @@
           <div style="width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#000;font-size:0.8rem">1</div>
           <div style="font-size:0.85rem;font-weight:700">Bạn đang nghe gì?</div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
-          <button class="hp-type-btn" data-type="music" onclick="app.setHPType('music')" style="padding:12px 8px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
-            <div style="font-size:1.5rem;margin-bottom:4px">🎵</div>
-            <div style="font-size:0.7rem;color:var(--text)">Nhạc</div>
-          </button>
+        
+        <!-- Basic content types -->
+        <div style="font-size:0.7rem;color:var(--text3);margin-bottom:6px">📱 Cơ bản</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
           <button class="hp-type-btn" data-type="podcast" onclick="app.setHPType('podcast')" style="padding:12px 8px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
             <div style="font-size:1.5rem;margin-bottom:4px">🎙️</div>
             <div style="font-size:0.7rem;color:var(--text)">Podcast</div>
-          </button>
-          <button class="hp-type-btn" data-type="movie" onclick="app.setHPType('movie')" style="padding:12px 8px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
-            <div style="font-size:1.5rem;margin-bottom:4px">🎬</div>
-            <div style="font-size:0.7rem;color:var(--text)">Phim</div>
           </button>
           <button class="hp-type-btn" data-type="game" onclick="app.setHPType('game')" style="padding:12px 8px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
             <div style="font-size:1.5rem;margin-bottom:4px">🎮</div>
@@ -787,35 +782,146 @@
             <div style="font-size:1.5rem;margin-bottom:4px">😴</div>
             <div style="font-size:0.7rem;color:var(--text)">ASMR/Ngủ</div>
           </button>
+          <button class="hp-type-btn" data-type="audiobook" onclick="app.setHPType('audiobook')" style="padding:12px 8px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:4px">📚</div>
+            <div style="font-size:0.7rem;color:var(--text)">Audiobook</div>
+          </button>
+          <button class="hp-type-btn" data-type="meditation" onclick="app.setHPType('meditation')" style="padding:12px 8px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:4px">🧘</div>
+            <div style="font-size:0.7rem;color:var(--text)">Thiền</div>
+          </button>
+        </div>
+        
+        <!-- Vietnamese Music -->
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+          <div style="font-size:0.7rem;color:var(--text3);margin-bottom:8px">🇻🇳 Nhạc Việt</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px">
+            <button class="hp-type-btn" data-type="bolero" onclick="app.setHPType('bolero')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎻</div>
+              <div style="font-size:0.55rem;color:var(--text)">Bolero</div>
+            </button>
+            <button class="hp-type-btn" data-type="vpop" onclick="app.setHPType('vpop')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎧</div>
+              <div style="font-size:0.55rem;color:var(--text)">V-Pop</div>
+            </button>
+            <button class="hp-type-btn" data-type="vremix" onclick="app.setHPType('vremix')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">💃</div>
+              <div style="font-size:0.55rem;color:var(--text)">Remix</div>
+            </button>
+            <button class="hp-type-btn" data-type="trieudu" onclick="app.setHPType('trieudu')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎤</div>
+              <div style="font-size:0.55rem;color:var(--text)">Trữ tình</div>
+            </button>
+          </div>
+        </div>
+        
+        <!-- International Music -->
+        <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
+          <div style="font-size:0.7rem;color:var(--text3);margin-bottom:8px">🌍 Nhạc Quốc Tế</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px">
+            <button class="hp-type-btn" data-type="pop" onclick="app.setHPType('pop')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎵</div>
+              <div style="font-size:0.55rem;color:var(--text)">Pop</div>
+            </button>
+            <button class="hp-type-btn" data-type="rock" onclick="app.setHPType('rock')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎸</div>
+              <div style="font-size:0.55rem;color:var(--text)">Rock</div>
+            </button>
+            <button class="hp-type-btn" data-type="hiphop" onclick="app.setHPType('hiphop')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎤</div>
+              <div style="font-size:0.55rem;color:var(--text)">Hip-hop</div>
+            </button>
+            <button class="hp-type-btn" data-type="rnb" onclick="app.setHPType('rnb')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎷</div>
+              <div style="font-size:0.55rem;color:var(--text)">R&B</div>
+            </button>
+            <button class="hp-type-btn" data-type="edm" onclick="app.setHPType('edm')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎹</div>
+              <div style="font-size:0.55rem;color:var(--text)">EDM</div>
+            </button>
+            <button class="hp-type-btn" data-type="jazz" onclick="app.setHPType('jazz')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎺</div>
+              <div style="font-size:0.55rem;color:var(--text)">Jazz</div>
+            </button>
+            <button class="hp-type-btn" data-type="classical" onclick="app.setHPType('classical')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎼</div>
+              <div style="font-size:0.55rem;color:var(--text)">Classical</div>
+            </button>
+            <button class="hp-type-btn" data-type="country" onclick="app.setHPType('country')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🤠</div>
+              <div style="font-size:0.55rem;color:var(--text)">Country</div>
+            </button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            <button class="hp-type-btn" data-type="kpop" onclick="app.setHPType('kpop')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🇰🇷</div>
+              <div style="font-size:0.55rem;color:var(--text)">K-Pop</div>
+            </button>
+            <button class="hp-type-btn" data-type="jpop" onclick="app.setHPType('jpop')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🇯🇵</div>
+              <div style="font-size:0.55rem;color:var(--text)">J-Pop</div>
+            </button>
+            <button class="hp-type-btn" data-type="cpop" onclick="app.setHPType('cpop')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🇨🇳</div>
+              <div style="font-size:0.55rem;color:var(--text)">C-Pop</div>
+            </button>
+            <button class="hp-type-btn" data-type="latin" onclick="app.setHPType('latin')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">💃</div>
+              <div style="font-size:0.55rem;color:var(--text)">Latin</div>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Acoustic / Special -->
+        <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
+          <div style="font-size:0.7rem;color:var(--text3);margin-bottom:8px">🎹 Acoustic / Đặc biệt</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            <button class="hp-type-btn" data-type="acoustic" onclick="app.setHPType('acoustic')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🪕</div>
+              <div style="font-size:0.55rem;color:var(--text)">Acoustic</div>
+            </button>
+            <button class="hp-type-btn" data-type="lofi" onclick="app.setHPType('lofi')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🌧️</div>
+              <div style="font-size:0.55rem;color:var(--text)">Lo-Fi</div>
+            </button>
+            <button class="hp-type-btn" data-type="instrumental" onclick="app.setHPType('instrumental')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎻</div>
+              <div style="font-size:0.55rem;color:var(--text)">Hòa tấu</div>
+            </button>
+            <button class="hp-type-btn" data-type="metal" onclick="app.setHPType('metal')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🤘</div>
+              <div style="font-size:0.55rem;color:var(--text)">Metal</div>
+            </button>
+          </div>
         </div>
         
         <!-- Cinema/Movie Types -->
         <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
-          <div style="font-size:0.7rem;color:var(--text3);margin-bottom:8px;text-align:center">🎬 Thể loại phim (Dolby/Atmos)</div>
+          <div style="font-size:0.7rem;color:var(--text3);margin-bottom:8px">🎬 Phim / Cinema / Dolby</div>
           <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
             <button class="hp-type-btn" data-type="cinema" onclick="app.setHPType('cinema')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
               <div style="font-size:1.2rem;margin-bottom:2px">🎬</div>
-              <div style="font-size:0.6rem;color:var(--text)">Rạp chuẩn</div>
+              <div style="font-size:0.55rem;color:var(--text)">Rạp chuẩn</div>
             </button>
             <button class="hp-type-btn" data-type="dolby" onclick="app.setHPType('dolby')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
               <div style="font-size:1.2rem;margin-bottom:2px">🔊</div>
-              <div style="font-size:0.6rem;color:var(--text)">Atmos</div>
+              <div style="font-size:0.55rem;color:var(--text)">Atmos</div>
             </button>
             <button class="hp-type-btn" data-type="imax" onclick="app.setHPType('imax')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
               <div style="font-size:1.2rem;margin-bottom:2px">🎦</div>
-              <div style="font-size:0.6rem;color:var(--text)">IMAX</div>
+              <div style="font-size:0.55rem;color:var(--text)">IMAX</div>
             </button>
             <button class="hp-type-btn" data-type="surround" onclick="app.setHPType('surround')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
               <div style="font-size:1.2rem;margin-bottom:2px">🎧</div>
-              <div style="font-size:0.6rem;color:var(--text)">7.1</div>
+              <div style="font-size:0.55rem;color:var(--text)">7.1</div>
             </button>
             <button class="hp-type-btn" data-type="action" onclick="app.setHPType('action')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
               <div style="font-size:1.2rem;margin-bottom:2px">💥</div>
-              <div style="font-size:0.6rem;color:var(--text)">Action</div>
+              <div style="font-size:0.55rem;color:var(--text)">Action</div>
             </button>
             <button class="hp-type-btn" data-type="horror" onclick="app.setHPType('horror')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
               <div style="font-size:1.2rem;margin-bottom:2px">👻</div>
-              <div style="font-size:0.6rem;color:var(--text)">Horror</div>
+              <div style="font-size:0.55rem;color:var(--text)">Horror</div>
             </button>
             <button class="hp-type-btn" data-type="scifi" onclick="app.setHPType('scifi')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
               <div style="font-size:1.2rem;margin-bottom:2px">🚀</div>
@@ -902,10 +1008,59 @@
         </div>
       </div>
       
+      <!-- AUTO ANALYZE SECTION -->
+      <div style="background:linear-gradient(135deg,rgba(0,200,255,0.15),rgba(168,85,247,0.1));border:2px solid var(--accent);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <div style="font-size:1.5rem">🎙️</div>
+          <div>
+            <div style="font-size:0.9rem;font-weight:700;color:var(--accent)">Phân Tích Tự Động</div>
+            <div style="font-size:0.65rem;color:var(--text2)">Phát nhạc/phim qua loa → App phân tích → Đề xuất EQ cho tai nghe</div>
+          </div>
+        </div>
+        
+        <button class="start-btn" id="hpStartBtn" onclick="app.toggleHPAnalyze()" style="width:100%;margin-bottom:12px">
+          <span id="hpStartIcon">🎙️</span>
+          <span id="hpStartText">BẮT ĐẦU PHÂN TÍCH</span>
+        </button>
+        
+        <!-- Realtime spectrum for headphone -->
+        <div style="background:var(--bg);border-radius:8px;padding:4px;margin-bottom:12px">
+          <canvas id="hpCanvas" style="width:100%;height:80px;display:block"></canvas>
+        </div>
+        
+        <!-- Status -->
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.7rem;color:var(--text2)">
+          <div><span class="status-dot" id="hpDot" style="background:var(--text3)"></span> <span id="hpStatus">Chờ bắt đầu</span></div>
+          <div>⏱️ <span id="hpDur">0s</span></div>
+          <div>🔊 <span id="hpDb">--dB</span></div>
+        </div>
+        
+        <div style="margin-top:10px;padding:10px;background:var(--card);border-radius:8px;font-size:0.65rem;color:var(--text3);line-height:1.5">
+          <b>💡 Cách dùng:</b><br>
+          1. Phát nhạc/phim qua <b>LOA NGOÀI</b> (không dùng tai nghe)<br>
+          2. Nhấn "Bắt đầu phân tích" - app sẽ thu âm từ mic<br>
+          3. Sau 10-15 giây, nhấn "Dừng" để xem kết quả<br>
+          4. Copy EQ sang điện thoại, đeo tai nghe và nghe!
+        </div>
+      </div>
+      
+      <!-- OR divider -->
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+        <div style="font-size:0.7rem;color:var(--text3);font-weight:700">HOẶC</div>
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+      </div>
+      
+      <!-- Manual rating section header -->
+      <div style="text-align:center;margin-bottom:12px">
+        <div style="font-size:0.8rem;font-weight:700;color:var(--purple)">✍️ Đánh giá thủ công</div>
+        <div style="font-size:0.65rem;color:var(--text3)">Nếu đang đeo tai nghe, tự đánh giá bằng slider ở trên</div>
+      </div>
+      
       <!-- Step 3: Get recommendation -->
       <button onclick="app.analyzeHeadphone()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--purple),var(--accent));border:none;border-radius:12px;color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px">
         <span style="font-size:1.2rem">🎯</span>
-        <span>PHÂN TÍCH & ĐỀ XUẤT EQ</span>
+        <span>ĐỀ XUẤT EQ (từ đánh giá thủ công)</span>
       </button>
       
       <!-- Results -->
@@ -2638,6 +2793,34 @@ class App{
       game:{b64:2,b2k:2,b8k:2}, // Boost bass, footsteps, spatial cues
       call:{b1k:3,b2k:4,b4k:3,b64:-2,b16k:-2}, // Heavy voice boost
       asmr:{b32:-2,b64:-1,b8k:3,b16k:4}, // Reduce bass, boost air
+      audiobook:{b1k:3,b2k:4,b4k:3,b64:-1,b250:-2}, // Clear voice
+      meditation:{b32:2,b64:2,b250:1,b8k:2,b16k:3}, // Warm, airy
+      
+      // Vietnamese music
+      bolero:{b32:2,b64:3,b250:1,b1k:3,b2k:4,b4k:2,b8k:1,b16k:0}, // Warm vocal
+      vpop:{b32:4,b64:4,b250:0,b1k:2,b2k:3,b4k:3,b8k:3,b16k:2}, // Modern pop
+      vremix:{b32:7,b64:6,b250:-1,b1k:1,b2k:2,b4k:4,b8k:4,b16k:3}, // Heavy bass
+      trieudu:{b32:2,b64:2,b250:1,b1k:3,b2k:4,b4k:3,b8k:2,b16k:1}, // Emotional vocal
+      
+      // International music  
+      pop:{b32:3,b64:4,b250:0,b1k:2,b2k:3,b4k:3,b8k:3,b16k:2}, // Balanced modern
+      rock:{b32:4,b64:5,b250:1,b1k:2,b2k:3,b4k:4,b8k:4,b16k:3}, // Punchy guitars
+      hiphop:{b32:6,b64:6,b250:0,b1k:1,b2k:3,b4k:3,b8k:3,b16k:2}, // Heavy 808
+      rnb:{b32:5,b64:5,b250:1,b1k:2,b2k:3,b4k:3,b8k:2,b16k:2}, // Smooth bass
+      edm:{b32:7,b64:6,b250:-1,b1k:0,b2k:2,b4k:4,b8k:5,b16k:4}, // Festival sound
+      jazz:{b32:3,b64:3,b250:2,b1k:2,b2k:2,b4k:2,b8k:3,b16k:3}, // Warm, detailed
+      classical:{b32:2,b64:2,b250:1,b1k:1,b2k:2,b4k:3,b8k:4,b16k:4}, // Natural, airy
+      country:{b32:3,b64:3,b250:2,b1k:3,b2k:3,b4k:3,b8k:3,b16k:2}, // Acoustic warmth
+      kpop:{b32:4,b64:5,b250:-1,b1k:2,b2k:4,b4k:4,b8k:4,b16k:3}, // Bright, punchy
+      jpop:{b32:3,b64:4,b250:0,b1k:2,b2k:3,b4k:4,b8k:4,b16k:3}, // Clear, bright
+      cpop:{b32:3,b64:4,b250:1,b1k:3,b2k:3,b4k:3,b8k:3,b16k:2}, // Vocal focus
+      latin:{b32:5,b64:5,b250:1,b1k:2,b2k:3,b4k:3,b8k:4,b16k:3}, // Rhythmic bass
+      
+      // Acoustic / Special
+      acoustic:{b32:2,b64:2,b250:2,b1k:2,b2k:3,b4k:3,b8k:4,b16k:3}, // Natural
+      lofi:{b32:4,b64:4,b250:2,b1k:1,b2k:2,b4k:2,b8k:2,b16k:1}, // Warm, mellow
+      instrumental:{b32:3,b64:3,b250:1,b1k:2,b2k:2,b4k:3,b8k:4,b16k:4}, // Detailed
+      metal:{b32:5,b64:6,b250:0,b1k:2,b2k:3,b4k:5,b8k:5,b16k:4}, // Aggressive
       
       // Cinema types
       cinema:{b32:4,b64:3,b250:-1,b1k:2,b2k:2,b4k:2,b8k:2,b16k:1}, // Standard cinema
@@ -2700,6 +2883,15 @@ class App{
     const typeNames={
       music:'nghe nhạc',podcast:'nghe podcast',movie:'xem phim',
       game:'chơi game',call:'gọi điện',asmr:'nghe ASMR/thư giãn',
+      audiobook:'nghe sách nói',meditation:'thiền/thư giãn',
+      // Vietnamese
+      bolero:'nghe Bolero',vpop:'nghe V-Pop',vremix:'nghe Remix Việt',trieudu:'nghe nhạc trữ tình',
+      // International
+      pop:'nghe Pop',rock:'nghe Rock',hiphop:'nghe Hip-hop',rnb:'nghe R&B',
+      edm:'nghe EDM',jazz:'nghe Jazz',classical:'nghe Classical',country:'nghe Country',
+      kpop:'nghe K-Pop',jpop:'nghe J-Pop',cpop:'nghe C-Pop',latin:'nghe Latin',
+      // Acoustic/Special
+      acoustic:'nghe Acoustic',lofi:'nghe Lo-Fi',instrumental:'nghe hòa tấu',metal:'nghe Metal',
       // Cinema types
       cinema:'xem phim rạp',dolby:'Dolby Atmos',imax:'IMAX',
       surround:'Surround 7.1',action:'phim hành động',horror:'phim kinh dị',
@@ -2707,6 +2899,24 @@ class App{
     };
     
     let tips=[];
+    
+    // Genre-specific tips
+    const genreTips={
+      bolero:'🎻 <b>Bolero:</b> EQ ấm áp, giọng hát rõ ràng, cảm xúc',
+      vpop:'🎧 <b>V-Pop:</b> Bass mạnh, vocal sáng như hit Việt',
+      vremix:'💃 <b>Remix:</b> Bass cực mạnh cho party!',
+      hiphop:'🎤 <b>Hip-hop:</b> 808 bass nặng, vocal cắt qua beat',
+      edm:'🎹 <b>EDM:</b> Drop bass mạnh, treble sáng',
+      rock:'🎸 <b>Rock:</b> Guitar punchy, drums powerful',
+      metal:'🤘 <b>Metal:</b> Bass/treble aggressive, mids scooped',
+      jazz:'🎺 <b>Jazz:</b> Ấm áp, chi tiết tự nhiên',
+      classical:'🎼 <b>Classical:</b> Dynamic range rộng, không gian',
+      kpop:'🇰🇷 <b>K-Pop:</b> Sáng, punchy như sản xuất Hàn',
+      lofi:'🌧️ <b>Lo-Fi:</b> Warm, mellow, relax',
+      acoustic:'🪕 <b>Acoustic:</b> Tự nhiên, chi tiết guitar/strings'
+    };
+    
+    if(genreTips[type])tips.push(genreTips[type]);
     
     // Cinema-specific tips
     if(['cinema','dolby','imax','surround','action','horror','scifi','latenight'].includes(type)){
@@ -2739,14 +2949,28 @@ class App{
     const avgMid=(eq.b1k+eq.b2k)/2;
     const avgTreble=(eq.b8k+eq.b16k)/2;
     
+    // Genre-specific preset names
+    const genrePresets={
+      bolero:'🎻 Bolero',vpop:'🎧 V-Pop',vremix:'💃 Remix Việt',trieudu:'🎤 Trữ tình',
+      pop:'🎵 Pop',rock:'🎸 Rock',hiphop:'🎤 Hip-hop',rnb:'🎷 R&B',
+      edm:'🎹 EDM',jazz:'🎺 Jazz',classical:'🎼 Classical',country:'🤠 Country',
+      kpop:'🇰🇷 K-Pop',jpop:'🇯🇵 J-Pop',cpop:'🇨🇳 C-Pop',latin:'💃 Latin',
+      acoustic:'🪕 Acoustic',lofi:'🌧️ Lo-Fi',instrumental:'🎻 Hòa tấu',metal:'🤘 Metal',
+      podcast:'🎙️ Podcast',audiobook:'📚 Audiobook',meditation:'🧘 Meditation',
+      game:'🎮 Gaming',call:'📞 Voice Call',asmr:'😴 ASMR'
+    };
+    
     // Cinema-specific preset names
-    if(['cinema','dolby','imax','surround','action','horror','scifi','latenight'].includes(type)){
-      const cinemaPresets={
-        cinema:'🎬 Cinema Standard',dolby:'🔊 Dolby Atmos',imax:'🎦 IMAX',
-        surround:'🎧 Virtual 7.1',action:'💥 Action Movie',horror:'👻 Horror',
-        scifi:'🚀 Sci-Fi',latenight:'🌙 Late Night'
-      };
+    const cinemaPresets={
+      cinema:'🎬 Cinema Standard',dolby:'🔊 Dolby Atmos',imax:'🎦 IMAX',
+      surround:'🎧 Virtual 7.1',action:'💥 Action Movie',horror:'👻 Horror',
+      scifi:'🚀 Sci-Fi',latenight:'🌙 Late Night'
+    };
+    
+    if(cinemaPresets[type]){
       presetRec=cinemaPresets[type];
+    }else if(genrePresets[type]){
+      presetRec=genrePresets[type];
     }else{
       if(avgBass>4)presetRec='🔊 Bass Boost';
       else if(avgMid>4)presetRec='🎤 Vocal/Speech';
@@ -2755,9 +2979,9 @@ class App{
       else presetRec='📐 Balanced';
     }
     
-    document.getElementById('hpRecName').textContent=presetRec+' (cho '+typeNames[type]+')';
+    document.getElementById('hpRecName').textContent=presetRec+' (cho '+(typeNames[type]||type)+')';
     
-    let explanation=`<b>Phân tích:</b> Dựa trên đánh giá của bạn khi ${typeNames[type]}, đây là EQ đề xuất.<br><br>`;
+    let explanation=`<b>Phân tích:</b> Dựa trên đánh giá của bạn khi ${typeNames[type]||type}, đây là EQ đề xuất.<br><br>`;
     if(tips.length>0){
       explanation+=tips.join('<br>')+'<br><br>';
     }
@@ -2799,6 +3023,262 @@ class App{
       document.getElementById(id).textContent='Vừa đủ';
     });
     document.getElementById('hpResults').style.display='none';
+  }
+  
+  // ==================== HEADPHONE AUTO ANALYZE ====================
+  async toggleHPAnalyze(){
+    if(this.hpRunning){
+      this.stopHPAnalyze();
+    }else{
+      await this.startHPAnalyze();
+    }
+  }
+  
+  async startHPAnalyze(){
+    try{
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      this.hpAudioCtx=new(window.AudioContext||window.webkitAudioContext)();
+      this.hpAnalyser=this.hpAudioCtx.createAnalyser();
+      this.hpAnalyser.fftSize=4096;
+      this.hpAnalyser.smoothingTimeConstant=0.8;
+      
+      const src=this.hpAudioCtx.createMediaStreamSource(stream);
+      src.connect(this.hpAnalyser);
+      this.hpStream=stream;
+      
+      // Setup canvas
+      this.hpCanvasEl=document.getElementById('hpCanvas');
+      this.hpCtx=this.hpCanvasEl.getContext('2d');
+      const rc=this.hpCanvasEl.parentElement.getBoundingClientRect();
+      const d=window.devicePixelRatio||1;
+      this.hpCanvasEl.width=rc.width*d;
+      this.hpCanvasEl.height=80*d;
+      this.hpCtx.scale(d,d);
+      this.hpCanvasW=rc.width;
+      this.hpCanvasH=80;
+      
+      // Init bands
+      this.hpBands={
+        bass:{sum:0,cnt:0,avg:0},
+        lowMid:{sum:0,cnt:0,avg:0},
+        mid:{sum:0,cnt:0,avg:0},
+        highMid:{sum:0,cnt:0,avg:0},
+        high:{sum:0,cnt:0,avg:0}
+      };
+      this.hpDur=0;
+      this.hpRunning=true;
+      this.hpStartTime=Date.now();
+      
+      // Update UI
+      document.getElementById('hpStartBtn').classList.add('active');
+      document.getElementById('hpStartIcon').textContent='⏹️';
+      document.getElementById('hpStartText').textContent='DỪNG PHÂN TÍCH';
+      document.getElementById('hpDot').style.background='var(--green)';
+      document.getElementById('hpStatus').textContent='Đang phân tích...';
+      
+      this.hpAnalyzeLoop();
+      
+    }catch(e){
+      alert('Không thể truy cập microphone: '+e.message);
+    }
+  }
+  
+  hpAnalyzeLoop(){
+    if(!this.hpRunning)return;
+    
+    const bufLen=this.hpAnalyser.frequencyBinCount;
+    const data=new Uint8Array(bufLen);
+    this.hpAnalyser.getByteFrequencyData(data);
+    
+    const sr=this.hpAudioCtx.sampleRate;
+    const binHz=sr/this.hpAnalyser.fftSize;
+    
+    // Calculate band averages
+    const getBand=(lo,hi)=>{
+      let sum=0,cnt=0;
+      for(let i=0;i<bufLen;i++){
+        const f=i*binHz;
+        if(f>=lo&&f<hi){sum+=data[i];cnt++;}
+      }
+      return cnt?sum/cnt/2.55:0;
+    };
+    
+    const bass=getBand(20,150);
+    const lowMid=getBand(150,500);
+    const mid=getBand(500,2000);
+    const highMid=getBand(2000,6000);
+    const high=getBand(6000,20000);
+    
+    // Accumulate
+    this.hpBands.bass.sum+=bass;this.hpBands.bass.cnt++;
+    this.hpBands.lowMid.sum+=lowMid;this.hpBands.lowMid.cnt++;
+    this.hpBands.mid.sum+=mid;this.hpBands.mid.cnt++;
+    this.hpBands.highMid.sum+=highMid;this.hpBands.highMid.cnt++;
+    this.hpBands.high.sum+=high;this.hpBands.high.cnt++;
+    
+    // Calculate dB
+    let sum=0;for(let i=0;i<bufLen;i++)sum+=data[i];
+    const avg=sum/bufLen;
+    const db=avg>0?Math.round(20*Math.log10(avg/255)*10)/10:-60;
+    
+    // Update duration
+    this.hpDur=Math.round((Date.now()-this.hpStartTime)/1000);
+    document.getElementById('hpDur').textContent=this.hpDur+'s';
+    document.getElementById('hpDb').textContent=db+'dB';
+    
+    // Draw spectrum
+    this.drawHPSpectrum(data,bufLen,binHz);
+    
+    requestAnimationFrame(()=>this.hpAnalyzeLoop());
+  }
+  
+  drawHPSpectrum(data,bufLen,binHz){
+    const ctx=this.hpCtx;
+    const w=this.hpCanvasW;
+    const h=this.hpCanvasH;
+    
+    ctx.fillStyle='#1a1a2e';
+    ctx.fillRect(0,0,w,h);
+    
+    const barW=w/80;
+    const gap=1;
+    
+    for(let i=0;i<80;i++){
+      const idx=Math.floor(i*bufLen/80);
+      const val=data[idx]/255;
+      const barH=val*h*0.9;
+      
+      const hue=280-i*2;
+      ctx.fillStyle=`hsla(${hue},80%,60%,0.9)`;
+      ctx.fillRect(i*(barW+gap),h-barH,barW,barH);
+    }
+  }
+  
+  stopHPAnalyze(){
+    this.hpRunning=false;
+    
+    if(this.hpStream){
+      this.hpStream.getTracks().forEach(t=>t.stop());
+    }
+    if(this.hpAudioCtx){
+      this.hpAudioCtx.close();
+    }
+    
+    // Update UI
+    document.getElementById('hpStartBtn').classList.remove('active');
+    document.getElementById('hpStartIcon').textContent='🎙️';
+    document.getElementById('hpStartText').textContent='BẮT ĐẦU PHÂN TÍCH';
+    document.getElementById('hpDot').style.background='var(--text3)';
+    document.getElementById('hpStatus').textContent='Hoàn thành!';
+    
+    // Calculate averages
+    Object.keys(this.hpBands).forEach(k=>{
+      const b=this.hpBands[k];
+      b.avg=b.cnt?b.sum/b.cnt:0;
+    });
+    
+    // Generate EQ recommendation based on analysis
+    this.generateHPAutoEQ();
+  }
+  
+  generateHPAutoEQ(){
+    const b=this.hpBands;
+    const type=this.hpType;
+    
+    // Target values based on content type
+    const targets={
+      music:{bass:35,lowMid:30,mid:45,highMid:50,high:40},
+      podcast:{bass:20,lowMid:25,mid:55,highMid:55,high:35},
+      movie:{bass:45,lowMid:35,mid:45,highMid:50,high:45},
+      game:{bass:40,lowMid:30,mid:45,highMid:55,high:50},
+      call:{bass:20,lowMid:25,mid:55,highMid:60,high:35},
+      asmr:{bass:25,lowMid:30,mid:40,highMid:45,high:55},
+      audiobook:{bass:20,lowMid:25,mid:55,highMid:55,high:35},
+      meditation:{bass:30,lowMid:32,mid:42,highMid:45,high:50},
+      // Vietnamese
+      bolero:{bass:35,lowMid:35,mid:50,highMid:52,high:40},
+      vpop:{bass:42,lowMid:32,mid:48,highMid:52,high:45},
+      vremix:{bass:55,lowMid:30,mid:42,highMid:52,high:48},
+      trieudu:{bass:35,lowMid:35,mid:52,highMid:50,high:40},
+      // International
+      pop:{bass:40,lowMid:32,mid:48,highMid:52,high:45},
+      rock:{bass:45,lowMid:35,mid:48,highMid:55,high:50},
+      hiphop:{bass:55,lowMid:30,mid:45,highMid:52,high:45},
+      rnb:{bass:50,lowMid:35,mid:48,highMid:50,high:42},
+      edm:{bass:58,lowMid:28,mid:42,highMid:55,high:52},
+      jazz:{bass:38,lowMid:35,mid:48,highMid:48,high:48},
+      classical:{bass:35,lowMid:32,mid:45,highMid:50,high:52},
+      country:{bass:38,lowMid:38,mid:50,highMid:50,high:45},
+      kpop:{bass:45,lowMid:30,mid:48,highMid:55,high:50},
+      jpop:{bass:40,lowMid:32,mid:48,highMid:52,high:48},
+      cpop:{bass:40,lowMid:35,mid:50,highMid:50,high:42},
+      latin:{bass:50,lowMid:35,mid:48,highMid:52,high:48},
+      // Acoustic/Special
+      acoustic:{bass:35,lowMid:35,mid:48,highMid:52,high:50},
+      lofi:{bass:42,lowMid:38,mid:45,highMid:45,high:38},
+      instrumental:{bass:38,lowMid:35,mid:48,highMid:52,high:52},
+      metal:{bass:50,lowMid:32,mid:45,highMid:58,high:55},
+      // Cinema
+      cinema:{bass:45,lowMid:35,mid:48,highMid:52,high:45},
+      dolby:{bass:48,lowMid:32,mid:48,highMid:55,high:52},
+      imax:{bass:55,lowMid:35,mid:50,highMid:55,high:52},
+      surround:{bass:45,lowMid:30,mid:48,highMid:55,high:55},
+      action:{bass:58,lowMid:35,mid:45,highMid:55,high:50},
+      horror:{bass:50,lowMid:38,mid:45,highMid:50,high:55},
+      scifi:{bass:52,lowMid:32,mid:48,highMid:55,high:55},
+      latenight:{bass:38,lowMid:35,mid:52,highMid:48,high:38}
+    };
+    
+    const t=targets[type]||targets.music;
+    
+    // Calculate differences and convert to EQ
+    const diff={
+      bass:(t.bass-b.bass.avg)/8,
+      lowMid:(t.lowMid-b.lowMid.avg)/8,
+      mid:(t.mid-b.mid.avg)/8,
+      highMid:(t.highMid-b.highMid.avg)/8,
+      high:(t.high-b.high.avg)/8
+    };
+    
+    const clamp=(v)=>Math.max(-12,Math.min(12,Math.round(v)));
+    
+    const eq={
+      b32:clamp(diff.bass*1.5),
+      b64:clamp(diff.bass*1.2),
+      b250:clamp(diff.lowMid),
+      b1k:clamp(diff.mid),
+      b2k:clamp(diff.mid*0.8+diff.highMid*0.2),
+      b4k:clamp(diff.highMid),
+      b8k:clamp(diff.highMid*0.5+diff.high*0.5),
+      b16k:clamp(diff.high)
+    };
+    
+    // Update visual
+    this.updateHPEQVisual(eq);
+    
+    // Generate explanation
+    const typeNames={
+      music:'nghe nhạc',podcast:'nghe podcast',movie:'xem phim',
+      game:'chơi game',call:'gọi điện',asmr:'nghe ASMR',
+      cinema:'xem phim rạp',dolby:'Dolby Atmos',imax:'IMAX',
+      surround:'Surround 7.1',action:'phim hành động',horror:'phim kinh dị',
+      scifi:'phim Sci-Fi',latenight:'xem phim đêm'
+    };
+    
+    let explanation=`<b>Phân tích tự động (${this.hpDur}s):</b><br>`;
+    explanation+=`Bass: ${Math.round(b.bass.avg)}% | Mid: ${Math.round(b.mid.avg)}% | Treble: ${Math.round(b.high.avg)}%<br><br>`;
+    explanation+=`<b>Đề xuất EQ cho ${typeNames[type]}:</b><br>`;
+    
+    if(eq.b32>3||eq.b64>3)explanation+='🔊 Tăng bass để có độ trầm tốt hơn<br>';
+    if(eq.b32<-3||eq.b64<-3)explanation+='🔉 Giảm bass để bớt ù<br>';
+    if(eq.b1k>3||eq.b2k>3)explanation+='🎤 Tăng mid để giọng rõ hơn<br>';
+    if(eq.b8k>3||eq.b16k>3)explanation+='✨ Tăng treble để sáng hơn<br>';
+    
+    explanation+=`<br><b>Cách áp dụng:</b> Copy EQ này sang điện thoại, đeo tai nghe và nghe!`;
+    
+    document.getElementById('hpRecName').textContent=`🎯 Auto EQ (${typeNames[type]})`;
+    document.getElementById('hpExplanation').innerHTML=explanation;
+    document.getElementById('hpResults').style.display='block';
   }
 }
 
