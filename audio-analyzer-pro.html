@@ -190,6 +190,15 @@
       </div>
       <select id="genreSelect" style="width:100%;padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.85rem;cursor:pointer">
         <option value="">-- Chọn thể loại --</option>
+        <optgroup label="📱 PHONE EQ - Nghe nhạc trên ĐT">
+          <option value="phone_bass">🔊 Bass Boost (Tai nghe)</option>
+          <option value="phone_vocal">🎤 Vocal Clear (Giọng rõ)</option>
+          <option value="phone_flat">📐 Flat (Chuẩn phẳng)</option>
+          <option value="phone_loudness">🔉 Loudness (Volume nhỏ)</option>
+          <option value="phone_treble">✨ Treble Boost (Sáng)</option>
+          <option value="phone_night">🌙 Night Mode (Đêm)</option>
+          <option value="phone_small_speaker">🔈 Small Speaker (Loa nhỏ)</option>
+        </optgroup>
         <optgroup label="🎤 Nhạc Việt">
           <option value="bolero">🎻 Bolero / Trữ tình</option>
           <option value="nhactre">🎧 Nhạc trẻ / V-Pop</option>
@@ -225,6 +234,171 @@
           <div><div style="color:var(--text3)">Mid</div><div id="gMid" style="font-weight:700">-</div></div>
           <div><div style="color:var(--text3)">Hi-Mid</div><div id="gHighMid" style="font-weight:700">-</div></div>
           <div><div style="color:var(--text3)">High</div><div id="gHigh" style="font-weight:700">-</div></div>
+        </div>
+      </div>
+      
+      <!-- Phone EQ Visual Panel -->
+      <div id="phoneEQPanel" style="display:none;margin-top:12px;background:linear-gradient(145deg,#f5f5f5,#e8e8e8);border-radius:12px;padding:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:1.2rem">📱</span>
+            <span style="font-size:0.85rem;font-weight:700;color:#333">Equalizer</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:14px;height:14px;background:#4cd964;border-radius:3px;display:flex;align-items:center;justify-content:center">
+              <span style="color:#fff;font-size:10px">✓</span>
+            </div>
+            <span style="font-size:0.7rem;color:#333">On</span>
+          </div>
+        </div>
+        
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+          <div style="flex:1;height:32px;background:#fff;border:1px solid #ccc;border-radius:4px;display:flex;align-items:center;padding:0 10px">
+            <span id="phoneEQName" style="font-size:0.8rem;color:#333">Custom</span>
+          </div>
+        </div>
+        
+        <div style="position:relative;background:#fff;border-radius:8px;padding:12px 8px;border:1px solid #ddd">
+          <!-- dB Labels -->
+          <div style="position:absolute;left:4px;top:12px;font-size:0.55rem;color:#666">+12 dB</div>
+          <div style="position:absolute;left:4px;top:50%;transform:translateY(-50%);font-size:0.55rem;color:#666">0 dB</div>
+          <div style="position:absolute;left:4px;bottom:28px;font-size:0.55rem;color:#666">-12 dB</div>
+          
+          <!-- EQ Sliders -->
+          <div style="display:flex;justify-content:space-around;align-items:flex-end;height:140px;margin-left:35px;position:relative">
+            <!-- Grid lines -->
+            <div style="position:absolute;top:0;left:0;right:0;height:1px;background:#eee"></div>
+            <div style="position:absolute;top:35px;left:0;right:0;height:1px;background:#eee"></div>
+            <div style="position:absolute;top:70px;left:0;right:0;height:1px;background:#ddd"></div>
+            <div style="position:absolute;top:105px;left:0;right:0;height:1px;background:#eee"></div>
+            <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:#eee"></div>
+            
+            <!-- Preamp -->
+            <div style="display:flex;flex-direction:column;align-items:center;z-index:1">
+              <div style="width:6px;height:120px;background:linear-gradient(to bottom,#ddd,#bbb);border-radius:3px;position:relative">
+                <div id="eq_preamp" style="position:absolute;width:14px;height:14px;background:linear-gradient(145deg,#fff,#e0e0e0);border:1px solid #aaa;border-radius:50%;left:50%;transform:translateX(-50%);top:50%;box-shadow:0 1px 3px rgba(0,0,0,0.2)">
+                  <div style="width:6px;height:6px;background:#007aff;border-radius:50%;margin:3px auto"></div>
+                </div>
+              </div>
+              <span style="font-size:0.5rem;color:#666;margin-top:4px">Preamp</span>
+            </div>
+            
+            <!-- Frequency bands -->
+            <div style="display:flex;flex-direction:column;align-items:center;z-index:1">
+              <div style="width:6px;height:120px;background:linear-gradient(to bottom,#ddd,#bbb);border-radius:3px;position:relative">
+                <div id="eq_32" style="position:absolute;width:14px;height:14px;background:linear-gradient(145deg,#fff,#e0e0e0);border:1px solid #aaa;border-radius:50%;left:50%;transform:translateX(-50%);box-shadow:0 1px 3px rgba(0,0,0,0.2)">
+                  <div style="width:6px;height:6px;background:#007aff;border-radius:50%;margin:3px auto"></div>
+                </div>
+              </div>
+              <span style="font-size:0.5rem;color:#666;margin-top:4px">32</span>
+            </div>
+            
+            <div style="display:flex;flex-direction:column;align-items:center;z-index:1">
+              <div style="width:6px;height:120px;background:linear-gradient(to bottom,#ddd,#bbb);border-radius:3px;position:relative">
+                <div id="eq_64" style="position:absolute;width:14px;height:14px;background:linear-gradient(145deg,#fff,#e0e0e0);border:1px solid #aaa;border-radius:50%;left:50%;transform:translateX(-50%);box-shadow:0 1px 3px rgba(0,0,0,0.2)">
+                  <div style="width:6px;height:6px;background:#007aff;border-radius:50%;margin:3px auto"></div>
+                </div>
+              </div>
+              <span style="font-size:0.5rem;color:#666;margin-top:4px">64</span>
+            </div>
+            
+            <div style="display:flex;flex-direction:column;align-items:center;z-index:1">
+              <div style="width:6px;height:120px;background:linear-gradient(to bottom,#ddd,#bbb);border-radius:3px;position:relative">
+                <div id="eq_125" style="position:absolute;width:14px;height:14px;background:linear-gradient(145deg,#fff,#e0e0e0);border:1px solid #aaa;border-radius:50%;left:50%;transform:translateX(-50%);box-shadow:0 1px 3px rgba(0,0,0,0.2)">
+                  <div style="width:6px;height:6px;background:#007aff;border-radius:50%;margin:3px auto"></div>
+                </div>
+              </div>
+              <span style="font-size:0.5rem;color:#666;margin-top:4px">125</span>
+            </div>
+            
+            <div style="display:flex;flex-direction:column;align-items:center;z-index:1">
+              <div style="width:6px;height:120px;background:linear-gradient(to bottom,#ddd,#bbb);border-radius:3px;position:relative">
+                <div id="eq_250" style="position:absolute;width:14px;height:14px;background:linear-gradient(145deg,#fff,#e0e0e0);border:1px solid #aaa;border-radius:50%;left:50%;transform:translateX(-50%);box-shadow:0 1px 3px rgba(0,0,0,0.2)">
+                  <div style="width:6px;height:6px;background:#007aff;border-radius:50%;margin:3px auto"></div>
+                </div>
+              </div>
+              <span style="font-size:0.5rem;color:#666;margin-top:4px">250</span>
+            </div>
+            
+            <div style="display:flex;flex-direction:column;align-items:center;z-index:1">
+              <div style="width:6px;height:120px;background:linear-gradient(to bottom,#ddd,#bbb);border-radius:3px;position:relative">
+                <div id="eq_500" style="position:absolute;width:14px;height:14px;background:linear-gradient(145deg,#fff,#e0e0e0);border:1px solid #aaa;border-radius:50%;left:50%;transform:translateX(-50%);box-shadow:0 1px 3px rgba(0,0,0,0.2)">
+                  <div style="width:6px;height:6px;background:#007aff;border-radius:50%;margin:3px auto"></div>
+                </div>
+              </div>
+              <span style="font-size:0.5rem;color:#666;margin-top:4px">500</span>
+            </div>
+            
+            <div style="display:flex;flex-direction:column;align-items:center;z-index:1">
+              <div style="width:6px;height:120px;background:linear-gradient(to bottom,#ddd,#bbb);border-radius:3px;position:relative">
+                <div id="eq_1k" style="position:absolute;width:14px;height:14px;background:linear-gradient(145deg,#fff,#e0e0e0);border:1px solid #aaa;border-radius:50%;left:50%;transform:translateX(-50%);box-shadow:0 1px 3px rgba(0,0,0,0.2)">
+                  <div style="width:6px;height:6px;background:#007aff;border-radius:50%;margin:3px auto"></div>
+                </div>
+              </div>
+              <span style="font-size:0.5rem;color:#666;margin-top:4px">1K</span>
+            </div>
+            
+            <div style="display:flex;flex-direction:column;align-items:center;z-index:1">
+              <div style="width:6px;height:120px;background:linear-gradient(to bottom,#ddd,#bbb);border-radius:3px;position:relative">
+                <div id="eq_2k" style="position:absolute;width:14px;height:14px;background:linear-gradient(145deg,#fff,#e0e0e0);border:1px solid #aaa;border-radius:50%;left:50%;transform:translateX(-50%);box-shadow:0 1px 3px rgba(0,0,0,0.2)">
+                  <div style="width:6px;height:6px;background:#007aff;border-radius:50%;margin:3px auto"></div>
+                </div>
+              </div>
+              <span style="font-size:0.5rem;color:#666;margin-top:4px">2K</span>
+            </div>
+            
+            <div style="display:flex;flex-direction:column;align-items:center;z-index:1">
+              <div style="width:6px;height:120px;background:linear-gradient(to bottom,#ddd,#bbb);border-radius:3px;position:relative">
+                <div id="eq_4k" style="position:absolute;width:14px;height:14px;background:linear-gradient(145deg,#fff,#e0e0e0);border:1px solid #aaa;border-radius:50%;left:50%;transform:translateX(-50%);box-shadow:0 1px 3px rgba(0,0,0,0.2)">
+                  <div style="width:6px;height:6px;background:#007aff;border-radius:50%;margin:3px auto"></div>
+                </div>
+              </div>
+              <span style="font-size:0.5rem;color:#666;margin-top:4px">4K</span>
+            </div>
+            
+            <div style="display:flex;flex-direction:column;align-items:center;z-index:1">
+              <div style="width:6px;height:120px;background:linear-gradient(to bottom,#ddd,#bbb);border-radius:3px;position:relative">
+                <div id="eq_8k" style="position:absolute;width:14px;height:14px;background:linear-gradient(145deg,#fff,#e0e0e0);border:1px solid #aaa;border-radius:50%;left:50%;transform:translateX(-50%);box-shadow:0 1px 3px rgba(0,0,0,0.2)">
+                  <div style="width:6px;height:6px;background:#007aff;border-radius:50%;margin:3px auto"></div>
+                </div>
+              </div>
+              <span style="font-size:0.5rem;color:#666;margin-top:4px">8K</span>
+            </div>
+            
+            <div style="display:flex;flex-direction:column;align-items:center;z-index:1">
+              <div style="width:6px;height:120px;background:linear-gradient(to bottom,#ddd,#bbb);border-radius:3px;position:relative">
+                <div id="eq_16k" style="position:absolute;width:14px;height:14px;background:linear-gradient(145deg,#fff,#e0e0e0);border:1px solid #aaa;border-radius:50%;left:50%;transform:translateX(-50%);box-shadow:0 1px 3px rgba(0,0,0,0.2)">
+                  <div style="width:6px;height:6px;background:#007aff;border-radius:50%;margin:3px auto"></div>
+                </div>
+              </div>
+              <span style="font-size:0.5rem;color:#666;margin-top:4px">16K</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- EQ Values Display -->
+        <div id="phoneEQValues" style="display:grid;grid-template-columns:repeat(11,1fr);gap:2px;margin-top:8px;font-size:0.55rem;text-align:center;color:#666">
+          <div id="val_preamp">0</div>
+          <div id="val_32">0</div>
+          <div id="val_64">0</div>
+          <div id="val_125">0</div>
+          <div id="val_250">0</div>
+          <div id="val_500">0</div>
+          <div id="val_1k">0</div>
+          <div id="val_2k">0</div>
+          <div id="val_4k">0</div>
+          <div id="val_8k">0</div>
+          <div id="val_16k">0</div>
+        </div>
+        
+        <div style="margin-top:12px;padding:10px;background:#fff;border-radius:8px;border:1px solid #ddd">
+          <div style="font-size:0.7rem;font-weight:700;color:#333;margin-bottom:6px">📋 Cách chỉnh trên điện thoại:</div>
+          <div style="font-size:0.65rem;color:#666;line-height:1.6">
+            <b>iPhone:</b> Settings → Music → EQ → chọn preset hoặc dùng app EQ<br>
+            <b>Android:</b> Settings → Sound → Equalizer hoặc trong app nhạc<br>
+            <b>Spotify:</b> Settings → Playback → Equalizer<br>
+            <b>YouTube Music:</b> Settings → Equalizer
+          </div>
         </div>
       </div>
     </div>
@@ -294,6 +468,279 @@
         <div class="score-msg" id="scoreMsg">Đang phân tích...</div>
         <div class="score-hint" id="scoreHint">Vui lòng chờ</div>
       </div>
+      
+      <!-- FULL 8-KNOB RECOMMENDATION PANEL -->
+      <div class="card" style="border:2px solid var(--accent)">
+        <div class="card-header"><div class="card-icon" style="background:var(--accent)">🎛️</div><div><div class="card-title">Gợi Ý ĐẦY ĐỦ 8 Núm</div><div class="card-sub">Tất cả núm cần chỉnh cho kênh này</div></div></div>
+        
+        <div id="fullMixerRec" style="display:grid;gap:8px">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+      
+      <!-- PHONE EQ RECOMMENDATION PANEL -->
+      <div class="card" style="border:2px solid var(--purple);background:linear-gradient(135deg,rgba(168,85,247,0.1),transparent)">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--purple)">📱</div>
+          <div>
+            <div class="card-title">Chỉnh EQ Điện Thoại</div>
+            <div class="card-sub">Copy sang app nghe nhạc trên ĐT</div>
+          </div>
+        </div>
+        
+        <!-- Phone EQ Visual -->
+        <div id="resultPhoneEQ" style="background:linear-gradient(145deg,#f5f5f5,#e8e8e8);border-radius:12px;padding:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div style="display:flex;align-items:center;gap:6px">
+              <div style="width:12px;height:12px;background:#4cd964;border-radius:3px"></div>
+              <span style="font-size:0.75rem;font-weight:700;color:#333" id="resultEQName">Custom EQ</span>
+            </div>
+            <span style="font-size:0.6rem;color:#666">Dựa trên phân tích</span>
+          </div>
+          
+          <!-- Mini EQ Sliders -->
+          <div style="background:#fff;border-radius:8px;padding:10px;border:1px solid #ddd">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;height:80px;position:relative">
+              <!-- Grid line at 0dB -->
+              <div style="position:absolute;top:40px;left:0;right:0;height:1px;background:#ddd"></div>
+              
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                <div style="width:4px;height:70px;background:#e0e0e0;border-radius:2px;position:relative">
+                  <div id="req_32" style="position:absolute;width:10px;height:10px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.45rem;color:#666;margin-top:2px">32</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                <div style="width:4px;height:70px;background:#e0e0e0;border-radius:2px;position:relative">
+                  <div id="req_64" style="position:absolute;width:10px;height:10px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.45rem;color:#666;margin-top:2px">64</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                <div style="width:4px;height:70px;background:#e0e0e0;border-radius:2px;position:relative">
+                  <div id="req_125" style="position:absolute;width:10px;height:10px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.45rem;color:#666;margin-top:2px">125</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                <div style="width:4px;height:70px;background:#e0e0e0;border-radius:2px;position:relative">
+                  <div id="req_250" style="position:absolute;width:10px;height:10px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.45rem;color:#666;margin-top:2px">250</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                <div style="width:4px;height:70px;background:#e0e0e0;border-radius:2px;position:relative">
+                  <div id="req_500" style="position:absolute;width:10px;height:10px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.45rem;color:#666;margin-top:2px">500</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                <div style="width:4px;height:70px;background:#e0e0e0;border-radius:2px;position:relative">
+                  <div id="req_1k" style="position:absolute;width:10px;height:10px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.45rem;color:#666;margin-top:2px">1K</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                <div style="width:4px;height:70px;background:#e0e0e0;border-radius:2px;position:relative">
+                  <div id="req_2k" style="position:absolute;width:10px;height:10px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.45rem;color:#666;margin-top:2px">2K</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                <div style="width:4px;height:70px;background:#e0e0e0;border-radius:2px;position:relative">
+                  <div id="req_4k" style="position:absolute;width:10px;height:10px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.45rem;color:#666;margin-top:2px">4K</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                <div style="width:4px;height:70px;background:#e0e0e0;border-radius:2px;position:relative">
+                  <div id="req_8k" style="position:absolute;width:10px;height:10px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.45rem;color:#666;margin-top:2px">8K</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+                <div style="width:4px;height:70px;background:#e0e0e0;border-radius:2px;position:relative">
+                  <div id="req_16k" style="position:absolute;width:10px;height:10px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.45rem;color:#666;margin-top:2px">16K</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- EQ Values -->
+          <div id="resultEQValues" style="display:grid;grid-template-columns:repeat(10,1fr);gap:2px;margin-top:6px;font-size:0.55rem;text-align:center;font-weight:700">
+            <div id="rval_32" style="color:#007aff">0</div>
+            <div id="rval_64" style="color:#007aff">0</div>
+            <div id="rval_125" style="color:#007aff">0</div>
+            <div id="rval_250" style="color:#007aff">0</div>
+            <div id="rval_500" style="color:#007aff">0</div>
+            <div id="rval_1k" style="color:#007aff">0</div>
+            <div id="rval_2k" style="color:#007aff">0</div>
+            <div id="rval_4k" style="color:#007aff">0</div>
+            <div id="rval_8k" style="color:#007aff">0</div>
+            <div id="rval_16k" style="color:#007aff">0</div>
+          </div>
+        </div>
+        
+        <!-- EQ BAND EXPLANATION -->
+        <div style="margin-top:12px;background:var(--card);border-radius:10px;overflow:hidden">
+          <div style="background:var(--purple);color:#fff;padding:8px 12px;font-size:0.75rem;font-weight:700">
+            📚 Ý nghĩa từng band EQ - Học để chỉnh tốt hơn!
+          </div>
+          
+          <!-- Sub Bass -->
+          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="background:#ff3b30;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">32Hz</span>
+              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Sub Bass - Siêu trầm</span>
+            </div>
+            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
+              🔊 <b>Âm thanh:</b> Rung, ù ù như động đất, không nghe rõ bằng tai thường<br>
+              🎵 <b>Nhạc cụ:</b> Sub bass 808, kick EDM, organ nhà thờ<br>
+              ⬆️ <b>Tăng:</b> Cảm giác rung mạnh, "nặng đô" | ⬇️ <b>Giảm:</b> Bớt ù, rõ ràng hơn<br>
+              💡 <b>Mẹo:</b> Tai nghe thường không tái tạo được. Chỉ tăng nếu có loa sub hoặc tai nghe bass tốt.
+            </div>
+          </div>
+          
+          <!-- Bass -->
+          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="background:#ff9500;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">64Hz</span>
+              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Bass - Trầm</span>
+            </div>
+            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
+              🔊 <b>Âm thanh:</b> Tiếng trầm "bùm bùm", nền tảng của bài nhạc<br>
+              🎵 <b>Nhạc cụ:</b> Bass guitar, kick drum, synth bass<br>
+              ⬆️ <b>Tăng:</b> Dày, ấm, có lực | ⬇️ <b>Giảm:</b> Mỏng, nhẹ, rõ hơn<br>
+              💡 <b>Mẹo:</b> Hip-hop, EDM cần nhiều. Podcast, classical cần ít.
+            </div>
+          </div>
+          
+          <!-- Low Mid -->
+          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="background:#ffcc00;color:#000;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">125-250Hz</span>
+              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Low-Mid - Vùng "bùn"</span>
+            </div>
+            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
+              🔊 <b>Âm thanh:</b> Độ dày, ấm của giọng. Nhưng dễ bị ĐỤC nếu quá nhiều!<br>
+              🎵 <b>Nhạc cụ:</b> Thân giọng nam, guitar acoustic, snare drum<br>
+              ⬆️ <b>Tăng:</b> Dày, ấm (dễ bị đục) | ⬇️ <b>Giảm:</b> Rõ ràng, sạch sẽ<br>
+              💡 <b>Mẹo:</b> <span style="color:var(--red);font-weight:700">THƯỜNG NÊN GIẢM!</span> Đây là vùng hay gây đục nhất.
+            </div>
+          </div>
+          
+          <!-- Mid -->
+          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="background:#34c759;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">500Hz-1kHz</span>
+              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Mid - Trung tâm</span>
+            </div>
+            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
+              🔊 <b>Âm thanh:</b> Phần chính của giọng hát, nghe rõ nhất<br>
+              🎵 <b>Nhạc cụ:</b> Giọng hát, guitar, piano, hầu hết nhạc cụ<br>
+              ⬆️ <b>Tăng:</b> Giọng to, rõ (dễ chói) | ⬇️ <b>Giảm:</b> Giọng lùi, nhạc nổi<br>
+              💡 <b>Mẹo:</b> Karaoke nên tăng. Nếu nghe "bị hộp" thì giảm 500Hz.
+            </div>
+          </div>
+          
+          <!-- Upper Mid -->
+          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="background:#007aff;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">2kHz-4kHz</span>
+              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Presence - Độ hiện diện ⭐</span>
+            </div>
+            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
+              🔊 <b>Âm thanh:</b> Độ RÕ của giọng, nghe từng chữ. <b>QUAN TRỌNG NHẤT!</b><br>
+              🎵 <b>Nhạc cụ:</b> Phụ âm giọng hát (s, t, k), attack guitar, hi-hat<br>
+              ⬆️ <b>Tăng:</b> Giọng cắt qua mix, rõ từng chữ | ⬇️ <b>Giảm:</b> Bớt chói, êm tai<br>
+              💡 <b>Mẹo:</b> <span style="color:var(--green);font-weight:700">TĂNG để nghe rõ giọng!</span> Nhưng tăng quá sẽ chói tai.
+            </div>
+          </div>
+          
+          <!-- Treble -->
+          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="background:#5856d6;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">8kHz</span>
+              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Treble - Cao</span>
+            </div>
+            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
+              🔊 <b>Âm thanh:</b> Độ sáng, lấp lánh, "xì xì" của âm thanh<br>
+              🎵 <b>Nhạc cụ:</b> Cymbal, hi-hat, hơi thở, tiếng "s" trong giọng<br>
+              ⬆️ <b>Tăng:</b> Sáng, chi tiết, lấp lánh | ⬇️ <b>Giảm:</b> Tối, êm, bớt xèn<br>
+              💡 <b>Mẹo:</b> Người lớn tuổi có thể tăng vì tai kém nhạy treble.
+            </div>
+          </div>
+          
+          <!-- Air -->
+          <div style="padding:10px 12px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="background:#af52de;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">16kHz</span>
+              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Air - Siêu cao</span>
+            </div>
+            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
+              🔊 <b>Âm thanh:</b> "Không khí", cảm giác mở rộng, thoáng đãng<br>
+              🎵 <b>Nhạc cụ:</b> Overtone của cymbal, breath, room ambience<br>
+              ⬆️ <b>Tăng:</b> Thoáng, mở, hi-fi | ⬇️ <b>Giảm:</b> Tối, ấm, vintage<br>
+              💡 <b>Mẹo:</b> Nhiều người không nghe được 16kHz. Tai nghe rẻ thường không tái tạo được.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Quick Reference Card -->
+        <div style="margin-top:12px;background:linear-gradient(135deg,var(--accent)22,var(--purple)22);border:1px solid var(--accent);border-radius:10px;padding:12px">
+          <div style="font-size:0.75rem;font-weight:700;color:var(--accent);margin-bottom:8px">🎯 Công thức nhanh theo mục đích:</div>
+          <div style="display:grid;gap:6px;font-size:0.65rem">
+            <div style="display:flex;align-items:center;gap:8px;background:var(--card);padding:8px;border-radius:6px">
+              <span style="font-size:1rem">🎤</span>
+              <div>
+                <div style="font-weight:700;color:var(--text)">Nghe rõ giọng hát</div>
+                <div style="color:var(--text2)">↓250Hz | ↑2-4kHz | Giảm bùn, tăng presence</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;background:var(--card);padding:8px;border-radius:6px">
+              <span style="font-size:1rem">🔊</span>
+              <div>
+                <div style="font-weight:700;color:var(--text)">Thêm bass mạnh</div>
+                <div style="color:var(--text2)">↑32-64Hz | ↓250Hz | Tăng sub, cắt bùn</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;background:var(--card);padding:8px;border-radius:6px">
+              <span style="font-size:1rem">✨</span>
+              <div>
+                <div style="font-weight:700;color:var(--text)">Sáng và chi tiết</div>
+                <div style="color:var(--text2)">↑4-8kHz | ↑16kHz | Tăng treble và air</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;background:var(--card);padding:8px;border-radius:6px">
+              <span style="font-size:1rem">🌙</span>
+              <div>
+                <div style="font-weight:700;color:var(--text)">Êm tai ban đêm</div>
+                <div style="color:var(--text2)">↓32-64Hz | ↓8-16kHz | Giảm bass và treble</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Quick tips -->
+        <div style="margin-top:12px;padding:10px;background:var(--card2);border-radius:8px">
+          <div style="font-size:0.7rem;font-weight:700;color:var(--purple);margin-bottom:6px">📋 Cách chỉnh EQ trên điện thoại:</div>
+          <div style="font-size:0.65rem;color:var(--text2);line-height:1.6">
+            <b>🍎 iPhone:</b> Settings → Music → EQ<br>
+            <b>🤖 Android:</b> Settings → Sound → Equalizer<br>
+            <b>🎵 Spotify:</b> Settings → Playback → Equalizer<br>
+            <b>▶️ YouTube Music:</b> Settings → Equalizer
+          </div>
+        </div>
+        
+        <!-- Suggested preset -->
+        <div id="suggestedPreset" style="margin-top:10px;padding:10px;background:var(--bg);border-radius:8px;border-left:3px solid var(--green)">
+          <div style="font-size:0.7rem;font-weight:700;color:var(--green);margin-bottom:4px">💡 Preset gợi ý:</div>
+          <div id="suggestedPresetName" style="font-size:0.8rem;font-weight:700;color:var(--text)">--</div>
+          <div id="suggestedPresetDesc" style="font-size:0.65rem;color:var(--text2);margin-top:4px">--</div>
+        </div>
+      </div>
+      
       <div class="card">
         <div class="card-header"><div class="card-icon">🔍</div><div><div class="card-title">Vấn Đề & Cách Sửa</div><div class="card-sub">Chi tiết vặn núm</div></div></div>
         <div id="probList"></div>
@@ -757,25 +1204,29 @@ class App{
         name:'🎻 Bolero / Trữ tình',
         bass:25,lowMid:30,mid:55,highMid:50,high:32,tol:10,
         desc:'Giọng ấm, trầm lắng. Tăng mid cho giọng rõ, bass vừa phải tạo chiều sâu. Treble mềm mại.',
-        tips:'Reverb nhẹ, delay ngắn. Tránh bass quá nhiều làm đục giọng.'
+        tips:'Reverb nhẹ, delay ngắn. Tránh bass quá nhiều làm đục giọng.',
+        phoneEQ:{preamp:0,b32:2,b64:1,b125:0,b250:-1,b500:-2,b1k:3,b2k:4,b4k:3,b8k:1,b16k:0}
       },
       nhactre:{
         name:'🎧 Nhạc trẻ / V-Pop',
         bass:35,lowMid:28,mid:50,highMid:58,high:45,tol:12,
         desc:'Hiện đại, sáng, năng động. Hi-mid nổi bật, treble sáng, bass có lực.',
-        tips:'Compression vừa phải. Có thể thêm exciter cho treble sáng hơn.'
+        tips:'Compression vừa phải. Có thể thêm exciter cho treble sáng hơn.',
+        phoneEQ:{preamp:0,b32:4,b64:3,b125:1,b250:0,b500:-1,b1k:2,b2k:4,b4k:5,b8k:4,b16k:3}
       },
       cachmang:{
         name:'🎺 Cách mạng / Đỏ',
         bass:30,lowMid:35,mid:52,highMid:48,high:35,tol:10,
         desc:'Hào hùng, rõ ràng. Mid-forward cho giọng vang, bass chắc khỏe.',
-        tips:'Reverb hall lớn cho cảm giác hoành tráng. Giọng cần rõ từng chữ.'
+        tips:'Reverb hall lớn cho cảm giác hoành tráng. Giọng cần rõ từng chữ.',
+        phoneEQ:{preamp:0,b32:2,b64:3,b125:2,b250:1,b500:0,b1k:3,b2k:4,b4k:3,b8k:2,b16k:1}
       },
       dancaromantic:{
         name:'💃 Dance / Remix',
         bass:50,lowMid:32,mid:42,highMid:55,high:48,tol:15,
         desc:'Bass mạnh, treble sáng, kick rõ. Nhịp điệu sôi động.',
-        tips:'Sidechain compression cho kick xuyên qua mix. Sub bass quan trọng.'
+        tips:'Sidechain compression cho kick xuyên qua mix. Sub bass quan trọng.',
+        phoneEQ:{preamp:-2,b32:6,b64:5,b125:3,b250:0,b500:-2,b1k:0,b2k:3,b4k:5,b8k:4,b16k:3}
       },
       
       // Nhạc Quốc Tế
@@ -783,43 +1234,50 @@ class App{
         name:'🎵 Pop / Ballad',
         bass:30,lowMid:28,mid:52,highMid:55,high:42,tol:10,
         desc:'Cân bằng, dễ nghe. Giọng hát là trung tâm, nhạc nền hỗ trợ.',
-        tips:'Vocal nên nằm trên nhạc nền. Compression nhẹ cho đều.'
+        tips:'Vocal nên nằm trên nhạc nền. Compression nhẹ cho đều.',
+        phoneEQ:{preamp:0,b32:2,b64:2,b125:1,b250:0,b500:0,b1k:2,b2k:3,b4k:3,b8k:2,b16k:1}
       },
       rock:{
         name:'🎸 Rock / Metal',
         bass:45,lowMid:35,mid:48,highMid:55,high:50,tol:15,
         desc:'Mạnh mẽ, guitar điện nổi bật. Bass và kick chắc, treble sắc.',
-        tips:'Guitar cần không gian riêng. Cẩn thận mud zone 200-400Hz.'
+        tips:'Guitar cần không gian riêng. Cẩn thận mud zone 200-400Hz.',
+        phoneEQ:{preamp:-1,b32:5,b64:4,b125:2,b250:1,b500:-1,b1k:2,b2k:4,b4k:5,b8k:4,b16k:3}
       },
       rnb:{
         name:'🎷 R&B / Soul',
         bass:40,lowMid:35,mid:48,highMid:52,high:38,tol:10,
         desc:'Ấm áp, groove. Bass sâu, mid mềm mại, giọng silky.',
-        tips:'Giọng cần warmth. Tránh treble quá sáng. Bass cần tight.'
+        tips:'Giọng cần warmth. Tránh treble quá sáng. Bass cần tight.',
+        phoneEQ:{preamp:0,b32:4,b64:5,b125:3,b250:2,b500:0,b1k:1,b2k:3,b4k:2,b8k:1,b16k:0}
       },
       edm:{
         name:'🎹 EDM / House',
         bass:55,lowMid:30,mid:40,highMid:52,high:50,tol:15,
         desc:'Sub bass mạnh, kick punchy, synth sáng. Energy cao.',
-        tips:'Sub bass là vua. Sidechain essential. Hi-hat và synth cần sparkle.'
+        tips:'Sub bass là vua. Sidechain essential. Hi-hat và synth cần sparkle.',
+        phoneEQ:{preamp:-2,b32:7,b64:6,b125:4,b250:0,b500:-3,b1k:-1,b2k:2,b4k:5,b8k:5,b16k:4}
       },
       jazz:{
         name:'🎺 Jazz / Blues',
         bass:35,lowMid:38,mid:45,highMid:48,high:35,tol:8,
         desc:'Tự nhiên, acoustic. Không gian phòng thu quan trọng.',
-        tips:'Ít compression. Natural dynamics. Room reverb > plate/hall.'
+        tips:'Ít compression. Natural dynamics. Room reverb > plate/hall.',
+        phoneEQ:{preamp:0,b32:3,b64:3,b125:2,b250:1,b500:0,b1k:1,b2k:2,b4k:2,b8k:1,b16k:0}
       },
       country:{
         name:'🤠 Country / Folk',
         bass:28,lowMid:32,mid:50,highMid:52,high:42,tol:10,
         desc:'Guitar acoustic nổi bật, giọng storytelling rõ ràng.',
-        tips:'Acoustic guitar cần presence. Banjo/fiddle ở hi-mid.'
+        tips:'Acoustic guitar cần presence. Banjo/fiddle ở hi-mid.',
+        phoneEQ:{preamp:0,b32:2,b64:2,b125:1,b250:0,b500:0,b1k:2,b2k:4,b4k:4,b8k:3,b16k:2}
       },
       hiphop:{
         name:'🎤 Hip-hop / Rap',
         bass:52,lowMid:30,mid:45,highMid:55,high:42,tol:12,
         desc:'808 bass nặng, vocal rõ từng chữ, hi-hat crispy.',
-        tips:'Rap vocal cần rất rõ. 808 và kick không được clash. De-ess quan trọng.'
+        tips:'Rap vocal cần rất rõ. 808 và kick không được clash. De-ess quan trọng.',
+        phoneEQ:{preamp:-1,b32:6,b64:6,b125:3,b250:-1,b500:-2,b1k:1,b2k:4,b4k:4,b8k:3,b16k:2}
       },
       
       // Acoustic / Live
@@ -827,31 +1285,94 @@ class App{
         name:'🪕 Acoustic',
         bass:25,lowMid:30,mid:48,highMid:50,high:40,tol:8,
         desc:'Tự nhiên, trong trẻo. Guitar gỗ, giọng mộc.',
-        tips:'Ít effects. Natural reverb. Finger noise có thể giữ lại.'
+        tips:'Ít effects. Natural reverb. Finger noise có thể giữ lại.',
+        phoneEQ:{preamp:0,b32:1,b64:2,b125:1,b250:0,b500:0,b1k:2,b2k:3,b4k:3,b8k:2,b16k:1}
       },
       karaoke:{
         name:'🎤 Karaoke',
         bass:22,lowMid:28,mid:55,highMid:58,high:40,tol:12,
         desc:'Giọng hát nổi bật tối đa, nhạc nền lùi. Reverb vừa phải.',
-        tips:'Reverb và delay cho giọng dày. Nhạc beat nên nhỏ hơn vocal 6-10dB.'
+        tips:'Reverb và delay cho giọng dày. Nhạc beat nên nhỏ hơn vocal 6-10dB.',
+        phoneEQ:{preamp:0,b32:1,b64:1,b125:0,b250:-1,b500:-2,b1k:3,b2k:5,b4k:5,b8k:3,b16k:2}
       },
       livecafe:{
         name:'☕ Live Cafe / Phòng trà',
         bass:28,lowMid:32,mid:50,highMid:48,high:35,tol:10,
         desc:'Ấm cúng, intimate. Giọng gần gũi, không quá loud.',
-        tips:'Reverb room nhỏ. Tránh feedback. Monitor volume vừa phải.'
+        tips:'Reverb room nhỏ. Tránh feedback. Monitor volume vừa phải.',
+        phoneEQ:{preamp:0,b32:2,b64:2,b125:1,b250:1,b500:0,b1k:2,b2k:3,b4k:2,b8k:1,b16k:0}
       },
       wedding:{
         name:'💒 Tiệc cưới / Event',
         bass:35,lowMid:30,mid:48,highMid:52,high:42,tol:15,
         desc:'Đa dạng thể loại, cần linh hoạt. Rõ ràng, không quá bass.',
-        tips:'MC và vocal quan trọng nhất. Nhạc dance cần bass. Nhạc chậm cần warmth.'
+        tips:'MC và vocal quan trọng nhất. Nhạc dance cần bass. Nhạc chậm cần warmth.',
+        phoneEQ:{preamp:0,b32:3,b64:3,b125:2,b250:0,b500:-1,b1k:2,b2k:3,b4k:3,b8k:2,b16k:1}
       },
       church:{
         name:'⛪ Nhà thờ / Thánh ca',
         bass:30,lowMid:35,mid:48,highMid:45,high:32,tol:10,
         desc:'Trang nghiêm, reverb tự nhiên lớn. Choir blend tốt.',
-        tips:'Tận dụng reverb phòng. Không cần thêm nhiều effects. Clarity quan trọng.'
+        tips:'Tận dụng reverb phòng. Không cần thêm nhiều effects. Clarity quan trọng.',
+        phoneEQ:{preamp:0,b32:2,b64:3,b125:2,b250:1,b500:0,b1k:2,b2k:2,b4k:2,b8k:1,b16k:0}
+      },
+      
+      // PHONE EQ PRESETS - Nghe nhạc trên điện thoại
+      phone_bass:{
+        name:'📱 Bass Boost (Tai nghe)',
+        bass:60,lowMid:35,mid:42,highMid:48,high:40,tol:15,
+        desc:'Tăng bass cho tai nghe/loa điện thoại nhỏ. Nghe EDM, Hip-hop, Dance.',
+        tips:'Dùng khi tai nghe thiếu bass. Giảm bớt nếu bị ù.',
+        phoneEQ:{preamp:-3,b32:8,b64:7,b125:5,b250:2,b500:0,b1k:0,b2k:1,b4k:2,b8k:2,b16k:1},
+        isPhoneMode:true
+      },
+      phone_vocal:{
+        name:'📱 Vocal Clear (Giọng rõ)',
+        bass:20,lowMid:25,mid:58,highMid:60,high:45,tol:10,
+        desc:'Làm rõ giọng hát, nghe ballad, bolero, podcast rõ từng chữ.',
+        tips:'Tốt cho nhạc acoustic, podcast, audiobook.',
+        phoneEQ:{preamp:0,b32:0,b64:0,b125:-1,b250:-2,b500:-1,b1k:4,b2k:5,b4k:5,b8k:3,b16k:2},
+        isPhoneMode:true
+      },
+      phone_flat:{
+        name:'📱 Flat (Chuẩn phẳng)',
+        bass:40,lowMid:40,mid:40,highMid:40,high:40,tol:5,
+        desc:'Âm thanh trung thực, không chỉnh màu. Nghe như bản gốc.',
+        tips:'Dùng để kiểm tra chất lượng bản mix hoặc tai nghe studio.',
+        phoneEQ:{preamp:0,b32:0,b64:0,b125:0,b250:0,b500:0,b1k:0,b2k:0,b4k:0,b8k:0,b16k:0},
+        isPhoneMode:true
+      },
+      phone_loudness:{
+        name:'📱 Loudness (To rõ)',
+        bass:50,lowMid:32,mid:45,highMid:55,high:52,tol:12,
+        desc:'Bù tần số khi nghe volume nhỏ. Theo đường cong Fletcher-Munson.',
+        tips:'Dùng khi nghe nhạc volume thấp (đêm khuya, nơi công cộng).',
+        phoneEQ:{preamp:-2,b32:5,b64:4,b125:2,b250:0,b500:-1,b1k:0,b2k:2,b4k:4,b8k:5,b16k:4},
+        isPhoneMode:true
+      },
+      phone_treble:{
+        name:'📱 Treble Boost (Sáng)',
+        bass:30,lowMid:30,mid:45,highMid:55,high:60,tol:10,
+        desc:'Tăng treble cho tai nghe bị tối, hoặc người lớn tuổi nghe rõ hơn.',
+        tips:'Giảm nếu nghe chói tai. Tốt cho classical, acoustic.',
+        phoneEQ:{preamp:-1,b32:0,b64:0,b125:0,b250:0,b500:0,b1k:1,b2k:3,b4k:5,b8k:6,b16k:5},
+        isPhoneMode:true
+      },
+      phone_night:{
+        name:'📱 Night Mode (Đêm)',
+        bass:35,lowMid:35,mid:48,highMid:45,high:35,tol:10,
+        desc:'Giảm bass và treble chói, nghe êm tai ban đêm.',
+        tips:'Bảo vệ tai khi nghe lâu. Giảm mệt mỏi.',
+        phoneEQ:{preamp:-2,b32:1,b64:2,b125:1,b250:0,b500:0,b1k:1,b2k:2,b4k:1,b8k:0,b16k:-1},
+        isPhoneMode:true
+      },
+      phone_small_speaker:{
+        name:'📱 Small Speaker (Loa nhỏ)',
+        bass:55,lowMid:40,mid:48,highMid:52,high:45,tol:15,
+        desc:'Bù bass cho loa điện thoại/laptop nhỏ không có sub.',
+        tips:'Dùng khi nghe bằng loa ngoài điện thoại, không dùng tai nghe.',
+        phoneEQ:{preamp:-2,b32:6,b64:5,b125:4,b250:2,b500:0,b1k:1,b2k:2,b4k:3,b8k:2,b16k:1},
+        isPhoneMode:true
       }
     };
     this.currentGenre=null;
@@ -963,6 +1484,68 @@ class App{
       else if(val>=35)el.style.color='var(--yellow)';
       else el.style.color='var(--green)';
     });
+    
+    // Show/hide Phone EQ panel
+    const phonePanel=document.getElementById('phoneEQPanel');
+    if(preset.phoneEQ){
+      phonePanel.style.display='block';
+      document.getElementById('phoneEQName').textContent=preset.name.replace(/📱\s*/,'');
+      this.updatePhoneEQVisual(preset.phoneEQ);
+    }else if(preset.isPhoneMode){
+      phonePanel.style.display='block';
+      document.getElementById('phoneEQName').textContent=preset.name.replace(/📱\s*/,'');
+      this.updatePhoneEQVisual(preset.phoneEQ);
+    }else{
+      // Also show phone EQ for music genres
+      if(preset.phoneEQ){
+        phonePanel.style.display='block';
+        document.getElementById('phoneEQName').textContent=preset.name;
+        this.updatePhoneEQVisual(preset.phoneEQ);
+      }else{
+        phonePanel.style.display='none';
+      }
+    }
+  }
+  
+  updatePhoneEQVisual(eq){
+    if(!eq)return;
+    
+    // Map dB value (-12 to +12) to position (0% to 100%)
+    const dbToPos=(db)=>{
+      // -12dB = 100% (bottom), 0dB = 50%, +12dB = 0% (top)
+      return 50 - (db / 12) * 50;
+    };
+    
+    // Update slider positions
+    const bands={
+      'preamp':eq.preamp||0,
+      '32':eq.b32||0,
+      '64':eq.b64||0,
+      '125':eq.b125||0,
+      '250':eq.b250||0,
+      '500':eq.b500||0,
+      '1k':eq.b1k||0,
+      '2k':eq.b2k||0,
+      '4k':eq.b4k||0,
+      '8k':eq.b8k||0,
+      '16k':eq.b16k||0
+    };
+    
+    Object.keys(bands).forEach(band=>{
+      const slider=document.getElementById('eq_'+band);
+      const valDisplay=document.getElementById('val_'+band);
+      if(slider){
+        const pos=dbToPos(bands[band]);
+        slider.style.top=pos+'%';
+        slider.style.transform='translateX(-50%) translateY(-50%)';
+      }
+      if(valDisplay){
+        const v=bands[band];
+        valDisplay.textContent=(v>0?'+':'')+v;
+        valDisplay.style.color=v>0?'#007aff':v<0?'#ff3b30':'#666';
+        valDisplay.style.fontWeight=v!==0?'700':'400';
+      }
+    });
   }
   updateTargets(){
     // Fallback to vocal mode if custom target doesn't exist
@@ -1029,7 +1612,268 @@ class App{
     const sols={bass:{high:{t:'🔴 Giảm núm LO - Loại bỏ tiếng ùng ục',s:[{k:'LO',a:'Vặn TRÁI từ từ',d:'Bắt đầu từ 12h, vặn dần về 9-10h. Nghe thấy tiếng bớt nặng là được.',tr:'1/4 vòng TRÁI (45°)'},{k:'HPF',a:'BẬT nút HPF (nếu có)',d:'High Pass Filter cắt tần số dưới 80Hz, giúp loại bỏ tiếng ù.',tr:'Nhấn nút xuống'}]},low:{t:'🟢 Tăng núm LO nhẹ - Thêm độ ấm',s:[{k:'LO',a:'Vặn PHẢI nhẹ',d:'Từ 12h về 1h. Cẩn thận đừng tăng quá nhiều sẽ bị ùng ục.',tr:'1/8 vòng PHẢI (22°)'}]}},lowMid:{high:{t:'🔴 Cắt vùng "bùn" 200-500Hz - RẤT QUAN TRỌNG!',s:[{k:'MID FREQ',a:'Vặn núm nhỏ về 400Hz',d:'Tìm vạch đánh dấu 400 hoặc 0.4k trên mixer. Đây là tần số gây đục nhất!',tr:'Tìm vị trí 400Hz'},{k:'MID',a:'Vặn TRÁI mạnh tay',d:'Từ 12h về 9-10h. Đây là bước quan trọng nhất để giọng/đàn rõ hơn.',tr:'1/4 đến 1/2 vòng TRÁI'}]},low:{t:'🟢 Low-Mid đang tốt',s:[{k:'MID',a:'Giữ nguyên vị trí',d:'Vùng này thường cần cắt. Nếu thiếu thì không cần tăng.',tr:'Không cần chỉnh'}]}},mid:{high:{t:'🟡 Giảm MID nhẹ - Bớt tiếng "hộp"',s:[{k:'MID FREQ',a:'Vặn về 1kHz',d:'Tìm vạch 1k hoặc 1000.',tr:'Tìm vị trí 1kHz'},{k:'MID',a:'Vặn TRÁI nhẹ',d:'Từ 12h về 11h. Chỉ giảm nhẹ thôi, đừng cắt quá nhiều.',tr:'1/8 vòng TRÁI (22°)'}]},low:{t:'🔴 Tăng MID - Giọng/đàn sẽ rõ hơn nhiều!',s:[{k:'MID FREQ',a:'Vặn về 1-2kHz',d:'Vùng 1-2kHz là thân tiếng của giọng hát và guitar.',tr:'Tìm vị trí 1-2kHz'},{k:'MID',a:'Vặn PHẢI',d:'Từ 12h về 1-2h. Giọng sẽ dày và rõ ràng hơn.',tr:'1/4 vòng PHẢI (45°)'}]}},highMid:{high:{t:'🟡 Giảm Hi-Mid - Bớt chói tai',s:[{k:'MID FREQ',a:'Vặn về 3-4kHz',d:'Tìm vạch 3k hoặc 4k.',tr:'Tìm vị trí 3-4kHz'},{k:'MID',a:'Vặn TRÁI nhẹ',d:'Từ 12h về 11h. Sẽ bớt chói và dễ nghe hơn.',tr:'1/8 vòng TRÁI (22°)'}]},low:{t:'🔴 Tăng Hi-Mid - Giọng cắt qua mix, nghe RÕ hơn!',s:[{k:'MID FREQ',a:'Vặn về 2.5-4kHz',d:'Đây là vùng "presence" - làm giọng nổi bật lên trên nhạc!',tr:'Tìm vị trí 2.5-4kHz'},{k:'MID',a:'Vặn PHẢI',d:'Từ 12h về 1-2h. Giọng sẽ cắt qua mix, nghe rõ từng chữ.',tr:'1/4 vòng PHẢI (45°)'}]}},high:{high:{t:'🟡 Giảm Treble - Bớt xèn xẹt',s:[{k:'HI',a:'Vặn TRÁI',d:'Từ 12h về 10-11h. Giảm độ chói, dễ nghe hơn.',tr:'1/8 vòng TRÁI (22°)'}]},low:{t:'🟢 Tăng Treble - Thêm độ sáng, sparkle',s:[{k:'HI',a:'Vặn PHẢI',d:'Từ 12h về 1-2h. Thêm "air" và độ sáng cho giọng/đàn.',tr:'1/4 vòng PHẢI (45°)'}]}}};
     let sc=0;
     Object.keys(this.bands).forEach(k=>{const avg=this.bands[k].avg,d=avg-t[k],bs=Math.max(0,100-Math.abs(d)*2.5);sc+=bs;if(Math.abs(d)>tol){const hi=d>0,sev=Math.abs(d)>tol*1.8?'crit':'warn',sol=sols[k][hi?'high':'low'];probs.push({k,n:bn[k],sev,hi,d:Math.round(d),avg:Math.round(avg),t:t[k],sol});}});
-    sc=Math.round(sc/5);this.showScore(sc);this.showProbs(probs);this.updateMixer(eqV,eqG);this.genSteps(probs);document.getElementById('results').classList.add('show');
+    sc=Math.round(sc/5);this.showScore(sc);this.showProbs(probs);this.updateMixer(eqV,eqG);this.genSteps(probs);this.genFullMixerRec(sc,eqV,probs);this.genPhoneEQRec();document.getElementById('results').classList.add('show');
+  }
+  
+  genPhoneEQRec(){
+    const t=this.targets[this.mode]||this.targets.vocal;
+    const b=this.bands;
+    
+    // Calculate EQ adjustments based on analysis vs target
+    // Convert band differences to 10-band EQ (-12 to +12 dB)
+    const diff={
+      bass:(t.bass-b.bass.avg)/8,      // 32Hz, 64Hz
+      lowMid:(t.lowMid-b.lowMid.avg)/8, // 125Hz, 250Hz, 500Hz
+      mid:(t.mid-b.mid.avg)/8,          // 1kHz, 2kHz
+      highMid:(t.highMid-b.highMid.avg)/8, // 4kHz
+      high:(t.high-b.high.avg)/8        // 8kHz, 16kHz
+    };
+    
+    // Clamp to -12 to +12
+    const clamp=(v)=>Math.max(-12,Math.min(12,Math.round(v)));
+    
+    // Generate 10-band EQ values
+    const phoneEQ={
+      b32:clamp(diff.bass*1.2),
+      b64:clamp(diff.bass),
+      b125:clamp(diff.bass*0.5+diff.lowMid*0.5),
+      b250:clamp(diff.lowMid),
+      b500:clamp(diff.lowMid*0.7+diff.mid*0.3),
+      b1k:clamp(diff.mid),
+      b2k:clamp(diff.mid*0.6+diff.highMid*0.4),
+      b4k:clamp(diff.highMid),
+      b8k:clamp(diff.highMid*0.4+diff.high*0.6),
+      b16k:clamp(diff.high)
+    };
+    
+    // Update visual sliders
+    const dbToPos=(db)=>50-(db/12)*50; // -12=100%, 0=50%, +12=0%
+    
+    const bands=['32','64','125','250','500','1k','2k','4k','8k','16k'];
+    const values=[phoneEQ.b32,phoneEQ.b64,phoneEQ.b125,phoneEQ.b250,phoneEQ.b500,phoneEQ.b1k,phoneEQ.b2k,phoneEQ.b4k,phoneEQ.b8k,phoneEQ.b16k];
+    
+    bands.forEach((band,i)=>{
+      const slider=document.getElementById('req_'+band);
+      const valDisplay=document.getElementById('rval_'+band);
+      if(slider){
+        const pos=dbToPos(values[i]);
+        slider.style.top=pos+'%';
+        slider.style.transform='translateX(-50%) translateY(-50%)';
+        // Color based on value
+        if(values[i]>3)slider.style.background='#ff3b30';
+        else if(values[i]<-3)slider.style.background='#007aff';
+        else slider.style.background='#4cd964';
+      }
+      if(valDisplay){
+        const v=values[i];
+        valDisplay.textContent=(v>0?'+':'')+v;
+        valDisplay.style.color=v>0?'#ff3b30':v<0?'#007aff':'#4cd964';
+      }
+    });
+    
+    // Find best matching preset
+    let bestPreset=null;
+    let bestScore=Infinity;
+    const phonePresets=['phone_bass','phone_vocal','phone_flat','phone_loudness','phone_treble','phone_night','phone_small_speaker'];
+    
+    phonePresets.forEach(key=>{
+      const preset=this.genrePresets[key];
+      if(preset&&preset.phoneEQ){
+        const peq=preset.phoneEQ;
+        const score=Math.abs(peq.b32-phoneEQ.b32)+Math.abs(peq.b64-phoneEQ.b64)+
+                    Math.abs(peq.b125-phoneEQ.b125)+Math.abs(peq.b250-phoneEQ.b250)+
+                    Math.abs(peq.b500-phoneEQ.b500)+Math.abs(peq.b1k-phoneEQ.b1k)+
+                    Math.abs(peq.b2k-phoneEQ.b2k)+Math.abs(peq.b4k-phoneEQ.b4k)+
+                    Math.abs(peq.b8k-phoneEQ.b8k)+Math.abs(peq.b16k-phoneEQ.b16k);
+        if(score<bestScore){
+          bestScore=score;
+          bestPreset=preset;
+        }
+      }
+    });
+    
+    // Also check genre presets
+    if(this.currentGenre&&this.genrePresets[this.currentGenre]){
+      const genrePreset=this.genrePresets[this.currentGenre];
+      if(genrePreset.phoneEQ){
+        document.getElementById('resultEQName').textContent=genrePreset.name+' (theo thể loại)';
+      }
+    }else{
+      document.getElementById('resultEQName').textContent='Custom EQ (theo phân tích)';
+    }
+    
+    // Show suggested preset
+    if(bestPreset){
+      document.getElementById('suggestedPresetName').textContent=bestPreset.name;
+      document.getElementById('suggestedPresetDesc').textContent=bestPreset.desc;
+    }else{
+      document.getElementById('suggestedPresetName').textContent='Custom';
+      document.getElementById('suggestedPresetDesc').textContent='Dùng giá trị EQ ở trên để chỉnh thủ công';
+    }
+    
+    // Determine overall recommendation
+    const avgBass=(phoneEQ.b32+phoneEQ.b64)/2;
+    const avgMid=(phoneEQ.b1k+phoneEQ.b2k+phoneEQ.b4k)/3;
+    const avgHigh=(phoneEQ.b8k+phoneEQ.b16k)/2;
+    
+    let recommendation='';
+    if(avgBass>4)recommendation='🔊 Bass Boost';
+    else if(avgMid>4)recommendation='🎤 Vocal Clear';
+    else if(avgHigh>4)recommendation='✨ Treble Boost';
+    else if(avgBass<-4&&avgHigh<-4)recommendation='🌙 Night Mode';
+    else recommendation='📐 Balanced';
+    
+    document.getElementById('resultEQName').textContent=recommendation+' (tự động)';
+  }
+  
+  genFullMixerRec(score,eqV,probs){
+    const t=this.targets[this.mode]||this.targets.vocal;
+    const genre=this.currentGenre;
+    const genrePreset=genre?this.genrePresets[genre]:null;
+    
+    // Calculate recommendations for all 8 knobs
+    const avgLevel=(this.bands.bass.avg+this.bands.lowMid.avg+this.bands.mid.avg+this.bands.highMid.avg+this.bands.high.avg)/5;
+    
+    // 1. GAIN recommendation based on average level
+    let gainRec={status:'ok',pos:'12h',action:'Giữ nguyên',detail:'Mức tín hiệu tốt',color:'var(--green)'};
+    if(avgLevel<20){gainRec={status:'low',pos:'1-2h',action:'Tăng GAIN',detail:'Tín hiệu yếu - Vặn PHẢI thêm 1/4 vòng',color:'var(--yellow)'};}
+    else if(avgLevel>70){gainRec={status:'high',pos:'10-11h',action:'Giảm GAIN',detail:'Tín hiệu quá mạnh - Vặn TRÁI 1/4 vòng',color:'var(--red)'};}
+    
+    // 2. HPF recommendation
+    let hpfRec={status:'on',action:'BẬT (nhấn xuống)',detail:'Cắt tiếng ù, gió dưới 80Hz',color:'var(--green)'};
+    if(this.mode==='guitar'&&this.bands.bass.avg<t.bass){hpfRec={status:'off',action:'TẮT (nhả lên)',detail:'Guitar cần bass, không cần cắt',color:'var(--yellow)'};}
+    
+    // 3. HI (Treble) recommendation
+    const hiDiff=t.high-this.bands.high.avg;
+    let hiRec={status:'ok',pos:'12h',action:'Giữ nguyên',detail:'Treble cân bằng',color:'var(--green)',rot:0};
+    if(hiDiff>10){hiRec={status:'low',pos:'1-2h',action:'Tăng HI',detail:`Thiếu ${Math.round(hiDiff)}% - Vặn PHẢI`,color:'var(--accent)',rot:45};}
+    else if(hiDiff<-10){hiRec={status:'high',pos:'10-11h',action:'Giảm HI',detail:`Thừa ${Math.round(-hiDiff)}% - Vặn TRÁI`,color:'var(--red)',rot:-45};}
+    
+    // 4. MID recommendation
+    const midDiff=t.mid-this.bands.mid.avg;
+    const hiMidDiff=t.highMid-this.bands.highMid.avg;
+    let midRec={status:'ok',pos:'12h',action:'Giữ nguyên',detail:'Mid cân bằng',color:'var(--green)',rot:0};
+    if(midDiff>10||hiMidDiff>10){midRec={status:'low',pos:'1-2h',action:'Tăng MID',detail:`Thiếu presence - Vặn PHẢI`,color:'var(--accent)',rot:50};}
+    else if(midDiff<-10||hiMidDiff<-10){midRec={status:'high',pos:'10-11h',action:'Giảm MID',detail:`Chói/đục - Vặn TRÁI`,color:'var(--red)',rot:-50};}
+    
+    // 5. MID FREQ recommendation
+    const lowMidHigh=this.bands.lowMid.avg>t.lowMid+10;
+    const hiMidHigh=this.bands.highMid.avg>t.highMid+10;
+    let midFreqRec={pos:'2.5kHz',action:'Để ở 2.5kHz',detail:'Tăng presence cho giọng',color:'var(--purple)'};
+    if(lowMidHigh){midFreqRec={pos:'400Hz',action:'Vặn về 400Hz',detail:'CẮT vùng bùn đục!',color:'var(--red)'};}
+    else if(hiMidHigh){midFreqRec={pos:'3-4kHz',action:'Vặn về 3-4kHz',detail:'Giảm chói tai',color:'var(--yellow)'};}
+    
+    // 6. LO (Bass) recommendation
+    const loDiff=t.bass-this.bands.bass.avg;
+    let loRec={status:'ok',pos:'12h',action:'Giữ nguyên',detail:'Bass cân bằng',color:'var(--green)',rot:0};
+    if(loDiff>10){loRec={status:'low',pos:'1h',action:'Tăng LO nhẹ',detail:`Thiếu ấm - Vặn PHẢI 1/8 vòng`,color:'var(--accent)',rot:25};}
+    else if(loDiff<-10){loRec={status:'high',pos:'9-10h',action:'Giảm LO',detail:`Ùng ục - Vặn TRÁI 1/4 vòng`,color:'var(--red)',rot:-60};}
+    
+    // 7. FX recommendation based on genre and score
+    let fxRec={pos:'10-11h',pct:'25%',action:'FX vừa phải',detail:'Reverb plate cho vocal',color:'var(--purple)'};
+    if(genrePreset){
+      if(['bolero','livecafe','church'].includes(genre)){fxRec={pos:'11-12h',pct:'30-40%',action:'FX nhiều hơn',detail:genrePreset.name+' cần reverb dài',color:'var(--purple)'};}
+      else if(['hiphop','edm','rock'].includes(genre)){fxRec={pos:'9-10h',pct:'15-20%',action:'FX ít',detail:genrePreset.name+' cần giọng khô, rõ',color:'var(--yellow)'};}
+    }
+    if(score<60){fxRec.detail+=' (⚠️ Chỉnh EQ trước, FX sau!)';}
+    
+    // 8. AUX (Monitor) recommendation
+    let auxRec={pos:'12-1h',pct:'50-60%',action:'Monitor vừa',detail:'Ca sĩ nghe rõ giọng mình',color:'var(--green)'};
+    
+    // 9. PAN recommendation
+    let panRec={pos:'12h (Giữa)',action:'Để giữa',detail:'Vocal luôn ở center',color:'var(--text2)'};
+    
+    // 10. FADER recommendation
+    let faderRec={pos:'0dB (Unity)',action:'Để ở vạch 0',detail:'Mức chuẩn, điều chỉnh bằng Master',color:'var(--green)'};
+    if(avgLevel<25){faderRec={pos:'+3 đến +5dB',action:'Đẩy lên trên 0',detail:'Bù cho tín hiệu yếu',color:'var(--yellow)'};}
+    
+    // Generate HTML
+    const html=`
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px">
+        <!-- Row 1: GAIN, HPF, HI, MID -->
+        <div style="background:${gainRec.color}22;border:1px solid ${gainRec.color};border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:1.2rem">🎚️</div>
+          <div style="font-size:0.7rem;font-weight:700;color:${gainRec.color}">GAIN</div>
+          <div style="font-size:0.6rem;color:var(--text2)">${gainRec.pos}</div>
+          <div style="font-size:0.55rem;margin-top:4px">${gainRec.action}</div>
+        </div>
+        <div style="background:${hpfRec.color}22;border:1px solid ${hpfRec.color};border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:1.2rem">🔘</div>
+          <div style="font-size:0.7rem;font-weight:700;color:${hpfRec.color}">HPF</div>
+          <div style="font-size:0.6rem;color:var(--text2)">${hpfRec.status==='on'?'BẬT ✓':'TẮT'}</div>
+          <div style="font-size:0.55rem;margin-top:4px">${hpfRec.action}</div>
+        </div>
+        <div style="background:${hiRec.color}22;border:1px solid ${hiRec.color};border-radius:8px;padding:8px;text-align:center">
+          <div style="width:28px;height:28px;background:linear-gradient(145deg,#3a3a4a,#28283a);border-radius:50%;margin:0 auto 4px;position:relative">
+            <div style="position:absolute;width:2px;height:10px;background:${hiRec.color};border-radius:2px;top:4px;left:50%;transform-origin:bottom center;transform:translateX(-50%) rotate(${hiRec.rot}deg)"></div>
+          </div>
+          <div style="font-size:0.7rem;font-weight:700;color:${hiRec.color}">HI</div>
+          <div style="font-size:0.6rem;color:var(--text2)">${hiRec.pos}</div>
+          <div style="font-size:0.55rem;margin-top:4px">${hiRec.action}</div>
+        </div>
+        <div style="background:${midRec.color}22;border:1px solid ${midRec.color};border-radius:8px;padding:8px;text-align:center">
+          <div style="width:28px;height:28px;background:linear-gradient(145deg,#3a3a4a,#28283a);border-radius:50%;margin:0 auto 4px;position:relative">
+            <div style="position:absolute;width:2px;height:10px;background:${midRec.color};border-radius:2px;top:4px;left:50%;transform-origin:bottom center;transform:translateX(-50%) rotate(${midRec.rot}deg)"></div>
+          </div>
+          <div style="font-size:0.7rem;font-weight:700;color:${midRec.color}">MID</div>
+          <div style="font-size:0.6rem;color:var(--text2)">${midRec.pos}</div>
+          <div style="font-size:0.55rem;margin-top:4px">${midRec.action}</div>
+        </div>
+      </div>
+      
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px">
+        <!-- Row 2: MID FREQ, LO, FX, AUX -->
+        <div style="background:${midFreqRec.color}22;border:1px solid ${midFreqRec.color};border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:1.2rem">🎛️</div>
+          <div style="font-size:0.7rem;font-weight:700;color:${midFreqRec.color}">MID FREQ</div>
+          <div style="font-size:0.6rem;color:var(--text2)">${midFreqRec.pos}</div>
+          <div style="font-size:0.55rem;margin-top:4px">${midFreqRec.action}</div>
+        </div>
+        <div style="background:${loRec.color}22;border:1px solid ${loRec.color};border-radius:8px;padding:8px;text-align:center">
+          <div style="width:28px;height:28px;background:linear-gradient(145deg,#3a3a4a,#28283a);border-radius:50%;margin:0 auto 4px;position:relative">
+            <div style="position:absolute;width:2px;height:10px;background:${loRec.color};border-radius:2px;top:4px;left:50%;transform-origin:bottom center;transform:translateX(-50%) rotate(${loRec.rot}deg)"></div>
+          </div>
+          <div style="font-size:0.7rem;font-weight:700;color:${loRec.color}">LO</div>
+          <div style="font-size:0.6rem;color:var(--text2)">${loRec.pos}</div>
+          <div style="font-size:0.55rem;margin-top:4px">${loRec.action}</div>
+        </div>
+        <div style="background:${fxRec.color}22;border:1px solid ${fxRec.color};border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:1.2rem">🌊</div>
+          <div style="font-size:0.7rem;font-weight:700;color:${fxRec.color}">FX</div>
+          <div style="font-size:0.6rem;color:var(--text2)">${fxRec.pos} (${fxRec.pct})</div>
+          <div style="font-size:0.55rem;margin-top:4px">${fxRec.action}</div>
+        </div>
+        <div style="background:${auxRec.color}22;border:1px solid ${auxRec.color};border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:1.2rem">🎧</div>
+          <div style="font-size:0.7rem;font-weight:700;color:${auxRec.color}">AUX</div>
+          <div style="font-size:0.6rem;color:var(--text2)">${auxRec.pos}</div>
+          <div style="font-size:0.55rem;margin-top:4px">${auxRec.action}</div>
+        </div>
+      </div>
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <!-- Row 3: PAN, FADER -->
+        <div style="background:${panRec.color}22;border:1px solid ${panRec.color};border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:1.2rem">↔️</div>
+          <div style="font-size:0.7rem;font-weight:700;color:${panRec.color}">PAN</div>
+          <div style="font-size:0.6rem;color:var(--text2)">${panRec.pos}</div>
+          <div style="font-size:0.55rem;margin-top:4px">${panRec.detail}</div>
+        </div>
+        <div style="background:${faderRec.color}22;border:1px solid ${faderRec.color};border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:1.2rem">📊</div>
+          <div style="font-size:0.7rem;font-weight:700;color:${faderRec.color}">FADER</div>
+          <div style="font-size:0.6rem;color:var(--text2)">${faderRec.pos}</div>
+          <div style="font-size:0.55rem;margin-top:4px">${faderRec.action}</div>
+        </div>
+      </div>
+      
+      ${genrePreset?`<div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:8px;border-left:3px solid var(--purple)">
+        <div style="font-size:0.75rem;font-weight:700;color:var(--purple);margin-bottom:4px">💡 Mẹo cho ${genrePreset.name}:</div>
+        <div style="font-size:0.7rem;color:var(--text2)">${genrePreset.tips}</div>
+      </div>`:''}
+    `;
+    
+    document.getElementById('fullMixerRec').innerHTML=html;
   }
   showScore(sc){
     const ring=document.getElementById('scoreRing'),num=document.getElementById('scoreNum'),msg=document.getElementById('scoreMsg'),hint=document.getElementById('scoreHint');
