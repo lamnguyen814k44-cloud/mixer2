@@ -172,9 +172,10 @@
   
   <nav class="nav">
     <button class="nav-btn active" data-s="analyze"><span>📊</span><span>Phân Tích</span></button>
+    <button class="nav-btn" data-s="headphone"><span>🎧</span><span>Tai Nghe</span></button>
     <button class="nav-btn" data-s="compare"><span>⚖️</span><span>So Sánh</span></button>
     <button class="nav-btn" data-s="feedback"><span>🔊</span><span>Feedback</span></button>
-    <button class="nav-btn" data-s="guide"><span>🎛️</span><span>Hướng Dẫn</span></button>
+    <button class="nav-btn" data-s="guide"><span>🎛️</span><span>Mixer</span></button>
     <button class="nav-btn" data-s="history"><span>📋</span><span>Lịch Sử</span></button>
   </nav>
   
@@ -190,6 +191,22 @@
       </div>
       <select id="genreSelect" style="width:100%;padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.85rem;cursor:pointer">
         <option value="">-- Chọn thể loại --</option>
+        <optgroup label="🎬 CINEMA / DOLBY - Xem phim">
+          <option value="cinema_standard">🎬 Cinema Standard (Rạp chuẩn)</option>
+          <option value="dolby_atmos">🔊 Dolby Atmos (Không gian 3D)</option>
+          <option value="dolby_atmos_music">🎵 Dolby Atmos Music</option>
+          <option value="cinema_imax">🎦 IMAX Experience</option>
+          <option value="dts_x">🔉 DTS:X / DTS HD</option>
+          <option value="surround_virtual">🎧 Virtual Surround 7.1</option>
+        </optgroup>
+        <optgroup label="🎥 THỂ LOẠI PHIM">
+          <option value="cinema_action">💥 Action (Hành động)</option>
+          <option value="cinema_horror">👻 Horror (Kinh dị)</option>
+          <option value="cinema_scifi">🚀 Sci-Fi / Fantasy</option>
+          <option value="cinema_romance">💕 Romance / Drama</option>
+          <option value="cinema_dialog">🗣️ Dialog Focus (Thoại rõ)</option>
+          <option value="cinema_late_night">🌙 Late Night (Đêm khuya)</option>
+        </optgroup>
         <optgroup label="📱 PHONE EQ - Nghe nhạc trên ĐT">
           <option value="phone_bass">🔊 Bass Boost (Tai nghe)</option>
           <option value="phone_vocal">🎤 Vocal Clear (Giọng rõ)</option>
@@ -582,154 +599,83 @@
           </div>
         </div>
         
-        <!-- EQ BAND EXPLANATION -->
-        <div style="margin-top:12px;background:var(--card);border-radius:10px;overflow:hidden">
-          <div style="background:var(--purple);color:#fff;padding:8px 12px;font-size:0.75rem;font-weight:700">
-            📚 Ý nghĩa từng band EQ - Học để chỉnh tốt hơn!
-          </div>
-          
-          <!-- Sub Bass -->
-          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-              <span style="background:#ff3b30;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">32Hz</span>
-              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Sub Bass - Siêu trầm</span>
-            </div>
-            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
-              🔊 <b>Âm thanh:</b> Rung, ù ù như động đất, không nghe rõ bằng tai thường<br>
-              🎵 <b>Nhạc cụ:</b> Sub bass 808, kick EDM, organ nhà thờ<br>
-              ⬆️ <b>Tăng:</b> Cảm giác rung mạnh, "nặng đô" | ⬇️ <b>Giảm:</b> Bớt ù, rõ ràng hơn<br>
-              💡 <b>Mẹo:</b> Tai nghe thường không tái tạo được. Chỉ tăng nếu có loa sub hoặc tai nghe bass tốt.
-            </div>
-          </div>
-          
-          <!-- Bass -->
-          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-              <span style="background:#ff9500;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">64Hz</span>
-              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Bass - Trầm</span>
-            </div>
-            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
-              🔊 <b>Âm thanh:</b> Tiếng trầm "bùm bùm", nền tảng của bài nhạc<br>
-              🎵 <b>Nhạc cụ:</b> Bass guitar, kick drum, synth bass<br>
-              ⬆️ <b>Tăng:</b> Dày, ấm, có lực | ⬇️ <b>Giảm:</b> Mỏng, nhẹ, rõ hơn<br>
-              💡 <b>Mẹo:</b> Hip-hop, EDM cần nhiều. Podcast, classical cần ít.
-            </div>
-          </div>
-          
-          <!-- Low Mid -->
-          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-              <span style="background:#ffcc00;color:#000;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">125-250Hz</span>
-              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Low-Mid - Vùng "bùn"</span>
-            </div>
-            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
-              🔊 <b>Âm thanh:</b> Độ dày, ấm của giọng. Nhưng dễ bị ĐỤC nếu quá nhiều!<br>
-              🎵 <b>Nhạc cụ:</b> Thân giọng nam, guitar acoustic, snare drum<br>
-              ⬆️ <b>Tăng:</b> Dày, ấm (dễ bị đục) | ⬇️ <b>Giảm:</b> Rõ ràng, sạch sẽ<br>
-              💡 <b>Mẹo:</b> <span style="color:var(--red);font-weight:700">THƯỜNG NÊN GIẢM!</span> Đây là vùng hay gây đục nhất.
-            </div>
-          </div>
-          
-          <!-- Mid -->
-          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-              <span style="background:#34c759;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">500Hz-1kHz</span>
-              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Mid - Trung tâm</span>
-            </div>
-            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
-              🔊 <b>Âm thanh:</b> Phần chính của giọng hát, nghe rõ nhất<br>
-              🎵 <b>Nhạc cụ:</b> Giọng hát, guitar, piano, hầu hết nhạc cụ<br>
-              ⬆️ <b>Tăng:</b> Giọng to, rõ (dễ chói) | ⬇️ <b>Giảm:</b> Giọng lùi, nhạc nổi<br>
-              💡 <b>Mẹo:</b> Karaoke nên tăng. Nếu nghe "bị hộp" thì giảm 500Hz.
-            </div>
-          </div>
-          
-          <!-- Upper Mid -->
-          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-              <span style="background:#007aff;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">2kHz-4kHz</span>
-              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Presence - Độ hiện diện ⭐</span>
-            </div>
-            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
-              🔊 <b>Âm thanh:</b> Độ RÕ của giọng, nghe từng chữ. <b>QUAN TRỌNG NHẤT!</b><br>
-              🎵 <b>Nhạc cụ:</b> Phụ âm giọng hát (s, t, k), attack guitar, hi-hat<br>
-              ⬆️ <b>Tăng:</b> Giọng cắt qua mix, rõ từng chữ | ⬇️ <b>Giảm:</b> Bớt chói, êm tai<br>
-              💡 <b>Mẹo:</b> <span style="color:var(--green);font-weight:700">TĂNG để nghe rõ giọng!</span> Nhưng tăng quá sẽ chói tai.
-            </div>
-          </div>
-          
-          <!-- Treble -->
-          <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-              <span style="background:#5856d6;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">8kHz</span>
-              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Treble - Cao</span>
-            </div>
-            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
-              🔊 <b>Âm thanh:</b> Độ sáng, lấp lánh, "xì xì" của âm thanh<br>
-              🎵 <b>Nhạc cụ:</b> Cymbal, hi-hat, hơi thở, tiếng "s" trong giọng<br>
-              ⬆️ <b>Tăng:</b> Sáng, chi tiết, lấp lánh | ⬇️ <b>Giảm:</b> Tối, êm, bớt xèn<br>
-              💡 <b>Mẹo:</b> Người lớn tuổi có thể tăng vì tai kém nhạy treble.
-            </div>
-          </div>
-          
-          <!-- Air -->
-          <div style="padding:10px 12px">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-              <span style="background:#af52de;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700">16kHz</span>
-              <span style="font-size:0.75rem;font-weight:700;color:var(--text)">Air - Siêu cao</span>
-            </div>
-            <div style="font-size:0.65rem;color:var(--text2);line-height:1.5">
-              🔊 <b>Âm thanh:</b> "Không khí", cảm giác mở rộng, thoáng đãng<br>
-              🎵 <b>Nhạc cụ:</b> Overtone của cymbal, breath, room ambience<br>
-              ⬆️ <b>Tăng:</b> Thoáng, mở, hi-fi | ⬇️ <b>Giảm:</b> Tối, ấm, vintage<br>
-              💡 <b>Mẹo:</b> Nhiều người không nghe được 16kHz. Tai nghe rẻ thường không tái tạo được.
-            </div>
+        <!-- Quick Reference Card - Compact -->
+        <div style="margin-top:12px;background:var(--card2);border-radius:10px;padding:12px">
+          <div style="font-size:0.75rem;font-weight:700;color:var(--accent);margin-bottom:8px">🎯 Công thức nhanh:</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:0.6rem">
+            <div style="background:var(--bg);padding:6px;border-radius:6px">🎤 <b>Rõ giọng:</b> ↓250Hz ↑2-4kHz</div>
+            <div style="background:var(--bg);padding:6px;border-radius:6px">🔊 <b>Bass:</b> ↑64Hz ↓250Hz</div>
+            <div style="background:var(--bg);padding:6px;border-radius:6px">✨ <b>Sáng:</b> ↑4-8kHz ↑16kHz</div>
+            <div style="background:var(--bg);padding:6px;border-radius:6px">🌙 <b>Êm:</b> ↓64Hz ↓8kHz</div>
           </div>
         </div>
         
-        <!-- Quick Reference Card -->
-        <div style="margin-top:12px;background:linear-gradient(135deg,var(--accent)22,var(--purple)22);border:1px solid var(--accent);border-radius:10px;padding:12px">
-          <div style="font-size:0.75rem;font-weight:700;color:var(--accent);margin-bottom:8px">🎯 Công thức nhanh theo mục đích:</div>
-          <div style="display:grid;gap:6px;font-size:0.65rem">
-            <div style="display:flex;align-items:center;gap:8px;background:var(--card);padding:8px;border-radius:6px">
-              <span style="font-size:1rem">🎤</span>
-              <div>
-                <div style="font-weight:700;color:var(--text)">Nghe rõ giọng hát</div>
-                <div style="color:var(--text2)">↓250Hz | ↑2-4kHz | Giảm bùn, tăng presence</div>
+        <!-- EQ GUIDE - Collapsible -->
+        <details style="margin-top:12px">
+          <summary style="background:var(--purple);color:#fff;padding:10px 12px;border-radius:8px;font-size:0.75rem;font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px">
+            <span>📚</span> Xem giải thích chi tiết từng band EQ <span style="margin-left:auto;font-size:0.6rem">▼</span>
+          </summary>
+          <div style="background:var(--card);border-radius:0 0 8px 8px;border:1px solid var(--purple);border-top:none">
+            <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+                <span style="background:#ff3b30;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.55rem;font-weight:700">32Hz</span>
+                <span style="font-size:0.7rem;font-weight:700">Sub Bass</span>
               </div>
+              <div style="font-size:0.6rem;color:var(--text2)">Siêu trầm, rung. Chỉ tăng nếu có loa sub/tai nghe bass tốt.</div>
             </div>
-            <div style="display:flex;align-items:center;gap:8px;background:var(--card);padding:8px;border-radius:6px">
-              <span style="font-size:1rem">🔊</span>
-              <div>
-                <div style="font-weight:700;color:var(--text)">Thêm bass mạnh</div>
-                <div style="color:var(--text2)">↑32-64Hz | ↓250Hz | Tăng sub, cắt bùn</div>
+            <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+                <span style="background:#ff9500;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.55rem;font-weight:700">64Hz</span>
+                <span style="font-size:0.7rem;font-weight:700">Bass</span>
               </div>
+              <div style="font-size:0.6rem;color:var(--text2)">Trầm "bùm bùm". Hip-hop, EDM cần nhiều.</div>
             </div>
-            <div style="display:flex;align-items:center;gap:8px;background:var(--card);padding:8px;border-radius:6px">
-              <span style="font-size:1rem">✨</span>
-              <div>
-                <div style="font-weight:700;color:var(--text)">Sáng và chi tiết</div>
-                <div style="color:var(--text2)">↑4-8kHz | ↑16kHz | Tăng treble và air</div>
+            <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+                <span style="background:#ffcc00;color:#000;padding:2px 6px;border-radius:4px;font-size:0.55rem;font-weight:700">125-250Hz</span>
+                <span style="font-size:0.7rem;font-weight:700;color:var(--red)">⚠️ Vùng "bùn"</span>
               </div>
+              <div style="font-size:0.6rem;color:var(--text2)"><b style="color:var(--red)">THƯỜNG NÊN GIẢM!</b> Gây đục giọng nhất.</div>
             </div>
-            <div style="display:flex;align-items:center;gap:8px;background:var(--card);padding:8px;border-radius:6px">
-              <span style="font-size:1rem">🌙</span>
-              <div>
-                <div style="font-weight:700;color:var(--text)">Êm tai ban đêm</div>
-                <div style="color:var(--text2)">↓32-64Hz | ↓8-16kHz | Giảm bass và treble</div>
+            <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+                <span style="background:#34c759;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.55rem;font-weight:700">500Hz-1kHz</span>
+                <span style="font-size:0.7rem;font-weight:700">Mid</span>
               </div>
+              <div style="font-size:0.6rem;color:var(--text2)">Phần chính giọng hát. Karaoke nên tăng.</div>
+            </div>
+            <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+                <span style="background:#007aff;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.55rem;font-weight:700">2-4kHz</span>
+                <span style="font-size:0.7rem;font-weight:700;color:var(--green)">⭐ Presence</span>
+              </div>
+              <div style="font-size:0.6rem;color:var(--text2)"><b style="color:var(--green)">QUAN TRỌNG NHẤT!</b> Tăng để nghe rõ từng chữ.</div>
+            </div>
+            <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+                <span style="background:#5856d6;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.55rem;font-weight:700">8kHz</span>
+                <span style="font-size:0.7rem;font-weight:700">Treble</span>
+              </div>
+              <div style="font-size:0.6rem;color:var(--text2)">Sáng, lấp lánh. Người lớn tuổi có thể tăng.</div>
+            </div>
+            <div style="padding:10px 12px">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+                <span style="background:#af52de;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.55rem;font-weight:700">16kHz</span>
+                <span style="font-size:0.7rem;font-weight:700">Air</span>
+              </div>
+              <div style="font-size:0.6rem;color:var(--text2)">Siêu cao, thoáng. Tai nghe rẻ không tái tạo được.</div>
             </div>
           </div>
-        </div>
+        </details>
         
         <!-- Quick tips -->
         <div style="margin-top:12px;padding:10px;background:var(--card2);border-radius:8px">
-          <div style="font-size:0.7rem;font-weight:700;color:var(--purple);margin-bottom:6px">📋 Cách chỉnh EQ trên điện thoại:</div>
-          <div style="font-size:0.65rem;color:var(--text2);line-height:1.6">
-            <b>🍎 iPhone:</b> Settings → Music → EQ<br>
-            <b>🤖 Android:</b> Settings → Sound → Equalizer<br>
-            <b>🎵 Spotify:</b> Settings → Playback → Equalizer<br>
-            <b>▶️ YouTube Music:</b> Settings → Equalizer
+          <div style="font-size:0.7rem;font-weight:700;color:var(--purple);margin-bottom:6px">📋 Chỉnh EQ trên điện thoại:</div>
+          <div style="font-size:0.6rem;color:var(--text2);line-height:1.5">
+            🍎 <b>iPhone:</b> Settings → Music → EQ | 
+            🤖 <b>Android:</b> Settings → Sound → EQ<br>
+            🎵 <b>Spotify:</b> Settings → Playback → EQ | 
+            ▶️ <b>YouTube:</b> Settings → EQ
           </div>
         </div>
         
@@ -791,6 +737,318 @@
     </div>
   </section>
   
+  <!-- HEADPHONE MODE SECTION -->
+  <section class="section" id="s-headphone">
+    <div class="card" style="border:2px solid var(--purple);background:linear-gradient(135deg,rgba(168,85,247,0.1),transparent)">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--purple)">🎧</div>
+        <div>
+          <div class="card-title">Chế Độ Tai Nghe</div>
+          <div class="card-sub">Tự đánh giá → Nhận đề xuất EQ</div>
+        </div>
+      </div>
+      
+      <div style="background:var(--card2);border-radius:10px;padding:12px;margin-bottom:16px">
+        <div style="font-size:0.75rem;color:var(--text2);line-height:1.6">
+          <b>💡 Cách hoạt động:</b><br>
+          Khi đeo tai nghe, mic không thu được âm. Thay vào đó, bạn <b>tự đánh giá</b> âm thanh đang nghe, 
+          app sẽ phân tích và đề xuất cách chỉnh EQ phù hợp.
+        </div>
+      </div>
+      
+      <!-- Step 1: Choose what you're listening to -->
+      <div style="background:var(--card2);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <div style="width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#000;font-size:0.8rem">1</div>
+          <div style="font-size:0.85rem;font-weight:700">Bạn đang nghe gì?</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+          <button class="hp-type-btn" data-type="music" onclick="app.setHPType('music')" style="padding:12px 8px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:4px">🎵</div>
+            <div style="font-size:0.7rem;color:var(--text)">Nhạc</div>
+          </button>
+          <button class="hp-type-btn" data-type="podcast" onclick="app.setHPType('podcast')" style="padding:12px 8px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:4px">🎙️</div>
+            <div style="font-size:0.7rem;color:var(--text)">Podcast</div>
+          </button>
+          <button class="hp-type-btn" data-type="movie" onclick="app.setHPType('movie')" style="padding:12px 8px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:4px">🎬</div>
+            <div style="font-size:0.7rem;color:var(--text)">Phim</div>
+          </button>
+          <button class="hp-type-btn" data-type="game" onclick="app.setHPType('game')" style="padding:12px 8px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:4px">🎮</div>
+            <div style="font-size:0.7rem;color:var(--text)">Game</div>
+          </button>
+          <button class="hp-type-btn" data-type="call" onclick="app.setHPType('call')" style="padding:12px 8px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:4px">📞</div>
+            <div style="font-size:0.7rem;color:var(--text)">Gọi điện</div>
+          </button>
+          <button class="hp-type-btn" data-type="asmr" onclick="app.setHPType('asmr')" style="padding:12px 8px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:4px">😴</div>
+            <div style="font-size:0.7rem;color:var(--text)">ASMR/Ngủ</div>
+          </button>
+        </div>
+        
+        <!-- Cinema/Movie Types -->
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+          <div style="font-size:0.7rem;color:var(--text3);margin-bottom:8px;text-align:center">🎬 Thể loại phim (Dolby/Atmos)</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            <button class="hp-type-btn" data-type="cinema" onclick="app.setHPType('cinema')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎬</div>
+              <div style="font-size:0.6rem;color:var(--text)">Rạp chuẩn</div>
+            </button>
+            <button class="hp-type-btn" data-type="dolby" onclick="app.setHPType('dolby')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🔊</div>
+              <div style="font-size:0.6rem;color:var(--text)">Atmos</div>
+            </button>
+            <button class="hp-type-btn" data-type="imax" onclick="app.setHPType('imax')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎦</div>
+              <div style="font-size:0.6rem;color:var(--text)">IMAX</div>
+            </button>
+            <button class="hp-type-btn" data-type="surround" onclick="app.setHPType('surround')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🎧</div>
+              <div style="font-size:0.6rem;color:var(--text)">7.1</div>
+            </button>
+            <button class="hp-type-btn" data-type="action" onclick="app.setHPType('action')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">💥</div>
+              <div style="font-size:0.6rem;color:var(--text)">Action</div>
+            </button>
+            <button class="hp-type-btn" data-type="horror" onclick="app.setHPType('horror')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">👻</div>
+              <div style="font-size:0.6rem;color:var(--text)">Horror</div>
+            </button>
+            <button class="hp-type-btn" data-type="scifi" onclick="app.setHPType('scifi')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🚀</div>
+              <div style="font-size:0.6rem;color:var(--text)">Sci-Fi</div>
+            </button>
+            <button class="hp-type-btn" data-type="latenight" onclick="app.setHPType('latenight')" style="padding:10px 6px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:center">
+              <div style="font-size:1.2rem;margin-bottom:2px">🌙</div>
+              <div style="font-size:0.6rem;color:var(--text)">Đêm</div>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Step 2: Rate what you hear -->
+      <div style="background:var(--card2);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <div style="width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#000;font-size:0.8rem">2</div>
+          <div style="font-size:0.85rem;font-weight:700">Đánh giá âm thanh hiện tại</div>
+        </div>
+        
+        <!-- Bass Rating -->
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:0.75rem;font-weight:700;color:var(--text)">🔊 Bass (Trầm)</span>
+            <span id="hpBassLabel" style="font-size:0.7rem;color:var(--text3)">Vừa đủ</span>
+          </div>
+          <input type="range" id="hpBass" min="-3" max="3" value="0" style="width:100%;accent-color:var(--purple)" oninput="app.updateHPSlider('bass',this.value)">
+          <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:var(--text3)">
+            <span>Thiếu bass</span>
+            <span>Quá nhiều</span>
+          </div>
+        </div>
+        
+        <!-- Mid Rating -->
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:0.75rem;font-weight:700;color:var(--text)">🎤 Giọng/Mid (Trung)</span>
+            <span id="hpMidLabel" style="font-size:0.7rem;color:var(--text3)">Vừa đủ</span>
+          </div>
+          <input type="range" id="hpMid" min="-3" max="3" value="0" style="width:100%;accent-color:var(--purple)" oninput="app.updateHPSlider('mid',this.value)">
+          <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:var(--text3)">
+            <span>Giọng chìm</span>
+            <span>Giọng chói</span>
+          </div>
+        </div>
+        
+        <!-- Treble Rating -->
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:0.75rem;font-weight:700;color:var(--text)">✨ Treble (Cao)</span>
+            <span id="hpTrebleLabel" style="font-size:0.7rem;color:var(--text3)">Vừa đủ</span>
+          </div>
+          <input type="range" id="hpTreble" min="-3" max="3" value="0" style="width:100%;accent-color:var(--purple)" oninput="app.updateHPSlider('treble',this.value)">
+          <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:var(--text3)">
+            <span>Tối, đục</span>
+            <span>Chói, xèn</span>
+          </div>
+        </div>
+        
+        <!-- Clarity Rating -->
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:0.75rem;font-weight:700;color:var(--text)">🔍 Độ rõ ràng</span>
+            <span id="hpClarityLabel" style="font-size:0.7rem;color:var(--text3)">Vừa đủ</span>
+          </div>
+          <input type="range" id="hpClarity" min="-3" max="3" value="0" style="width:100%;accent-color:var(--purple)" oninput="app.updateHPSlider('clarity',this.value)">
+          <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:var(--text3)">
+            <span>Đục, bùn</span>
+            <span>Quá sắc</span>
+          </div>
+        </div>
+        
+        <!-- Loudness Rating -->
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:0.75rem;font-weight:700;color:var(--text)">🔉 Âm lượng cảm nhận</span>
+            <span id="hpLoudLabel" style="font-size:0.7rem;color:var(--text3)">Vừa đủ</span>
+          </div>
+          <input type="range" id="hpLoud" min="-3" max="3" value="0" style="width:100%;accent-color:var(--purple)" oninput="app.updateHPSlider('loud',this.value)">
+          <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:var(--text3)">
+            <span>Nhỏ, yếu</span>
+            <span>To, mạnh</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Step 3: Get recommendation -->
+      <button onclick="app.analyzeHeadphone()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--purple),var(--accent));border:none;border-radius:12px;color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px">
+        <span style="font-size:1.2rem">🎯</span>
+        <span>PHÂN TÍCH & ĐỀ XUẤT EQ</span>
+      </button>
+      
+      <!-- Results -->
+      <div id="hpResults" style="display:none">
+        <div style="background:linear-gradient(135deg,rgba(0,232,120,0.15),transparent);border:2px solid var(--green);border-radius:12px;padding:14px;margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+            <div style="font-size:1.5rem">💡</div>
+            <div>
+              <div style="font-size:0.9rem;font-weight:700;color:var(--green)">Đề Xuất EQ Cho Bạn</div>
+              <div id="hpRecName" style="font-size:0.75rem;color:var(--text2)">--</div>
+            </div>
+          </div>
+          
+          <!-- Visual EQ -->
+          <div style="background:#fff;border-radius:10px;padding:12px;margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;height:100px;position:relative">
+              <div style="position:absolute;top:50px;left:0;right:0;height:1px;background:#ddd"></div>
+              
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
+                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
+                  <div id="hpeq_32" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.5rem;color:#666;margin-top:2px">32</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
+                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
+                  <div id="hpeq_64" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.5rem;color:#666;margin-top:2px">64</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
+                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
+                  <div id="hpeq_250" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.5rem;color:#666;margin-top:2px">250</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
+                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
+                  <div id="hpeq_1k" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.5rem;color:#666;margin-top:2px">1K</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
+                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
+                  <div id="hpeq_2k" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.5rem;color:#666;margin-top:2px">2K</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
+                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
+                  <div id="hpeq_4k" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.5rem;color:#666;margin-top:2px">4K</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
+                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
+                  <div id="hpeq_8k" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.5rem;color:#666;margin-top:2px">8K</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
+                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
+                  <div id="hpeq_16k" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+                </div>
+                <span style="font-size:0.5rem;color:#666;margin-top:2px">16K</span>
+              </div>
+            </div>
+            
+            <!-- EQ Values -->
+            <div id="hpEQValues" style="display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin-top:6px;font-size:0.6rem;text-align:center;font-weight:700">
+              <div id="hpval_32" style="color:#007aff">0</div>
+              <div id="hpval_64" style="color:#007aff">0</div>
+              <div id="hpval_250" style="color:#007aff">0</div>
+              <div id="hpval_1k" style="color:#007aff">0</div>
+              <div id="hpval_2k" style="color:#007aff">0</div>
+              <div id="hpval_4k" style="color:#007aff">0</div>
+              <div id="hpval_8k" style="color:#007aff">0</div>
+              <div id="hpval_16k" style="color:#007aff">0</div>
+            </div>
+          </div>
+          
+          <!-- Explanation -->
+          <div id="hpExplanation" style="font-size:0.7rem;color:var(--text2);line-height:1.6;padding:10px;background:var(--card);border-radius:8px">
+            --
+          </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button onclick="app.copyHPEQ()" style="padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.75rem;color:var(--text)">
+            <span>📋</span> Copy EQ
+          </button>
+          <button onclick="app.resetHP()" style="padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.75rem;color:var(--text)">
+            <span>🔄</span> Reset
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Headphone Tips -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">💡</div>
+        <div>
+          <div class="card-title">Mẹo Nghe Tai Nghe</div>
+          <div class="card-sub">Để có trải nghiệm tốt nhất</div>
+        </div>
+      </div>
+      
+      <div class="tip">
+        <span class="tip-icon">🔊</span>
+        <div>
+          <div class="tip-title">Quy tắc 60/60</div>
+          <div class="tip-text">Nghe ở mức 60% volume, tối đa 60 phút liên tục để bảo vệ tai.</div>
+        </div>
+      </div>
+      
+      <div class="tip">
+        <span class="tip-icon">🎧</span>
+        <div>
+          <div class="tip-title">Burn-in tai nghe mới</div>
+          <div class="tip-text">Tai nghe mới cần chạy 20-50 giờ để driver "chín", âm sẽ mượt hơn.</div>
+        </div>
+      </div>
+      
+      <div class="tip">
+        <span class="tip-icon">🧹</span>
+        <div>
+          <div class="tip-title">Vệ sinh thường xuyên</div>
+          <div class="tip-text">Lau sạch ear tips mỗi tuần. Bụi bẩn làm giảm chất lượng âm thanh.</div>
+        </div>
+      </div>
+      
+      <div class="tip">
+        <span class="tip-icon">📱</span>
+        <div>
+          <div class="tip-title">Tắt Dolby/Surround ảo</div>
+          <div class="tip-text">Các hiệu ứng âm thanh ảo thường làm méo âm. Nên tắt khi nghe nhạc.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="s-feedback">
     <div class="card">
       <div class="card-header"><div class="card-icon">🔊</div><div><div class="card-title">Phát Hiện Feedback</div><div class="card-sub">Tìm tần số dễ bị hú</div></div></div>
@@ -1373,6 +1631,116 @@ class App{
         tips:'Dùng khi nghe bằng loa ngoài điện thoại, không dùng tai nghe.',
         phoneEQ:{preamp:-2,b32:6,b64:5,b125:4,b250:2,b500:0,b1k:1,b2k:2,b4k:3,b8k:2,b16k:1},
         isPhoneMode:true
+      },
+      
+      // CINEMA & DOLBY PRESETS
+      cinema_standard:{
+        name:'🎬 Cinema Standard (Rạp chuẩn)',
+        bass:45,lowMid:35,mid:50,highMid:52,high:45,tol:12,
+        desc:'Âm thanh chuẩn rạp phim. Dialog rõ, bass rumble mạnh, surround immersive.',
+        tips:'Tắt các hiệu ứng âm thanh khác trên TV/điện thoại. Để EQ này làm việc.',
+        phoneEQ:{preamp:-1,b32:5,b64:4,b125:2,b250:0,b500:-1,b1k:2,b2k:3,b4k:2,b8k:3,b16k:2},
+        isPhoneMode:true,
+        isCinema:true
+      },
+      dolby_atmos:{
+        name:'🔊 Dolby Atmos (Không gian 3D)',
+        bass:48,lowMid:32,mid:48,highMid:55,high:52,tol:12,
+        desc:'Tối ưu cho Dolby Atmos. Tăng spatial cues, height channels, object-based audio.',
+        tips:'Bật Dolby Atmos trong Settings nếu có. EQ này bổ sung, không thay thế Atmos.',
+        phoneEQ:{preamp:-2,b32:4,b64:4,b125:1,b250:-1,b500:-2,b1k:1,b2k:3,b4k:4,b8k:5,b16k:4},
+        isPhoneMode:true,
+        isCinema:true
+      },
+      dolby_atmos_music:{
+        name:'🎵 Dolby Atmos Music',
+        bass:42,lowMid:30,mid:50,highMid:55,high:50,tol:10,
+        desc:'Dolby Atmos cho nhạc. Spatial audio, instruments separation, immersive vocals.',
+        tips:'Apple Music, Tidal, Amazon Music có Atmos. Dùng tai nghe hỗ trợ spatial.',
+        phoneEQ:{preamp:-1,b32:3,b64:3,b125:1,b250:-1,b500:0,b1k:2,b2k:3,b4k:4,b8k:4,b16k:3},
+        isPhoneMode:true,
+        isCinema:true
+      },
+      cinema_action:{
+        name:'💥 Action Movie (Phim hành động)',
+        bass:58,lowMid:35,mid:45,highMid:55,high:50,tol:15,
+        desc:'Nổ mạnh, bass cực sâu, tiếng súng sắc, dialog vẫn rõ.',
+        tips:'Chuẩn bị cho tai! Bass sẽ rất mạnh. Giảm volume nếu cần.',
+        phoneEQ:{preamp:-3,b32:8,b64:7,b125:4,b250:0,b500:-2,b1k:1,b2k:3,b4k:4,b8k:4,b16k:3},
+        isPhoneMode:true,
+        isCinema:true
+      },
+      cinema_dialog:{
+        name:'🗣️ Dialog Focus (Thoại rõ)',
+        bass:35,lowMid:28,mid:55,highMid:58,high:42,tol:10,
+        desc:'Ưu tiên thoại. Nghe rõ từng lời, giảm nhạc nền và tiếng động.',
+        tips:'Dùng khi xem phim nước ngoài, phim có nhiều thoại nhỏ.',
+        phoneEQ:{preamp:0,b32:1,b64:1,b125:-1,b250:-2,b500:0,b1k:4,b2k:5,b4k:4,b8k:2,b16k:1},
+        isPhoneMode:true,
+        isCinema:true
+      },
+      cinema_horror:{
+        name:'👻 Horror Movie (Phim kinh dị)',
+        bass:50,lowMid:38,mid:45,highMid:50,high:55,tol:12,
+        desc:'Low-end ám ảnh, treble chi tiết cho tiếng động nhỏ, jump scare impact.',
+        tips:'Đeo tai nghe trong phòng tối để trải nghiệm tốt nhất!',
+        phoneEQ:{preamp:-2,b32:6,b64:5,b125:3,b250:1,b500:0,b1k:0,b2k:2,b4k:3,b8k:5,b16k:5},
+        isPhoneMode:true,
+        isCinema:true
+      },
+      cinema_scifi:{
+        name:'🚀 Sci-Fi / Fantasy',
+        bass:52,lowMid:32,mid:48,highMid:55,high:55,tol:12,
+        desc:'Synth bass sâu, hiệu ứng không gian, âm thanh tương lai.',
+        tips:'Tốt cho Star Wars, Marvel, Dune, Interstellar...',
+        phoneEQ:{preamp:-2,b32:6,b64:5,b125:2,b250:-1,b500:-1,b1k:1,b2k:3,b4k:5,b8k:5,b16k:5},
+        isPhoneMode:true,
+        isCinema:true
+      },
+      cinema_romance:{
+        name:'💕 Romance / Drama',
+        bass:35,lowMid:35,mid:52,highMid:50,high:40,tol:10,
+        desc:'Ấm áp, nhẹ nhàng. Giọng thoại intimate, nhạc nền mượt mà.',
+        tips:'Giảm bass để tập trung vào cảm xúc và thoại.',
+        phoneEQ:{preamp:0,b32:2,b64:2,b125:2,b250:1,b500:0,b1k:3,b2k:3,b4k:2,b8k:1,b16k:0},
+        isPhoneMode:true,
+        isCinema:true
+      },
+      cinema_imax:{
+        name:'🎦 IMAX Experience',
+        bass:55,lowMid:35,mid:50,highMid:55,high:52,tol:15,
+        desc:'Mô phỏng trải nghiệm IMAX. Bass cực mạnh, dynamic range rộng.',
+        tips:'Cần loa/tai nghe tốt. Volume cao để cảm nhận full impact.',
+        phoneEQ:{preamp:-3,b32:7,b64:6,b125:3,b250:0,b500:-1,b1k:2,b2k:4,b4k:4,b8k:4,b16k:3},
+        isPhoneMode:true,
+        isCinema:true
+      },
+      cinema_late_night:{
+        name:'🌙 Late Night Cinema',
+        bass:38,lowMid:35,mid:52,highMid:48,high:38,tol:10,
+        desc:'Xem phim đêm khuya. Giảm bass và treble đột ngột, dialog vẫn rõ.',
+        tips:'Tránh đánh thức người khác. Explosions sẽ êm hơn.',
+        phoneEQ:{preamp:-2,b32:2,b64:2,b125:1,b250:0,b500:0,b1k:3,b2k:3,b4k:2,b8k:0,b16k:-1},
+        isPhoneMode:true,
+        isCinema:true
+      },
+      surround_virtual:{
+        name:'🎧 Virtual Surround 7.1',
+        bass:45,lowMid:30,mid:48,highMid:55,high:55,tol:12,
+        desc:'Mô phỏng surround 7.1 trên tai nghe stereo. Spatial audio enhanced.',
+        tips:'Tắt các virtual surround khác để tránh xung đột.',
+        phoneEQ:{preamp:-1,b32:4,b64:3,b125:0,b250:-2,b500:-1,b1k:1,b2k:3,b4k:5,b8k:5,b16k:5},
+        isPhoneMode:true,
+        isCinema:true
+      },
+      dts_x:{
+        name:'🔉 DTS:X / DTS HD',
+        bass:48,lowMid:33,mid:50,highMid:54,high:50,tol:12,
+        desc:'Tối ưu cho DTS:X và DTS HD Master Audio. Object-based 3D audio.',
+        tips:'Dùng khi xem Blu-ray hoặc streaming có DTS.',
+        phoneEQ:{preamp:-2,b32:5,b64:4,b125:1,b250:-1,b500:-1,b1k:2,b2k:3,b4k:4,b8k:4,b16k:3},
+        isPhoneMode:true,
+        isCinema:true
       }
     };
     this.currentGenre=null;
@@ -1380,6 +1748,9 @@ class App{
     this.targets=JSON.parse(localStorage.getItem('userTargets')||'null')||{...this.defaultTargets};
     this.compareBefore=null;this.compareAfter=null;
     this.fbRunning=false;this.fbPeaks=[];
+    // Headphone mode
+    this.hpType='music';
+    this.hpRatings={bass:0,mid:0,treble:0,clarity:0,loud:0};
     this.init();
   }
   init(){
@@ -2199,6 +2570,235 @@ class App{
       this.targets.custom = this.customTarget;
       this.showCustomInfo();
     }
+  }
+  
+  // ==================== HEADPHONE MODE ====================
+  setHPType(type){
+    this.hpType=type;
+    document.querySelectorAll('.hp-type-btn').forEach(btn=>{
+      btn.style.borderColor=btn.dataset.type===type?'var(--purple)':'var(--border)';
+      btn.style.background=btn.dataset.type===type?'var(--purple)22':'var(--card)';
+    });
+  }
+  
+  updateHPSlider(band,value){
+    this.hpRatings[band]=parseInt(value);
+    const labels={
+      '-3':'Rất thiếu','-2':'Thiếu','-1':'Hơi thiếu',
+      '0':'Vừa đủ',
+      '1':'Hơi thừa','2':'Thừa','3':'Quá nhiều'
+    };
+    const labelMap={
+      bass:{'-3':'Rất thiếu bass','-2':'Thiếu bass','-1':'Hơi thiếu bass','0':'Bass vừa đủ','1':'Hơi nhiều bass','2':'Nhiều bass','3':'Quá nhiều bass'},
+      mid:{'-3':'Giọng rất chìm','-2':'Giọng chìm','-1':'Giọng hơi chìm','0':'Giọng vừa đủ','1':'Giọng hơi to','2':'Giọng to','3':'Giọng quá chói'},
+      treble:{'-3':'Rất tối, đục','-2':'Tối, đục','-1':'Hơi tối','0':'Treble vừa đủ','1':'Hơi sáng','2':'Sáng','3':'Quá chói, xèn'},
+      clarity:{'-3':'Rất đục, bùn','-2':'Đục, bùn','-1':'Hơi đục','0':'Độ rõ vừa đủ','1':'Hơi sắc','2':'Sắc nét','3':'Quá sắc'},
+      loud:{'-3':'Rất nhỏ','-2':'Nhỏ','-1':'Hơi nhỏ','0':'Vừa đủ','1':'Hơi to','2':'To','3':'Quá to'}
+    };
+    document.getElementById('hp'+band.charAt(0).toUpperCase()+band.slice(1)+'Label').textContent=labelMap[band][value];
+  }
+  
+  analyzeHeadphone(){
+    const r=this.hpRatings;
+    const type=this.hpType;
+    
+    // Calculate EQ adjustments based on ratings
+    // Negative rating = need more = positive EQ boost
+    // Positive rating = too much = negative EQ cut
+    let eq={b32:0,b64:0,b250:0,b1k:0,b2k:0,b4k:0,b8k:0,b16k:0};
+    
+    // Bass adjustment
+    eq.b32=-r.bass*2.5;
+    eq.b64=-r.bass*2;
+    
+    // Mid/Vocal adjustment  
+    eq.b1k=-r.mid*1.5;
+    eq.b2k=-r.mid*2;
+    
+    // Treble adjustment
+    eq.b8k=-r.treble*2;
+    eq.b16k=-r.treble*1.5;
+    
+    // Clarity adjustment (affects low-mid mud zone and presence)
+    eq.b250=r.clarity*2; // Cut mud if too muddy, boost if too harsh
+    eq.b4k=-r.clarity*1.5; // Opposite of 250Hz
+    
+    // Loudness perception (Fletcher-Munson compensation)
+    if(r.loud<0){ // Sounds too quiet - boost bass and treble
+      eq.b32+=(-r.loud)*1.5;
+      eq.b64+=(-r.loud)*1;
+      eq.b8k+=(-r.loud)*1;
+    }
+    
+    // Content type adjustments
+    const typeBoosts={
+      music:{},
+      podcast:{b1k:2,b2k:3,b4k:2,b250:-2}, // Boost voice clarity
+      movie:{b32:2,b64:2,b4k:1}, // Boost bass for rumble, presence for dialog
+      game:{b64:2,b2k:2,b8k:2}, // Boost bass, footsteps, spatial cues
+      call:{b1k:3,b2k:4,b4k:3,b64:-2,b16k:-2}, // Heavy voice boost
+      asmr:{b32:-2,b64:-1,b8k:3,b16k:4}, // Reduce bass, boost air
+      
+      // Cinema types
+      cinema:{b32:4,b64:3,b250:-1,b1k:2,b2k:2,b4k:2,b8k:2,b16k:1}, // Standard cinema
+      dolby:{b32:3,b64:3,b250:-2,b1k:1,b2k:3,b4k:4,b8k:5,b16k:4}, // Dolby Atmos - spatial
+      imax:{b32:6,b64:5,b250:-1,b1k:2,b2k:3,b4k:4,b8k:4,b16k:3}, // IMAX - extreme bass
+      surround:{b32:3,b64:2,b250:-2,b1k:1,b2k:3,b4k:5,b8k:5,b16k:5}, // Virtual 7.1
+      action:{b32:7,b64:6,b250:-2,b1k:1,b2k:3,b4k:4,b8k:4,b16k:3}, // Action movies - explosions
+      horror:{b32:5,b64:4,b250:1,b1k:0,b2k:2,b4k:3,b8k:5,b16k:5}, // Horror - creepy details
+      scifi:{b32:5,b64:4,b250:-2,b1k:1,b2k:3,b4k:5,b8k:5,b16k:5}, // Sci-Fi - futuristic
+      latenight:{b32:1,b64:1,b250:0,b1k:3,b2k:3,b4k:2,b8k:0,b16k:-1} // Late night - quiet bass
+    };
+    
+    Object.keys(typeBoosts[type]||{}).forEach(k=>{
+      eq[k]=(eq[k]||0)+typeBoosts[type][k];
+    });
+    
+    // Clamp all values to -12 to +12
+    Object.keys(eq).forEach(k=>{
+      eq[k]=Math.max(-12,Math.min(12,Math.round(eq[k])));
+    });
+    
+    // Update visual
+    this.updateHPEQVisual(eq);
+    
+    // Generate explanation
+    this.generateHPExplanation(eq,r,type);
+    
+    // Show results
+    document.getElementById('hpResults').style.display='block';
+  }
+  
+  updateHPEQVisual(eq){
+    const dbToPos=(db)=>50-(db/12)*50;
+    const bands=['32','64','250','1k','2k','4k','8k','16k'];
+    const values=[eq.b32,eq.b64,eq.b250,eq.b1k,eq.b2k,eq.b4k,eq.b8k,eq.b16k];
+    
+    bands.forEach((band,i)=>{
+      const slider=document.getElementById('hpeq_'+band);
+      const valDisplay=document.getElementById('hpval_'+band);
+      if(slider){
+        const pos=dbToPos(values[i]);
+        slider.style.top=pos+'%';
+        slider.style.transform='translateX(-50%) translateY(-50%)';
+        if(values[i]>3)slider.style.background='#ff3b30';
+        else if(values[i]<-3)slider.style.background='#007aff';
+        else slider.style.background='#34c759';
+      }
+      if(valDisplay){
+        const v=values[i];
+        valDisplay.textContent=(v>0?'+':'')+v;
+        valDisplay.style.color=v>0?'#ff3b30':v<0?'#007aff':'#34c759';
+      }
+    });
+    
+    // Store for copy
+    this.lastHPEQ=eq;
+  }
+  
+  generateHPExplanation(eq,ratings,type){
+    const typeNames={
+      music:'nghe nhạc',podcast:'nghe podcast',movie:'xem phim',
+      game:'chơi game',call:'gọi điện',asmr:'nghe ASMR/thư giãn',
+      // Cinema types
+      cinema:'xem phim rạp',dolby:'Dolby Atmos',imax:'IMAX',
+      surround:'Surround 7.1',action:'phim hành động',horror:'phim kinh dị',
+      scifi:'phim Sci-Fi',latenight:'xem phim đêm'
+    };
+    
+    let tips=[];
+    
+    // Cinema-specific tips
+    if(['cinema','dolby','imax','surround','action','horror','scifi','latenight'].includes(type)){
+      if(type==='dolby')tips.push('🔊 <b>Dolby Atmos:</b> Bật Atmos trong Settings để có không gian 3D');
+      if(type==='imax')tips.push('🎦 <b>IMAX:</b> Tăng volume để cảm nhận full impact');
+      if(type==='surround')tips.push('🎧 <b>7.1 Virtual:</b> Tắt các surround khác để tránh xung đột');
+      if(type==='action')tips.push('💥 <b>Action:</b> Chuẩn bị! Bass sẽ rất mạnh khi nổ');
+      if(type==='horror')tips.push('👻 <b>Horror:</b> Đeo tai nghe trong phòng tối để trải nghiệm tốt nhất');
+      if(type==='latenight')tips.push('🌙 <b>Đêm:</b> Bass và treble đã được giảm để không làm phiền người khác');
+    }
+    
+    // Bass tips
+    if(eq.b32>3||eq.b64>3)tips.push('🔊 <b>Tăng bass</b> để có độ trầm tốt hơn');
+    if(eq.b32<-3||eq.b64<-3)tips.push('🔉 <b>Giảm bass</b> để bớt ù, rõ ràng hơn');
+    
+    // Mid tips
+    if(eq.b1k>3||eq.b2k>3)tips.push('🎤 <b>Tăng mid</b> để giọng/nhạc cụ rõ hơn');
+    if(eq.b1k<-3||eq.b2k<-3)tips.push('🎤 <b>Giảm mid</b> để bớt chói tai');
+    
+    // Treble tips
+    if(eq.b8k>3||eq.b16k>3)tips.push('✨ <b>Tăng treble</b> để sáng và chi tiết hơn');
+    if(eq.b8k<-3||eq.b16k<-3)tips.push('🌙 <b>Giảm treble</b> để êm tai hơn');
+    
+    // Clarity tips
+    if(eq.b250>3)tips.push('🔍 <b>Giảm 250Hz</b> để bớt đục, rõ ràng hơn');
+    if(eq.b4k>3)tips.push('🎯 <b>Tăng 4kHz</b> để giọng cắt qua mix');
+    
+    let presetRec='';
+    const avgBass=(eq.b32+eq.b64)/2;
+    const avgMid=(eq.b1k+eq.b2k)/2;
+    const avgTreble=(eq.b8k+eq.b16k)/2;
+    
+    // Cinema-specific preset names
+    if(['cinema','dolby','imax','surround','action','horror','scifi','latenight'].includes(type)){
+      const cinemaPresets={
+        cinema:'🎬 Cinema Standard',dolby:'🔊 Dolby Atmos',imax:'🎦 IMAX',
+        surround:'🎧 Virtual 7.1',action:'💥 Action Movie',horror:'👻 Horror',
+        scifi:'🚀 Sci-Fi',latenight:'🌙 Late Night'
+      };
+      presetRec=cinemaPresets[type];
+    }else{
+      if(avgBass>4)presetRec='🔊 Bass Boost';
+      else if(avgMid>4)presetRec='🎤 Vocal/Speech';
+      else if(avgTreble>4)presetRec='✨ Treble Boost';
+      else if(avgBass<-2&&avgTreble<-2)presetRec='🌙 Night Mode';
+      else presetRec='📐 Balanced';
+    }
+    
+    document.getElementById('hpRecName').textContent=presetRec+' (cho '+typeNames[type]+')';
+    
+    let explanation=`<b>Phân tích:</b> Dựa trên đánh giá của bạn khi ${typeNames[type]}, đây là EQ đề xuất.<br><br>`;
+    if(tips.length>0){
+      explanation+=tips.join('<br>')+'<br><br>';
+    }
+    explanation+=`<b>Cách áp dụng:</b> Vào Settings → EQ trên điện thoại và chỉnh theo giá trị ở trên.`;
+    
+    document.getElementById('hpExplanation').innerHTML=explanation;
+  }
+  
+  copyHPEQ(){
+    if(!this.lastHPEQ){
+      alert('Chưa có dữ liệu EQ!');return;
+    }
+    const eq=this.lastHPEQ;
+    const text=`EQ Settings:
+32Hz: ${eq.b32>0?'+':''}${eq.b32}dB
+64Hz: ${eq.b64>0?'+':''}${eq.b64}dB  
+250Hz: ${eq.b250>0?'+':''}${eq.b250}dB
+1kHz: ${eq.b1k>0?'+':''}${eq.b1k}dB
+2kHz: ${eq.b2k>0?'+':''}${eq.b2k}dB
+4kHz: ${eq.b4k>0?'+':''}${eq.b4k}dB
+8kHz: ${eq.b8k>0?'+':''}${eq.b8k}dB
+16kHz: ${eq.b16k>0?'+':''}${eq.b16k}dB`;
+    
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(text).then(()=>{
+        alert('✅ Đã copy EQ settings!');
+      });
+    }else{
+      alert(text);
+    }
+  }
+  
+  resetHP(){
+    this.hpRatings={bass:0,mid:0,treble:0,clarity:0,loud:0};
+    ['hpBass','hpMid','hpTreble','hpClarity','hpLoud'].forEach(id=>{
+      document.getElementById(id).value=0;
+    });
+    ['hpBassLabel','hpMidLabel','hpTrebleLabel','hpClarityLabel','hpLoudLabel'].forEach(id=>{
+      document.getElementById(id).textContent='Vừa đủ';
+    });
+    document.getElementById('hpResults').style.display='none';
   }
 }
 
