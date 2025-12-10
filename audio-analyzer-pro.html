@@ -4,40 +4,57 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#0a0a12">
+  <meta name="theme-color" content="#f8f9fc">
   <title>🎚️ Audio Analyzer Pro - Soundcraft EFX8</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    :root{--bg:#0a0a12;--card:#16161f;--card2:#1c1c28;--border:#2a2a3c;--accent:#00c8ff;--green:#00e878;--yellow:#ffc400;--red:#ff3860;--purple:#a855f7;--text:#fff;--text2:#9898b0;--text3:#5a5a70}
+    :root{
+      --bg:#f8f9fc;
+      --card:#ffffff;
+      --card2:#f0f2f8;
+      --border:#e2e6f0;
+      --accent:#6366f1;
+      --green:#10b981;
+      --yellow:#f59e0b;
+      --red:#ef4444;
+      --purple:#8b5cf6;
+      --pink:#ec4899;
+      --cyan:#06b6d4;
+      --text:#1e293b;
+      --text2:#64748b;
+      --text3:#94a3b8
+    }
     body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     .app{max-width:480px;margin:0 auto;padding-bottom:100px}
-    .header{background:linear-gradient(180deg,#111 0%,transparent 100%);padding:16px;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);display:flex;align-items:center;gap:12px}
+    .header{background:linear-gradient(180deg,#fff 0%,transparent 100%);padding:16px;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);display:flex;align-items:center;gap:12px}
     .logo{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--purple));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px}
-    .header h1{font-size:1.1rem}
+    .header h1{font-size:1.1rem;color:var(--text)}
     .header p{font-size:0.7rem;color:var(--text3)}
-    .nav{display:flex;gap:4px;padding:4px;margin:12px;background:var(--card);border-radius:12px}
-    .nav-btn{flex:1;padding:10px 4px;background:transparent;border:none;border-radius:8px;color:var(--text3);font-size:0.7rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
-    .nav-btn.active{background:var(--accent);color:#000}
+    .nav{display:flex;gap:4px;padding:4px;margin:12px;background:var(--card);border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+    .nav-btn{flex:1;padding:10px 4px;background:transparent;border:none;border-radius:8px;color:var(--text3);font-size:0.7rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all 0.2s}
+    .nav-btn.active{background:var(--accent);color:#fff}
     .nav-btn span:first-child{font-size:1.2rem}
     .section{display:none;padding:0 12px}
     .section.active{display:block}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
     .card-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
     .card-icon{width:36px;height:36px;background:var(--card2);border-radius:8px;display:flex;align-items:center;justify-content:center}
-    .card-title{font-size:0.95rem;font-weight:700}
+    .card-title{font-size:0.95rem;font-weight:700;color:var(--text)}
     .card-sub{font-size:0.7rem;color:var(--text3)}
     .mode-sel{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
-    .mode-btn{padding:14px 8px;background:var(--card);border:2px solid var(--border);border-radius:12px;color:var(--text2);font-size:0.8rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px}
-    .mode-btn.active{background:rgba(0,200,255,0.15);border-color:var(--accent);color:var(--accent)}
+    .mode-btn{padding:14px 8px;background:var(--card);border:2px solid var(--border);border-radius:12px;color:var(--text2);font-size:0.8rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all 0.2s}
+    .mode-btn.active{background:rgba(99,102,241,0.1);border-color:var(--accent);color:var(--accent)}
     .mode-btn span:first-child{font-size:1.8rem}
-    .start-btn{width:100%;padding:18px;margin-bottom:16px;background:linear-gradient(135deg,var(--accent),#0090ff);border:none;border-radius:16px;color:#000;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 20px rgba(0,200,255,0.4)}
-    .start-btn.rec{background:linear-gradient(135deg,var(--red),#ff0040);animation:pulse 1.5s infinite}
-    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,56,96,0.5)}50%{box-shadow:0 0 0 15px rgba(255,56,96,0)}}
-    .status{display:flex;justify-content:space-between;padding:12px 16px;background:#111;border-radius:12px;margin-bottom:16px;font-size:0.8rem}
+    .start-btn{width:100%;padding:18px;margin-bottom:16px;background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:16px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 15px rgba(99,102,241,0.3);transition:all 0.2s}
+    .start-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(99,102,241,0.4)}
+    .start-btn.rec{background:linear-gradient(135deg,var(--red),var(--pink));animation:pulse 1.5s infinite}
+    .start-btn.active{background:linear-gradient(135deg,var(--red),var(--pink));animation:pulse 1.5s infinite}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.4)}50%{box-shadow:0 0 0 15px rgba(239,68,68,0)}}
+    .status{display:flex;justify-content:space-between;padding:12px 16px;background:var(--card2);border-radius:12px;margin-bottom:16px;font-size:0.8rem}
     .status-dot{width:8px;height:8px;background:var(--text3);border-radius:50%;display:inline-block;margin-right:8px}
     .status-dot.on{background:var(--green);box-shadow:0 0 10px var(--green);animation:blink 1s infinite}
     @keyframes blink{50%{opacity:0.5}}
-    .spectrum{background:var(--bg);border-radius:12px;margin-bottom:16px;padding:2px}
+    .spectrum{background:var(--card2);border-radius:12px;margin-bottom:16px;padding:2px}
     #canvas{width:100%;height:140px;display:block}
     .bands{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
     .band{background:var(--card2);border-radius:8px;padding:10px 6px;text-align:center}
@@ -47,39 +64,39 @@
     .band-name{font-size:0.55rem;color:var(--text3)}
     .band-val{font-size:0.75rem;font-weight:700}
     .band-sts{font-size:0.5rem;font-weight:700;padding:2px 6px;border-radius:4px;margin-top:4px;display:inline-block}
-    .band-sts.ok{background:rgba(0,232,120,0.2);color:var(--green)}
-    .band-sts.hi{background:rgba(255,56,96,0.2);color:var(--red)}
-    .band-sts.lo{background:rgba(0,200,255,0.2);color:var(--accent)}
+    .band-sts.ok{background:rgba(16,185,129,0.15);color:var(--green)}
+    .band-sts.hi{background:rgba(239,68,68,0.15);color:var(--red)}
+    .band-sts.lo{background:rgba(99,102,241,0.15);color:var(--accent)}
     .results{display:none}
     .results.show{display:block}
-    .score-card{background:linear-gradient(135deg,var(--card),var(--card2));border-radius:20px;padding:24px;text-align:center;margin-bottom:16px}
+    .score-card{background:linear-gradient(135deg,#fff,var(--card2));border-radius:20px;padding:24px;text-align:center;margin-bottom:16px;box-shadow:0 4px 15px rgba(0,0,0,0.05)}
     .score-ring{width:130px;height:130px;margin:0 auto 16px;position:relative}
     .score-ring svg{transform:rotate(-90deg);width:100%;height:100%}
-    .score-bg{fill:none;stroke:var(--bg);stroke-width:8}
+    .score-bg{fill:none;stroke:var(--card2);stroke-width:8}
     .score-prog{fill:none;stroke:var(--green);stroke-width:8;stroke-linecap:round;stroke-dasharray:377;stroke-dashoffset:377;transition:all 1s}
     .score-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-    .score-num{font-size:2.5rem;font-weight:700}
+    .score-num{font-size:2.5rem;font-weight:700;color:var(--text)}
     .score-lbl{font-size:0.65rem;color:var(--text3);text-transform:uppercase}
-    .score-msg{font-size:1rem;font-weight:700}
+    .score-msg{font-size:1rem;font-weight:700;color:var(--text)}
     .score-hint{font-size:0.8rem;color:var(--text2)}
-    .problem{background:var(--card2);border-radius:12px;padding:14px;margin-bottom:10px;border-left:4px solid var(--yellow)}
+    .problem{background:var(--card);border-radius:12px;padding:14px;margin-bottom:10px;border-left:4px solid var(--yellow);box-shadow:0 2px 6px rgba(0,0,0,0.04)}
     .problem.crit{border-left-color:var(--red)}
     .problem.good{border-left-color:var(--green)}
     .problem-head{display:flex;justify-content:space-between;margin-bottom:8px}
-    .problem-title{font-size:0.9rem;font-weight:700}
+    .problem-title{font-size:0.9rem;font-weight:700;color:var(--text)}
     .problem-badge{font-size:0.6rem;font-weight:700;padding:4px 8px;border-radius:20px}
-    .badge-crit{background:rgba(255,56,96,0.2);color:var(--red)}
-    .badge-warn{background:rgba(255,196,0,0.2);color:var(--yellow)}
-    .badge-good{background:rgba(0,232,120,0.2);color:var(--green)}
+    .badge-crit{background:rgba(239,68,68,0.12);color:var(--red)}
+    .badge-warn{background:rgba(245,158,11,0.12);color:var(--yellow)}
+    .badge-good{background:rgba(16,185,129,0.12);color:var(--green)}
     .problem-desc{font-size:0.8rem;color:var(--text2);margin-bottom:12px}
-    .solution{background:var(--card);border-radius:8px;padding:12px}
+    .solution{background:var(--card2);border-radius:8px;padding:12px}
     .solution-label{font-size:0.75rem;font-weight:700;color:var(--accent);margin-bottom:8px}
-    .sol-step{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--card2);border-radius:8px;margin-bottom:8px}
-    .sol-knob{width:44px;height:44px;background:linear-gradient(145deg,#3a3a4a,#28283a);border-radius:50%;position:relative;flex-shrink:0}
+    .sol-step{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--card);border-radius:8px;margin-bottom:8px}
+    .sol-knob{width:44px;height:44px;background:linear-gradient(145deg,#e8ecf4,#d0d6e2);border-radius:50%;position:relative;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
     .sol-knob-ptr{position:absolute;width:3px;height:14px;background:var(--accent);border-radius:2px;top:5px;left:50%;transform-origin:bottom center;box-shadow:0 0 6px var(--accent)}
     .sol-knob-lbl{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:0.55rem;font-weight:700;color:var(--text3);white-space:nowrap}
     .sol-info{flex:1}
-    .sol-action{font-size:0.85rem;font-weight:700}
+    .sol-action{font-size:0.85rem;font-weight:700;color:var(--text)}
     .sol-detail{font-size:0.75rem;color:var(--text2)}
     .sol-turn{display:inline-flex;padding:3px 8px;background:rgba(0,200,255,0.15);border-radius:4px;font-size:0.7rem;font-weight:700;color:var(--accent);margin-top:6px}
     .mixer{background:linear-gradient(145deg,#1e1e2a,#16161f);border-radius:16px;padding:16px;margin-bottom:16px}
@@ -935,10 +952,161 @@
         </div>
       </div>
       
+      <!-- MP3 FILE ANALYZER -->
+      <div style="background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(236,72,153,0.08));border:2px solid var(--purple);border-radius:14px;padding:16px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:40px;height:40px;background:linear-gradient(135deg,var(--purple),var(--pink));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem">🎵</div>
+          <div>
+            <div style="font-size:0.95rem;font-weight:700;color:var(--text)">Phân Tích File MP3</div>
+            <div style="font-size:0.7rem;color:var(--text2)">Upload file nhạc để xem DJ đã chỉnh EQ như thế nào</div>
+          </div>
+        </div>
+        
+        <!-- File Input -->
+        <input type="file" id="mp3Input" accept="audio/*" style="display:none" onchange="app.loadMP3(this)">
+        <button onclick="document.getElementById('mp3Input').click()" id="mp3SelectBtn" style="width:100%;padding:14px;background:var(--card);border:2px dashed var(--border);border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-size:0.85rem;color:var(--text);font-weight:600;margin-bottom:12px;transition:all 0.2s">
+          <span style="font-size:1.3rem">📂</span>
+          <span id="mp3FileName">Chọn file MP3/WAV...</span>
+        </button>
+        
+        <!-- Audio Player -->
+        <div id="mp3Player" style="display:none;margin-bottom:12px">
+          <audio id="mp3Audio" style="width:100%;height:40px;border-radius:8px"></audio>
+        </div>
+        
+        <!-- Analyze Button -->
+        <button id="mp3AnalyzeBtn" onclick="app.analyzeMP3()" style="display:none;width:100%;padding:14px;background:linear-gradient(135deg,var(--purple),var(--pink));border:none;border-radius:10px;color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;margin-bottom:12px">
+          <span style="margin-right:8px">🔍</span> PHÂN TÍCH EQ CỦA BÀI NÀY
+        </button>
+        
+        <!-- Real-time Spectrum -->
+        <div id="mp3SpectrumBox" style="display:none">
+          <div style="background:var(--card);border-radius:10px;padding:8px;margin-bottom:12px">
+            <canvas id="mp3Canvas" style="width:100%;height:100px;display:block;border-radius:6px"></canvas>
+          </div>
+          
+          <!-- Status -->
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.7rem;color:var(--text2);margin-bottom:10px">
+            <div><span class="status-dot" id="mp3Dot" style="background:var(--green)"></span> <span id="mp3Status">Đang phân tích...</span></div>
+            <div>⏱️ <span id="mp3Time">0:00</span></div>
+          </div>
+        </div>
+        
+        <!-- MP3 Analysis Results -->
+        <div id="mp3Results" style="display:none">
+          <div style="background:var(--card);border-radius:12px;padding:14px;margin-bottom:12px">
+            <div style="font-size:0.85rem;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+              <span>📊</span> EQ Profile của bài nhạc
+            </div>
+            
+            <!-- 10-Band Analysis Display -->
+            <div style="display:flex;justify-content:space-between;gap:3px;height:120px;margin-bottom:10px;padding:10px;background:linear-gradient(180deg,#f8fafc,#fff);border-radius:10px">
+              <div class="mp3-band" style="flex:1;display:flex;flex-direction:column;align-items:center">
+                <div style="flex:1;width:100%;max-width:24px;background:#fee2e2;border-radius:4px;position:relative;overflow:hidden">
+                  <div id="mp3b_32" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#ef4444,#fca5a5);border-radius:4px;transition:height 0.3s"></div>
+                </div>
+                <div id="mp3v_32" style="font-size:0.55rem;font-weight:700;color:#ef4444;margin-top:3px">0%</div>
+                <div style="font-size:0.45rem;color:var(--text3)">32</div>
+              </div>
+              <div class="mp3-band" style="flex:1;display:flex;flex-direction:column;align-items:center">
+                <div style="flex:1;width:100%;max-width:24px;background:#ffedd5;border-radius:4px;position:relative;overflow:hidden">
+                  <div id="mp3b_64" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#f97316,#fdba74);border-radius:4px;transition:height 0.3s"></div>
+                </div>
+                <div id="mp3v_64" style="font-size:0.55rem;font-weight:700;color:#f97316;margin-top:3px">0%</div>
+                <div style="font-size:0.45rem;color:var(--text3)">64</div>
+              </div>
+              <div class="mp3-band" style="flex:1;display:flex;flex-direction:column;align-items:center">
+                <div style="flex:1;width:100%;max-width:24px;background:#fef9c3;border-radius:4px;position:relative;overflow:hidden">
+                  <div id="mp3b_125" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#eab308,#fde047);border-radius:4px;transition:height 0.3s"></div>
+                </div>
+                <div id="mp3v_125" style="font-size:0.55rem;font-weight:700;color:#eab308;margin-top:3px">0%</div>
+                <div style="font-size:0.45rem;color:var(--text3)">125</div>
+              </div>
+              <div class="mp3-band" style="flex:1;display:flex;flex-direction:column;align-items:center">
+                <div style="flex:1;width:100%;max-width:24px;background:#dcfce7;border-radius:4px;position:relative;overflow:hidden">
+                  <div id="mp3b_250" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#22c55e,#86efac);border-radius:4px;transition:height 0.3s"></div>
+                </div>
+                <div id="mp3v_250" style="font-size:0.55rem;font-weight:700;color:#22c55e;margin-top:3px">0%</div>
+                <div style="font-size:0.45rem;color:var(--text3)">250</div>
+              </div>
+              <div class="mp3-band" style="flex:1;display:flex;flex-direction:column;align-items:center">
+                <div style="flex:1;width:100%;max-width:24px;background:#ccfbf1;border-radius:4px;position:relative;overflow:hidden">
+                  <div id="mp3b_500" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#14b8a6,#5eead4);border-radius:4px;transition:height 0.3s"></div>
+                </div>
+                <div id="mp3v_500" style="font-size:0.55rem;font-weight:700;color:#14b8a6;margin-top:3px">0%</div>
+                <div style="font-size:0.45rem;color:var(--text3)">500</div>
+              </div>
+              <div class="mp3-band" style="flex:1;display:flex;flex-direction:column;align-items:center">
+                <div style="flex:1;width:100%;max-width:24px;background:#cffafe;border-radius:4px;position:relative;overflow:hidden">
+                  <div id="mp3b_1k" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#06b6d4,#67e8f9);border-radius:4px;transition:height 0.3s"></div>
+                </div>
+                <div id="mp3v_1k" style="font-size:0.55rem;font-weight:700;color:#06b6d4;margin-top:3px">0%</div>
+                <div style="font-size:0.45rem;color:var(--text3)">1K</div>
+              </div>
+              <div class="mp3-band" style="flex:1;display:flex;flex-direction:column;align-items:center">
+                <div style="flex:1;width:100%;max-width:24px;background:#e0e7ff;border-radius:4px;position:relative;overflow:hidden">
+                  <div id="mp3b_2k" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#6366f1,#a5b4fc);border-radius:4px;transition:height 0.3s"></div>
+                </div>
+                <div id="mp3v_2k" style="font-size:0.55rem;font-weight:700;color:#6366f1;margin-top:3px">0%</div>
+                <div style="font-size:0.45rem;color:var(--text3)">2K</div>
+              </div>
+              <div class="mp3-band" style="flex:1;display:flex;flex-direction:column;align-items:center">
+                <div style="flex:1;width:100%;max-width:24px;background:#ede9fe;border-radius:4px;position:relative;overflow:hidden">
+                  <div id="mp3b_4k" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#8b5cf6,#c4b5fd);border-radius:4px;transition:height 0.3s"></div>
+                </div>
+                <div id="mp3v_4k" style="font-size:0.55rem;font-weight:700;color:#8b5cf6;margin-top:3px">0%</div>
+                <div style="font-size:0.45rem;color:var(--text3)">4K</div>
+              </div>
+              <div class="mp3-band" style="flex:1;display:flex;flex-direction:column;align-items:center">
+                <div style="flex:1;width:100%;max-width:24px;background:#fce7f3;border-radius:4px;position:relative;overflow:hidden">
+                  <div id="mp3b_8k" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#ec4899,#f9a8d4);border-radius:4px;transition:height 0.3s"></div>
+                </div>
+                <div id="mp3v_8k" style="font-size:0.55rem;font-weight:700;color:#ec4899;margin-top:3px">0%</div>
+                <div style="font-size:0.45rem;color:var(--text3)">8K</div>
+              </div>
+              <div class="mp3-band" style="flex:1;display:flex;flex-direction:column;align-items:center">
+                <div style="flex:1;width:100%;max-width:24px;background:#ffe4e6;border-radius:4px;position:relative;overflow:hidden">
+                  <div id="mp3b_16k" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#f43f5e,#fda4af);border-radius:4px;transition:height 0.3s"></div>
+                </div>
+                <div id="mp3v_16k" style="font-size:0.55rem;font-weight:700;color:#f43f5e;margin-top:3px">0%</div>
+                <div style="font-size:0.45rem;color:var(--text3)">16K</div>
+              </div>
+            </div>
+            
+            <!-- Genre Detection -->
+            <div id="mp3Genre" style="text-align:center;padding:10px;background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(139,92,246,0.1));border-radius:8px;margin-bottom:10px">
+              <div style="font-size:0.7rem;color:var(--text3);margin-bottom:4px">Phong cách EQ phát hiện</div>
+              <div style="font-size:1rem;font-weight:700;color:var(--accent)">--</div>
+            </div>
+            
+            <!-- Analysis Summary -->
+            <div id="mp3Summary" style="font-size:0.75rem;color:var(--text2);line-height:1.6;padding:12px;background:var(--card2);border-radius:8px">
+              --
+            </div>
+          </div>
+        </div>
+        
+        <!-- Instructions -->
+        <div style="padding:10px;background:var(--card);border-radius:8px;font-size:0.65rem;color:var(--text3);line-height:1.5">
+          <b>💡 Cách dùng:</b><br>
+          1. Chọn file MP3/WAV từ điện thoại<br>
+          2. Nhấn "Phân tích EQ" - bài sẽ phát và phân tích<br>
+          3. Xem EQ profile mà DJ/Producer đã mix<br>
+          4. Học hỏi cách chỉnh EQ cho từng thể loại!
+        </div>
+      </div>
+      
+      <!-- OR divider -->
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+        <div style="font-size:0.7rem;color:var(--text3);font-weight:700">HOẶC ĐÁNH GIÁ THỦ CÔNG</div>
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+      </div>
+      
       <!-- Step 2: Rate what you hear -->
       <div style="background:var(--card2);border-radius:12px;padding:14px;margin-bottom:12px">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-          <div style="width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#000;font-size:0.8rem">2</div>
+          <div style="width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#fff;font-size:0.8rem">2</div>
           <div style="font-size:0.85rem;font-weight:700">Đánh giá âm thanh hiện tại</div>
         </div>
         
@@ -1065,95 +1233,250 @@
       
       <!-- Results -->
       <div id="hpResults" style="display:none">
-        <div style="background:linear-gradient(135deg,rgba(0,232,120,0.15),transparent);border:2px solid var(--green);border-radius:12px;padding:14px;margin-bottom:12px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-            <div style="font-size:1.5rem">💡</div>
+        <div style="background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(99,102,241,0.05));border:2px solid var(--green);border-radius:16px;padding:16px;margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <div style="width:40px;height:40px;background:linear-gradient(135deg,var(--green),var(--cyan));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem">🎯</div>
             <div>
-              <div style="font-size:0.9rem;font-weight:700;color:var(--green)">Đề Xuất EQ Cho Bạn</div>
-              <div id="hpRecName" style="font-size:0.75rem;color:var(--text2)">--</div>
+              <div style="font-size:0.95rem;font-weight:700;color:var(--text)">Đề Xuất EQ</div>
+              <div id="hpRecName" style="font-size:0.75rem;color:var(--green);font-weight:600">--</div>
             </div>
           </div>
           
-          <!-- Visual EQ -->
-          <div style="background:#fff;border-radius:10px;padding:12px;margin-bottom:12px">
-            <div style="display:flex;justify-content:space-between;align-items:flex-end;height:100px;position:relative">
-              <div style="position:absolute;top:50px;left:0;right:0;height:1px;background:#ddd"></div>
+          <!-- 10-Band Vertical EQ Sliders -->
+          <div style="background:linear-gradient(180deg,#f8fafc,#fff);border-radius:14px;padding:16px 12px;margin-bottom:14px;box-shadow:inset 0 2px 8px rgba(0,0,0,0.04)">
+            <!-- dB Labels -->
+            <div style="display:flex;justify-content:space-between;font-size:0.55rem;color:var(--text3);margin-bottom:6px;padding:0 4px">
+              <span>+12</span>
+              <span style="flex:1;text-align:center">━━━ 0dB ━━━</span>
+              <span>-12</span>
+            </div>
+            
+            <!-- EQ Bands -->
+            <div style="display:flex;justify-content:space-between;gap:4px;height:140px;position:relative">
+              <!-- Zero line -->
+              <div style="position:absolute;top:50%;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--border),transparent);z-index:0"></div>
               
-              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
-                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
-                  <div id="hpeq_32" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+              <!-- Band 32Hz -->
+              <div class="eq-band" style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:1">
+                <div style="flex:1;width:100%;max-width:28px;background:linear-gradient(180deg,#fecaca,#e8e8e8 50%,#bfdbfe);border-radius:6px;position:relative;overflow:hidden">
+                  <div id="hpeq_32_fill" style="position:absolute;left:2px;right:2px;background:linear-gradient(180deg,#ef4444,#f87171);border-radius:4px;transition:all 0.3s"></div>
+                  <div id="hpeq_32" style="position:absolute;left:50%;width:20px;height:20px;background:#fff;border:3px solid var(--red);border-radius:50%;transform:translateX(-50%);box-shadow:0 2px 6px rgba(0,0,0,0.15);transition:all 0.3s;z-index:2"></div>
                 </div>
-                <span style="font-size:0.5rem;color:#666;margin-top:2px">32</span>
+                <div id="hpval_32" style="font-size:0.65rem;font-weight:700;color:var(--red);margin-top:4px">0</div>
+                <div style="font-size:0.5rem;color:var(--text3);font-weight:600">32</div>
               </div>
-              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
-                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
-                  <div id="hpeq_64" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+              
+              <!-- Band 64Hz -->
+              <div class="eq-band" style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:1">
+                <div style="flex:1;width:100%;max-width:28px;background:linear-gradient(180deg,#fed7aa,#e8e8e8 50%,#bfdbfe);border-radius:6px;position:relative;overflow:hidden">
+                  <div id="hpeq_64_fill" style="position:absolute;left:2px;right:2px;background:linear-gradient(180deg,#f97316,#fb923c);border-radius:4px;transition:all 0.3s"></div>
+                  <div id="hpeq_64" style="position:absolute;left:50%;width:20px;height:20px;background:#fff;border:3px solid #f97316;border-radius:50%;transform:translateX(-50%);box-shadow:0 2px 6px rgba(0,0,0,0.15);transition:all 0.3s;z-index:2"></div>
                 </div>
-                <span style="font-size:0.5rem;color:#666;margin-top:2px">64</span>
+                <div id="hpval_64" style="font-size:0.65rem;font-weight:700;color:#f97316;margin-top:4px">0</div>
+                <div style="font-size:0.5rem;color:var(--text3);font-weight:600">64</div>
               </div>
-              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
-                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
-                  <div id="hpeq_250" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+              
+              <!-- Band 125Hz -->
+              <div class="eq-band" style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:1">
+                <div style="flex:1;width:100%;max-width:28px;background:linear-gradient(180deg,#fef08a,#e8e8e8 50%,#bfdbfe);border-radius:6px;position:relative;overflow:hidden">
+                  <div id="hpeq_125_fill" style="position:absolute;left:2px;right:2px;background:linear-gradient(180deg,#eab308,#facc15);border-radius:4px;transition:all 0.3s"></div>
+                  <div id="hpeq_125" style="position:absolute;left:50%;width:20px;height:20px;background:#fff;border:3px solid #eab308;border-radius:50%;transform:translateX(-50%);box-shadow:0 2px 6px rgba(0,0,0,0.15);transition:all 0.3s;z-index:2"></div>
                 </div>
-                <span style="font-size:0.5rem;color:#666;margin-top:2px">250</span>
+                <div id="hpval_125" style="font-size:0.65rem;font-weight:700;color:#eab308;margin-top:4px">0</div>
+                <div style="font-size:0.5rem;color:var(--text3);font-weight:600">125</div>
               </div>
-              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
-                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
-                  <div id="hpeq_1k" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+              
+              <!-- Band 250Hz -->
+              <div class="eq-band" style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:1">
+                <div style="flex:1;width:100%;max-width:28px;background:linear-gradient(180deg,#bbf7d0,#e8e8e8 50%,#bfdbfe);border-radius:6px;position:relative;overflow:hidden">
+                  <div id="hpeq_250_fill" style="position:absolute;left:2px;right:2px;background:linear-gradient(180deg,#22c55e,#4ade80);border-radius:4px;transition:all 0.3s"></div>
+                  <div id="hpeq_250" style="position:absolute;left:50%;width:20px;height:20px;background:#fff;border:3px solid #22c55e;border-radius:50%;transform:translateX(-50%);box-shadow:0 2px 6px rgba(0,0,0,0.15);transition:all 0.3s;z-index:2"></div>
                 </div>
-                <span style="font-size:0.5rem;color:#666;margin-top:2px">1K</span>
+                <div id="hpval_250" style="font-size:0.65rem;font-weight:700;color:#22c55e;margin-top:4px">0</div>
+                <div style="font-size:0.5rem;color:var(--text3);font-weight:600">250</div>
               </div>
-              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
-                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
-                  <div id="hpeq_2k" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+              
+              <!-- Band 500Hz -->
+              <div class="eq-band" style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:1">
+                <div style="flex:1;width:100%;max-width:28px;background:linear-gradient(180deg,#99f6e4,#e8e8e8 50%,#bfdbfe);border-radius:6px;position:relative;overflow:hidden">
+                  <div id="hpeq_500_fill" style="position:absolute;left:2px;right:2px;background:linear-gradient(180deg,#14b8a6,#2dd4bf);border-radius:4px;transition:all 0.3s"></div>
+                  <div id="hpeq_500" style="position:absolute;left:50%;width:20px;height:20px;background:#fff;border:3px solid #14b8a6;border-radius:50%;transform:translateX(-50%);box-shadow:0 2px 6px rgba(0,0,0,0.15);transition:all 0.3s;z-index:2"></div>
                 </div>
-                <span style="font-size:0.5rem;color:#666;margin-top:2px">2K</span>
+                <div id="hpval_500" style="font-size:0.65rem;font-weight:700;color:#14b8a6;margin-top:4px">0</div>
+                <div style="font-size:0.5rem;color:var(--text3);font-weight:600">500</div>
               </div>
-              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
-                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
-                  <div id="hpeq_4k" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+              
+              <!-- Band 1kHz -->
+              <div class="eq-band" style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:1">
+                <div style="flex:1;width:100%;max-width:28px;background:linear-gradient(180deg,#a5f3fc,#e8e8e8 50%,#bfdbfe);border-radius:6px;position:relative;overflow:hidden">
+                  <div id="hpeq_1k_fill" style="position:absolute;left:2px;right:2px;background:linear-gradient(180deg,#06b6d4,#22d3ee);border-radius:4px;transition:all 0.3s"></div>
+                  <div id="hpeq_1k" style="position:absolute;left:50%;width:20px;height:20px;background:#fff;border:3px solid #06b6d4;border-radius:50%;transform:translateX(-50%);box-shadow:0 2px 6px rgba(0,0,0,0.15);transition:all 0.3s;z-index:2"></div>
                 </div>
-                <span style="font-size:0.5rem;color:#666;margin-top:2px">4K</span>
+                <div id="hpval_1k" style="font-size:0.65rem;font-weight:700;color:#06b6d4;margin-top:4px">0</div>
+                <div style="font-size:0.5rem;color:var(--text3);font-weight:600">1K</div>
               </div>
-              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
-                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
-                  <div id="hpeq_8k" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+              
+              <!-- Band 2kHz -->
+              <div class="eq-band" style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:1">
+                <div style="flex:1;width:100%;max-width:28px;background:linear-gradient(180deg,#c7d2fe,#e8e8e8 50%,#bfdbfe);border-radius:6px;position:relative;overflow:hidden">
+                  <div id="hpeq_2k_fill" style="position:absolute;left:2px;right:2px;background:linear-gradient(180deg,#6366f1,#818cf8);border-radius:4px;transition:all 0.3s"></div>
+                  <div id="hpeq_2k" style="position:absolute;left:50%;width:20px;height:20px;background:#fff;border:3px solid #6366f1;border-radius:50%;transform:translateX(-50%);box-shadow:0 2px 6px rgba(0,0,0,0.15);transition:all 0.3s;z-index:2"></div>
                 </div>
-                <span style="font-size:0.5rem;color:#666;margin-top:2px">8K</span>
+                <div id="hpval_2k" style="font-size:0.65rem;font-weight:700;color:#6366f1;margin-top:4px">0</div>
+                <div style="font-size:0.5rem;color:var(--text3);font-weight:600">2K</div>
               </div>
-              <div style="display:flex;flex-direction:column;align-items:center;flex:1;z-index:1">
-                <div style="width:6px;height:90px;background:#e8e8e8;border-radius:3px;position:relative">
-                  <div id="hpeq_16k" style="position:absolute;width:12px;height:12px;background:#007aff;border-radius:50%;left:50%;transform:translateX(-50%);top:50%"></div>
+              
+              <!-- Band 4kHz -->
+              <div class="eq-band" style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:1">
+                <div style="flex:1;width:100%;max-width:28px;background:linear-gradient(180deg,#ddd6fe,#e8e8e8 50%,#bfdbfe);border-radius:6px;position:relative;overflow:hidden">
+                  <div id="hpeq_4k_fill" style="position:absolute;left:2px;right:2px;background:linear-gradient(180deg,#8b5cf6,#a78bfa);border-radius:4px;transition:all 0.3s"></div>
+                  <div id="hpeq_4k" style="position:absolute;left:50%;width:20px;height:20px;background:#fff;border:3px solid #8b5cf6;border-radius:50%;transform:translateX(-50%);box-shadow:0 2px 6px rgba(0,0,0,0.15);transition:all 0.3s;z-index:2"></div>
                 </div>
-                <span style="font-size:0.5rem;color:#666;margin-top:2px">16K</span>
+                <div id="hpval_4k" style="font-size:0.65rem;font-weight:700;color:#8b5cf6;margin-top:4px">0</div>
+                <div style="font-size:0.5rem;color:var(--text3);font-weight:600">4K</div>
+              </div>
+              
+              <!-- Band 8kHz -->
+              <div class="eq-band" style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:1">
+                <div style="flex:1;width:100%;max-width:28px;background:linear-gradient(180deg,#fbcfe8,#e8e8e8 50%,#bfdbfe);border-radius:6px;position:relative;overflow:hidden">
+                  <div id="hpeq_8k_fill" style="position:absolute;left:2px;right:2px;background:linear-gradient(180deg,#ec4899,#f472b6);border-radius:4px;transition:all 0.3s"></div>
+                  <div id="hpeq_8k" style="position:absolute;left:50%;width:20px;height:20px;background:#fff;border:3px solid #ec4899;border-radius:50%;transform:translateX(-50%);box-shadow:0 2px 6px rgba(0,0,0,0.15);transition:all 0.3s;z-index:2"></div>
+                </div>
+                <div id="hpval_8k" style="font-size:0.65rem;font-weight:700;color:#ec4899;margin-top:4px">0</div>
+                <div style="font-size:0.5rem;color:var(--text3);font-weight:600">8K</div>
+              </div>
+              
+              <!-- Band 16kHz -->
+              <div class="eq-band" style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:1">
+                <div style="flex:1;width:100%;max-width:28px;background:linear-gradient(180deg,#fecdd3,#e8e8e8 50%,#bfdbfe);border-radius:6px;position:relative;overflow:hidden">
+                  <div id="hpeq_16k_fill" style="position:absolute;left:2px;right:2px;background:linear-gradient(180deg,#f43f5e,#fb7185);border-radius:4px;transition:all 0.3s"></div>
+                  <div id="hpeq_16k" style="position:absolute;left:50%;width:20px;height:20px;background:#fff;border:3px solid #f43f5e;border-radius:50%;transform:translateX(-50%);box-shadow:0 2px 6px rgba(0,0,0,0.15);transition:all 0.3s;z-index:2"></div>
+                </div>
+                <div id="hpval_16k" style="font-size:0.65rem;font-weight:700;color:#f43f5e;margin-top:4px">0</div>
+                <div style="font-size:0.5rem;color:var(--text3);font-weight:600">16K</div>
               </div>
             </div>
             
-            <!-- EQ Values -->
-            <div id="hpEQValues" style="display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin-top:6px;font-size:0.6rem;text-align:center;font-weight:700">
-              <div id="hpval_32" style="color:#007aff">0</div>
-              <div id="hpval_64" style="color:#007aff">0</div>
-              <div id="hpval_250" style="color:#007aff">0</div>
-              <div id="hpval_1k" style="color:#007aff">0</div>
-              <div id="hpval_2k" style="color:#007aff">0</div>
-              <div id="hpval_4k" style="color:#007aff">0</div>
-              <div id="hpval_8k" style="color:#007aff">0</div>
-              <div id="hpval_16k" style="color:#007aff">0</div>
+            <!-- Frequency labels -->
+            <div style="display:flex;justify-content:space-between;margin-top:8px;padding:0 4px">
+              <span style="font-size:0.55rem;color:var(--text3)">🔊 Bass</span>
+              <span style="font-size:0.55rem;color:var(--text3)">🎤 Mid</span>
+              <span style="font-size:0.55rem;color:var(--text3)">✨ Treble</span>
+            </div>
+          </div>
+          
+          <!-- 10-Band Frequency Guide -->
+          <div style="background:var(--card);border-radius:12px;padding:14px;margin-bottom:14px;border:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+              <span style="font-size:1.1rem">📚</span>
+              <span style="font-size:0.8rem;font-weight:700;color:var(--text)">Ý Nghĩa Từng Dải Tần</span>
+            </div>
+            
+            <div style="display:grid;gap:8px">
+              <!-- Sub Bass 32Hz -->
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;background:linear-gradient(90deg,rgba(239,68,68,0.08),transparent);border-radius:8px;border-left:3px solid #ef4444">
+                <div style="min-width:36px;font-weight:700;color:#ef4444;font-size:0.75rem">32Hz</div>
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text)">Sub Bass - Siêu trầm</div>
+                  <div style="font-size:0.65rem;color:var(--text2);line-height:1.4">Rung lồng ngực, bass sâu trong EDM/Hip-hop. Cảm nhận hơn là nghe.</div>
+                </div>
+              </div>
+              
+              <!-- Bass 64Hz -->
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;background:linear-gradient(90deg,rgba(249,115,22,0.08),transparent);border-radius:8px;border-left:3px solid #f97316">
+                <div style="min-width:36px;font-weight:700;color:#f97316;font-size:0.75rem">64Hz</div>
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text)">Bass - Trầm chính</div>
+                  <div style="font-size:0.65rem;color:var(--text2);line-height:1.4">Kick drum, bass guitar. Nền tảng âm thanh, tạo punch và power.</div>
+                </div>
+              </div>
+              
+              <!-- Low Bass 125Hz -->
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;background:linear-gradient(90deg,rgba(234,179,8,0.08),transparent);border-radius:8px;border-left:3px solid #eab308">
+                <div style="min-width:36px;font-weight:700;color:#eab308;font-size:0.75rem">125Hz</div>
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text)">Upper Bass - Trầm cao</div>
+                  <div style="font-size:0.65rem;color:var(--text2);line-height:1.4">Độ đầy đặn của bass, warmth. Quá nhiều = bùng bình, thiếu = mỏng.</div>
+                </div>
+              </div>
+              
+              <!-- Low Mid 250Hz -->
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;background:linear-gradient(90deg,rgba(34,197,94,0.08),transparent);border-radius:8px;border-left:3px solid #22c55e">
+                <div style="min-width:36px;font-weight:700;color:#22c55e;font-size:0.75rem">250Hz</div>
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text)">Low Mid - Vùng bùn</div>
+                  <div style="font-size:0.65rem;color:var(--text2);line-height:1.4">⚠️ "Mud zone" - Cắt bớt để âm rõ ràng hơn. Quá nhiều = đục, thiếu = gầy.</div>
+                </div>
+              </div>
+              
+              <!-- Mid 500Hz -->
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;background:linear-gradient(90deg,rgba(20,184,166,0.08),transparent);border-radius:8px;border-left:3px solid #14b8a6">
+                <div style="min-width:36px;font-weight:700;color:#14b8a6;font-size:0.75rem">500Hz</div>
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text)">Mid - Body âm thanh</div>
+                  <div style="font-size:0.65rem;color:var(--text2);line-height:1.4">Thân tiếng guitar, piano, giọng trầm nam. Tạo độ dày cho mix.</div>
+                </div>
+              </div>
+              
+              <!-- Upper Mid 1kHz -->
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;background:linear-gradient(90deg,rgba(6,182,212,0.08),transparent);border-radius:8px;border-left:3px solid #06b6d4">
+                <div style="min-width:36px;font-weight:700;color:#06b6d4;font-size:0.75rem">1kHz</div>
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text)">Upper Mid - Vocal chính</div>
+                  <div style="font-size:0.65rem;color:var(--text2);line-height:1.4">🎤 Tần số giọng hát chính, phone ring. Tăng = giọng rõ, quá = chói mũi.</div>
+                </div>
+              </div>
+              
+              <!-- Presence 2kHz -->
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;background:linear-gradient(90deg,rgba(99,102,241,0.08),transparent);border-radius:8px;border-left:3px solid #6366f1">
+                <div style="min-width:36px;font-weight:700;color:#6366f1;font-size:0.75rem">2kHz</div>
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text)">Presence - Độ hiện diện</div>
+                  <div style="font-size:0.65rem;color:var(--text2);line-height:1.4">Giọng cắt qua mix, attack guitar. Tăng để vocal nổi bật hơn.</div>
+                </div>
+              </div>
+              
+              <!-- Clarity 4kHz -->
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;background:linear-gradient(90deg,rgba(139,92,246,0.08),transparent);border-radius:8px;border-left:3px solid #8b5cf6">
+                <div style="min-width:36px;font-weight:700;color:#8b5cf6;font-size:0.75rem">4kHz</div>
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text)">Clarity - Độ rõ ràng</div>
+                  <div style="font-size:0.65rem;color:var(--text2);line-height:1.4">🔍 Consonants (s, t, k), hi-hat attack. Tăng = sắc nét, quá = harsh/mỏi tai.</div>
+                </div>
+              </div>
+              
+              <!-- Brilliance 8kHz -->
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;background:linear-gradient(90deg,rgba(236,72,153,0.08),transparent);border-radius:8px;border-left:3px solid #ec4899">
+                <div style="min-width:36px;font-weight:700;color:#ec4899;font-size:0.75rem">8kHz</div>
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text)">Brilliance - Độ sáng</div>
+                  <div style="font-size:0.65rem;color:var(--text2);line-height:1.4">✨ Cymbal shimmer, chữ "S". Tăng = sáng lấp lánh, quá = xèn/sibilance.</div>
+                </div>
+              </div>
+              
+              <!-- Air 16kHz -->
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:10px;background:linear-gradient(90deg,rgba(244,63,94,0.08),transparent);border-radius:8px;border-left:3px solid #f43f5e">
+                <div style="min-width:36px;font-weight:700;color:#f43f5e;font-size:0.75rem">16kHz</div>
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text)">Air - Không khí</div>
+                  <div style="font-size:0.65rem;color:var(--text2);line-height:1.4">🌬️ Không gian, breath, sparkle. Tạo cảm giác "mở", thoáng. Người lớn tuổi ít nghe được.</div>
+                </div>
+              </div>
             </div>
           </div>
           
           <!-- Explanation -->
-          <div id="hpExplanation" style="font-size:0.7rem;color:var(--text2);line-height:1.6;padding:10px;background:var(--card);border-radius:8px">
+          <div id="hpExplanation" style="font-size:0.75rem;color:var(--text2);line-height:1.6;padding:12px;background:var(--card);border-radius:10px;border:1px solid var(--border)">
             --
           </div>
         </div>
         
         <!-- Quick Actions -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <button onclick="app.copyHPEQ()" style="padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.75rem;color:var(--text)">
+          <button onclick="app.copyHPEQ()" style="padding:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-size:0.8rem;color:var(--text);font-weight:600;transition:all 0.2s">
             <span>📋</span> Copy EQ
           </button>
-          <button onclick="app.resetHP()" style="padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.75rem;color:var(--text)">
+          <button onclick="app.resetHP()" style="padding:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-size:0.8rem;color:var(--text);font-weight:600;transition:all 0.2s">
             <span>🔄</span> Reset
           </button>
         </div>
@@ -2760,23 +3083,27 @@ class App{
     // Calculate EQ adjustments based on ratings
     // Negative rating = need more = positive EQ boost
     // Positive rating = too much = negative EQ cut
-    let eq={b32:0,b64:0,b250:0,b1k:0,b2k:0,b4k:0,b8k:0,b16k:0};
+    let eq={b32:0,b64:0,b125:0,b250:0,b500:0,b1k:0,b2k:0,b4k:0,b8k:0,b16k:0};
     
-    // Bass adjustment
+    // Bass adjustment (32-125Hz)
     eq.b32=-r.bass*2.5;
     eq.b64=-r.bass*2;
+    eq.b125=-r.bass*1.2;
     
-    // Mid/Vocal adjustment  
+    // Low-mid adjustment (250-500Hz)
+    eq.b250=r.clarity*2; // Cut mud if too muddy
+    eq.b500=r.clarity*1.5;
+    
+    // Mid/Vocal adjustment (1k-2k)
     eq.b1k=-r.mid*1.5;
     eq.b2k=-r.mid*2;
     
-    // Treble adjustment
+    // Presence (4k) - clarity
+    eq.b4k=-r.clarity*1.5;
+    
+    // Treble adjustment (8k-16k)
     eq.b8k=-r.treble*2;
     eq.b16k=-r.treble*1.5;
-    
-    // Clarity adjustment (affects low-mid mud zone and presence)
-    eq.b250=r.clarity*2; // Cut mud if too muddy, boost if too harsh
-    eq.b4k=-r.clarity*1.5; // Opposite of 250Hz
     
     // Loudness perception (Fletcher-Munson compensation)
     if(r.loud<0){ // Sounds too quiet - boost bass and treble
@@ -2785,52 +3112,52 @@ class App{
       eq.b8k+=(-r.loud)*1;
     }
     
-    // Content type adjustments
+    // Content type adjustments - 10-band EQ
     const typeBoosts={
       music:{},
-      podcast:{b1k:2,b2k:3,b4k:2,b250:-2}, // Boost voice clarity
-      movie:{b32:2,b64:2,b4k:1}, // Boost bass for rumble, presence for dialog
-      game:{b64:2,b2k:2,b8k:2}, // Boost bass, footsteps, spatial cues
-      call:{b1k:3,b2k:4,b4k:3,b64:-2,b16k:-2}, // Heavy voice boost
+      podcast:{b125:-1,b250:-2,b500:-1,b1k:2,b2k:3,b4k:2}, // Boost voice clarity
+      movie:{b32:2,b64:2,b125:1,b4k:1}, // Boost bass for rumble, presence for dialog
+      game:{b64:2,b125:1,b2k:2,b8k:2}, // Boost bass, footsteps, spatial cues
+      call:{b125:-1,b250:-2,b1k:3,b2k:4,b4k:3,b64:-2,b16k:-2}, // Heavy voice boost
       asmr:{b32:-2,b64:-1,b8k:3,b16k:4}, // Reduce bass, boost air
-      audiobook:{b1k:3,b2k:4,b4k:3,b64:-1,b250:-2}, // Clear voice
-      meditation:{b32:2,b64:2,b250:1,b8k:2,b16k:3}, // Warm, airy
+      audiobook:{b125:-1,b250:-2,b500:-1,b1k:3,b2k:4,b4k:3,b64:-1}, // Clear voice
+      meditation:{b32:2,b64:2,b125:1,b250:1,b8k:2,b16k:3}, // Warm, airy
       
       // Vietnamese music
-      bolero:{b32:2,b64:3,b250:1,b1k:3,b2k:4,b4k:2,b8k:1,b16k:0}, // Warm vocal
-      vpop:{b32:4,b64:4,b250:0,b1k:2,b2k:3,b4k:3,b8k:3,b16k:2}, // Modern pop
-      vremix:{b32:7,b64:6,b250:-1,b1k:1,b2k:2,b4k:4,b8k:4,b16k:3}, // Heavy bass
-      trieudu:{b32:2,b64:2,b250:1,b1k:3,b2k:4,b4k:3,b8k:2,b16k:1}, // Emotional vocal
+      bolero:{b32:2,b64:3,b125:2,b250:1,b500:1,b1k:3,b2k:4,b4k:2,b8k:1,b16k:0}, // Warm vocal
+      vpop:{b32:4,b64:4,b125:2,b250:0,b500:0,b1k:2,b2k:3,b4k:3,b8k:3,b16k:2}, // Modern pop
+      vremix:{b32:7,b64:6,b125:4,b250:-1,b500:-1,b1k:1,b2k:2,b4k:4,b8k:4,b16k:3}, // Heavy bass
+      trieudu:{b32:2,b64:2,b125:1,b250:1,b500:1,b1k:3,b2k:4,b4k:3,b8k:2,b16k:1}, // Emotional vocal
       
       // International music  
-      pop:{b32:3,b64:4,b250:0,b1k:2,b2k:3,b4k:3,b8k:3,b16k:2}, // Balanced modern
-      rock:{b32:4,b64:5,b250:1,b1k:2,b2k:3,b4k:4,b8k:4,b16k:3}, // Punchy guitars
-      hiphop:{b32:6,b64:6,b250:0,b1k:1,b2k:3,b4k:3,b8k:3,b16k:2}, // Heavy 808
-      rnb:{b32:5,b64:5,b250:1,b1k:2,b2k:3,b4k:3,b8k:2,b16k:2}, // Smooth bass
-      edm:{b32:7,b64:6,b250:-1,b1k:0,b2k:2,b4k:4,b8k:5,b16k:4}, // Festival sound
-      jazz:{b32:3,b64:3,b250:2,b1k:2,b2k:2,b4k:2,b8k:3,b16k:3}, // Warm, detailed
-      classical:{b32:2,b64:2,b250:1,b1k:1,b2k:2,b4k:3,b8k:4,b16k:4}, // Natural, airy
-      country:{b32:3,b64:3,b250:2,b1k:3,b2k:3,b4k:3,b8k:3,b16k:2}, // Acoustic warmth
-      kpop:{b32:4,b64:5,b250:-1,b1k:2,b2k:4,b4k:4,b8k:4,b16k:3}, // Bright, punchy
-      jpop:{b32:3,b64:4,b250:0,b1k:2,b2k:3,b4k:4,b8k:4,b16k:3}, // Clear, bright
-      cpop:{b32:3,b64:4,b250:1,b1k:3,b2k:3,b4k:3,b8k:3,b16k:2}, // Vocal focus
-      latin:{b32:5,b64:5,b250:1,b1k:2,b2k:3,b4k:3,b8k:4,b16k:3}, // Rhythmic bass
+      pop:{b32:3,b64:4,b125:2,b250:0,b500:0,b1k:2,b2k:3,b4k:3,b8k:3,b16k:2}, // Balanced modern
+      rock:{b32:4,b64:5,b125:3,b250:1,b500:0,b1k:2,b2k:3,b4k:4,b8k:4,b16k:3}, // Punchy guitars
+      hiphop:{b32:6,b64:6,b125:4,b250:0,b500:-1,b1k:1,b2k:3,b4k:3,b8k:3,b16k:2}, // Heavy 808
+      rnb:{b32:5,b64:5,b125:3,b250:1,b500:0,b1k:2,b2k:3,b4k:3,b8k:2,b16k:2}, // Smooth bass
+      edm:{b32:7,b64:6,b125:4,b250:-1,b500:-2,b1k:0,b2k:2,b4k:4,b8k:5,b16k:4}, // Festival sound
+      jazz:{b32:3,b64:3,b125:2,b250:2,b500:1,b1k:2,b2k:2,b4k:2,b8k:3,b16k:3}, // Warm, detailed
+      classical:{b32:2,b64:2,b125:1,b250:1,b500:0,b1k:1,b2k:2,b4k:3,b8k:4,b16k:4}, // Natural, airy
+      country:{b32:3,b64:3,b125:2,b250:2,b500:1,b1k:3,b2k:3,b4k:3,b8k:3,b16k:2}, // Acoustic warmth
+      kpop:{b32:4,b64:5,b125:2,b250:-1,b500:-1,b1k:2,b2k:4,b4k:4,b8k:4,b16k:3}, // Bright, punchy
+      jpop:{b32:3,b64:4,b125:2,b250:0,b500:0,b1k:2,b2k:3,b4k:4,b8k:4,b16k:3}, // Clear, bright
+      cpop:{b32:3,b64:4,b125:2,b250:1,b500:1,b1k:3,b2k:3,b4k:3,b8k:3,b16k:2}, // Vocal focus
+      latin:{b32:5,b64:5,b125:3,b250:1,b500:0,b1k:2,b2k:3,b4k:3,b8k:4,b16k:3}, // Rhythmic bass
       
       // Acoustic / Special
-      acoustic:{b32:2,b64:2,b250:2,b1k:2,b2k:3,b4k:3,b8k:4,b16k:3}, // Natural
-      lofi:{b32:4,b64:4,b250:2,b1k:1,b2k:2,b4k:2,b8k:2,b16k:1}, // Warm, mellow
-      instrumental:{b32:3,b64:3,b250:1,b1k:2,b2k:2,b4k:3,b8k:4,b16k:4}, // Detailed
-      metal:{b32:5,b64:6,b250:0,b1k:2,b2k:3,b4k:5,b8k:5,b16k:4}, // Aggressive
+      acoustic:{b32:2,b64:2,b125:2,b250:2,b500:1,b1k:2,b2k:3,b4k:3,b8k:4,b16k:3}, // Natural
+      lofi:{b32:4,b64:4,b125:3,b250:2,b500:1,b1k:1,b2k:2,b4k:2,b8k:2,b16k:1}, // Warm, mellow
+      instrumental:{b32:3,b64:3,b125:2,b250:1,b500:0,b1k:2,b2k:2,b4k:3,b8k:4,b16k:4}, // Detailed
+      metal:{b32:5,b64:6,b125:4,b250:0,b500:-1,b1k:2,b2k:3,b4k:5,b8k:5,b16k:4}, // Aggressive
       
       // Cinema types
-      cinema:{b32:4,b64:3,b250:-1,b1k:2,b2k:2,b4k:2,b8k:2,b16k:1}, // Standard cinema
-      dolby:{b32:3,b64:3,b250:-2,b1k:1,b2k:3,b4k:4,b8k:5,b16k:4}, // Dolby Atmos - spatial
-      imax:{b32:6,b64:5,b250:-1,b1k:2,b2k:3,b4k:4,b8k:4,b16k:3}, // IMAX - extreme bass
-      surround:{b32:3,b64:2,b250:-2,b1k:1,b2k:3,b4k:5,b8k:5,b16k:5}, // Virtual 7.1
-      action:{b32:7,b64:6,b250:-2,b1k:1,b2k:3,b4k:4,b8k:4,b16k:3}, // Action movies - explosions
-      horror:{b32:5,b64:4,b250:1,b1k:0,b2k:2,b4k:3,b8k:5,b16k:5}, // Horror - creepy details
-      scifi:{b32:5,b64:4,b250:-2,b1k:1,b2k:3,b4k:5,b8k:5,b16k:5}, // Sci-Fi - futuristic
-      latenight:{b32:1,b64:1,b250:0,b1k:3,b2k:3,b4k:2,b8k:0,b16k:-1} // Late night - quiet bass
+      cinema:{b32:4,b64:3,b125:2,b250:-1,b500:-1,b1k:2,b2k:2,b4k:2,b8k:2,b16k:1}, // Standard cinema
+      dolby:{b32:3,b64:3,b125:1,b250:-2,b500:-1,b1k:1,b2k:3,b4k:4,b8k:5,b16k:4}, // Dolby Atmos - spatial
+      imax:{b32:6,b64:5,b125:3,b250:-1,b500:-1,b1k:2,b2k:3,b4k:4,b8k:4,b16k:3}, // IMAX - extreme bass
+      surround:{b32:3,b64:2,b125:1,b250:-2,b500:-1,b1k:1,b2k:3,b4k:5,b8k:5,b16k:5}, // Virtual 7.1
+      action:{b32:7,b64:6,b125:4,b250:-2,b500:-1,b1k:1,b2k:3,b4k:4,b8k:4,b16k:3}, // Action movies - explosions
+      horror:{b32:5,b64:4,b125:3,b250:1,b500:0,b1k:0,b2k:2,b4k:3,b8k:5,b16k:5}, // Horror - creepy details
+      scifi:{b32:5,b64:4,b125:2,b250:-2,b500:-1,b1k:1,b2k:3,b4k:5,b8k:5,b16k:5}, // Sci-Fi - futuristic
+      latenight:{b32:1,b64:1,b125:0,b250:0,b500:0,b1k:3,b2k:3,b4k:2,b8k:0,b16k:-1} // Late night - quiet bass
     };
     
     Object.keys(typeBoosts[type]||{}).forEach(k=>{
@@ -2853,25 +3180,43 @@ class App{
   }
   
   updateHPEQVisual(eq){
+    // Convert dB to position (0-100%, where 50% = 0dB)
     const dbToPos=(db)=>50-(db/12)*50;
-    const bands=['32','64','250','1k','2k','4k','8k','16k'];
-    const values=[eq.b32,eq.b64,eq.b250,eq.b1k,eq.b2k,eq.b4k,eq.b8k,eq.b16k];
+    
+    // 10-band EQ with fill bars
+    const bands=['32','64','125','250','500','1k','2k','4k','8k','16k'];
+    const values=[eq.b32||0,eq.b64||0,eq.b125||0,eq.b250||0,eq.b500||0,eq.b1k||0,eq.b2k||0,eq.b4k||0,eq.b8k||0,eq.b16k||0];
     
     bands.forEach((band,i)=>{
       const slider=document.getElementById('hpeq_'+band);
+      const fill=document.getElementById('hpeq_'+band+'_fill');
       const valDisplay=document.getElementById('hpval_'+band);
+      const v=values[i];
+      
       if(slider){
-        const pos=dbToPos(values[i]);
+        const pos=dbToPos(v);
         slider.style.top=pos+'%';
         slider.style.transform='translateX(-50%) translateY(-50%)';
-        if(values[i]>3)slider.style.background='#ff3b30';
-        else if(values[i]<-3)slider.style.background='#007aff';
-        else slider.style.background='#34c759';
       }
+      
+      // Update fill bar
+      if(fill){
+        if(v>0){
+          // Boost - fill from center up
+          fill.style.top='0';
+          fill.style.bottom=(50-(v/12)*50)+'%';
+        }else if(v<0){
+          // Cut - fill from center down  
+          fill.style.top=(50+(-v/12)*50)+'%';
+          fill.style.bottom='0';
+        }else{
+          fill.style.top='50%';
+          fill.style.bottom='50%';
+        }
+      }
+      
       if(valDisplay){
-        const v=values[i];
         valDisplay.textContent=(v>0?'+':'')+v;
-        valDisplay.style.color=v>0?'#ff3b30':v<0?'#007aff':'#34c759';
       }
     });
     
@@ -3279,6 +3624,270 @@ class App{
     document.getElementById('hpRecName').textContent=`🎯 Auto EQ (${typeNames[type]})`;
     document.getElementById('hpExplanation').innerHTML=explanation;
     document.getElementById('hpResults').style.display='block';
+  }
+  
+  // ========== MP3 FILE ANALYZER ==========
+  
+  loadMP3(input){
+    const file=input.files[0];
+    if(!file)return;
+    
+    // Update UI
+    document.getElementById('mp3FileName').textContent=file.name;
+    document.getElementById('mp3SelectBtn').style.borderColor='var(--green)';
+    
+    // Create audio element
+    const audio=document.getElementById('mp3Audio');
+    audio.src=URL.createObjectURL(file);
+    audio.load();
+    
+    document.getElementById('mp3Player').style.display='block';
+    document.getElementById('mp3AnalyzeBtn').style.display='block';
+    document.getElementById('mp3Results').style.display='none';
+    
+    // Store file info
+    this.mp3File=file;
+  }
+  
+  async analyzeMP3(){
+    const audio=document.getElementById('mp3Audio');
+    
+    // Create audio context
+    this.mp3Ctx=new(window.AudioContext||window.webkitAudioContext)();
+    this.mp3Analyser=this.mp3Ctx.createAnalyser();
+    this.mp3Analyser.fftSize=4096;
+    this.mp3Analyser.smoothingTimeConstant=0.8;
+    
+    // Connect audio to analyser
+    const source=this.mp3Ctx.createMediaElementSource(audio);
+    source.connect(this.mp3Analyser);
+    this.mp3Analyser.connect(this.mp3Ctx.destination);
+    
+    // Initialize band accumulators
+    this.mp3Bands={
+      b32:{sum:0,cnt:0},b64:{sum:0,cnt:0},b125:{sum:0,cnt:0},
+      b250:{sum:0,cnt:0},b500:{sum:0,cnt:0},b1k:{sum:0,cnt:0},
+      b2k:{sum:0,cnt:0},b4k:{sum:0,cnt:0},b8k:{sum:0,cnt:0},b16k:{sum:0,cnt:0}
+    };
+    
+    // Setup canvas
+    const canvas=document.getElementById('mp3Canvas');
+    this.mp3CanvasCtx=canvas.getContext('2d');
+    canvas.width=canvas.offsetWidth*2;
+    canvas.height=canvas.offsetHeight*2;
+    this.mp3CanvasW=canvas.width;
+    this.mp3CanvasH=canvas.height;
+    
+    // Show spectrum box
+    document.getElementById('mp3SpectrumBox').style.display='block';
+    document.getElementById('mp3Results').style.display='none';
+    document.getElementById('mp3Dot').classList.add('on');
+    
+    // Start playback
+    audio.currentTime=0;
+    audio.play();
+    
+    this.mp3Running=true;
+    this.mp3StartTime=Date.now();
+    
+    // Start analysis loop
+    this.mp3AnalyzeLoop();
+    
+    // Stop when audio ends
+    audio.onended=()=>this.stopMP3Analyze();
+    audio.onpause=()=>{
+      if(this.mp3Running&&audio.currentTime>5)this.stopMP3Analyze();
+    };
+  }
+  
+  mp3AnalyzeLoop(){
+    if(!this.mp3Running)return;
+    
+    const bufLen=this.mp3Analyser.frequencyBinCount;
+    const data=new Uint8Array(bufLen);
+    this.mp3Analyser.getByteFrequencyData(data);
+    
+    const sr=this.mp3Ctx.sampleRate;
+    const binHz=sr/this.mp3Analyser.fftSize;
+    
+    // Get band values
+    const getBand=(lo,hi)=>{
+      let sum=0,cnt=0;
+      for(let i=0;i<bufLen;i++){
+        const f=i*binHz;
+        if(f>=lo&&f<hi){sum+=data[i];cnt++;}
+      }
+      return cnt?sum/cnt/2.55:0;
+    };
+    
+    // 10-band analysis
+    const bands={
+      b32:getBand(20,45),b64:getBand(45,90),b125:getBand(90,180),
+      b250:getBand(180,355),b500:getBand(355,710),b1k:getBand(710,1400),
+      b2k:getBand(1400,2800),b4k:getBand(2800,5600),b8k:getBand(5600,11200),b16k:getBand(11200,20000)
+    };
+    
+    // Accumulate
+    Object.keys(bands).forEach(k=>{
+      this.mp3Bands[k].sum+=bands[k];
+      this.mp3Bands[k].cnt++;
+    });
+    
+    // Update time display
+    const audio=document.getElementById('mp3Audio');
+    const mins=Math.floor(audio.currentTime/60);
+    const secs=Math.floor(audio.currentTime%60);
+    document.getElementById('mp3Time').textContent=`${mins}:${secs.toString().padStart(2,'0')}`;
+    
+    // Draw spectrum
+    this.drawMP3Spectrum(data,bufLen);
+    
+    requestAnimationFrame(()=>this.mp3AnalyzeLoop());
+  }
+  
+  drawMP3Spectrum(data,bufLen){
+    const ctx=this.mp3CanvasCtx;
+    const w=this.mp3CanvasW;
+    const h=this.mp3CanvasH;
+    
+    // Clear with gradient background
+    const grad=ctx.createLinearGradient(0,0,0,h);
+    grad.addColorStop(0,'#1e1b4b');
+    grad.addColorStop(1,'#312e81');
+    ctx.fillStyle=grad;
+    ctx.fillRect(0,0,w,h);
+    
+    const barW=w/64;
+    const gap=2;
+    
+    for(let i=0;i<64;i++){
+      const idx=Math.floor(i*bufLen/64);
+      const val=data[idx]/255;
+      const barH=val*h*0.85;
+      
+      // Rainbow gradient
+      const hue=280-i*4;
+      const barGrad=ctx.createLinearGradient(0,h-barH,0,h);
+      barGrad.addColorStop(0,`hsla(${hue},90%,70%,1)`);
+      barGrad.addColorStop(1,`hsla(${hue},80%,50%,0.8)`);
+      
+      ctx.fillStyle=barGrad;
+      ctx.fillRect(i*(barW+gap)+gap,h-barH,barW,barH);
+    }
+  }
+  
+  stopMP3Analyze(){
+    this.mp3Running=false;
+    
+    const audio=document.getElementById('mp3Audio');
+    audio.pause();
+    
+    document.getElementById('mp3Dot').classList.remove('on');
+    document.getElementById('mp3Status').textContent='Phân tích hoàn tất!';
+    
+    // Calculate averages
+    const avgs={};
+    Object.keys(this.mp3Bands).forEach(k=>{
+      const b=this.mp3Bands[k];
+      avgs[k]=b.cnt?b.sum/b.cnt:0;
+    });
+    
+    // Find max for normalization
+    const maxVal=Math.max(...Object.values(avgs));
+    
+    // Update display
+    const bandNames=['32','64','125','250','500','1k','2k','4k','8k','16k'];
+    const bandKeys=['b32','b64','b125','b250','b500','b1k','b2k','b4k','b8k','b16k'];
+    
+    bandKeys.forEach((k,i)=>{
+      const pct=maxVal>0?Math.round(avgs[k]/maxVal*100):0;
+      const bar=document.getElementById('mp3b_'+bandNames[i]);
+      const val=document.getElementById('mp3v_'+bandNames[i]);
+      if(bar)bar.style.height=pct+'%';
+      if(val)val.textContent=pct+'%';
+    });
+    
+    // Detect genre/style
+    const style=this.detectMP3Style(avgs);
+    document.getElementById('mp3Genre').innerHTML=`
+      <div style="font-size:0.7rem;color:var(--text3);margin-bottom:4px">Phong cách EQ phát hiện</div>
+      <div style="font-size:1.1rem;font-weight:700;color:var(--accent)">${style.name}</div>
+      <div style="font-size:0.7rem;color:var(--text2);margin-top:4px">${style.desc}</div>
+    `;
+    
+    // Generate summary
+    const summary=this.generateMP3Summary(avgs,style);
+    document.getElementById('mp3Summary').innerHTML=summary;
+    
+    // Show results
+    document.getElementById('mp3Results').style.display='block';
+  }
+  
+  detectMP3Style(avgs){
+    const bass=(avgs.b32+avgs.b64)/2;
+    const lowMid=(avgs.b125+avgs.b250)/2;
+    const mid=(avgs.b500+avgs.b1k)/2;
+    const highMid=(avgs.b2k+avgs.b4k)/2;
+    const treble=(avgs.b8k+avgs.b16k)/2;
+    
+    // Style detection logic
+    if(bass>60&&treble>50){
+      return{name:'🎹 EDM / Dance',desc:'Bass nặng, treble sáng - điển hình EDM/House'};
+    }
+    if(bass>55&&mid<40){
+      return{name:'🎤 Hip-Hop / Trap',desc:'808 bass mạnh, mid scooped - phong cách Trap/Hip-hop'};
+    }
+    if(bass>50&&lowMid>45&&mid>45){
+      return{name:'🎸 Rock / Metal',desc:'Bass punchy, mid đầy đặn - phong cách Rock'};
+    }
+    if(mid>50&&highMid>50&&bass<45){
+      return{name:'🎤 Vocal / Ballad',desc:'Tập trung vào giọng hát, bass nhẹ - nhạc trữ tình'};
+    }
+    if(treble>55&&highMid>50){
+      return{name:'🎼 Classical / Acoustic',desc:'Treble chi tiết, không gian thoáng - nhạc acoustic'};
+    }
+    if(bass>45&&lowMid>40&&treble<45){
+      return{name:'🎻 Bolero / Trữ tình',desc:'Âm ấm áp, bass vừa phải - phong cách Bolero'};
+    }
+    if(bass>50&&mid>45&&treble>45){
+      return{name:'🎵 Pop / Modern',desc:'Cân bằng tốt - phong cách Pop hiện đại'};
+    }
+    if(lowMid>50&&mid>50){
+      return{name:'🎺 Jazz / Soul',desc:'Mid ấm áp, không gian - phong cách Jazz'};
+    }
+    return{name:'📐 Balanced Mix',desc:'EQ cân bằng, chuyên nghiệp'};
+  }
+  
+  generateMP3Summary(avgs,style){
+    const bass=(avgs.b32+avgs.b64)/2;
+    const mid=(avgs.b500+avgs.b1k)/2;
+    const treble=(avgs.b8k+avgs.b16k)/2;
+    
+    let summary='<b>📊 Phân tích chi tiết:</b><br><br>';
+    
+    // Bass analysis
+    if(bass>55)summary+='🔊 <b>Bass rất mạnh</b> - DJ đã boost bass nhiều cho impact<br>';
+    else if(bass>45)summary+='🔊 <b>Bass vừa phải</b> - đủ punch mà không bị bùng<br>';
+    else summary+='🔊 <b>Bass nhẹ</b> - tập trung vào giọng/treble hơn<br>';
+    
+    // Mid analysis
+    if(mid>50)summary+='🎤 <b>Mid nổi bật</b> - giọng hát/nhạc cụ được đẩy lên<br>';
+    else if(mid>40)summary+='🎤 <b>Mid cân bằng</b> - không bị chìm hay chói<br>';
+    else summary+='🎤 <b>Mid scooped</b> - kiểu V-shape cho bass và treble<br>';
+    
+    // Treble analysis
+    if(treble>50)summary+='✨ <b>Treble sáng</b> - chi tiết, không gian thoáng<br>';
+    else if(treble>40)summary+='✨ <b>Treble vừa</b> - không xèn, dễ nghe<br>';
+    else summary+='✨ <b>Treble tối</b> - âm ấm, vintage<br>';
+    
+    // 250Hz (mud zone)
+    if(avgs.b250>50)summary+='<br>⚠️ <b>250Hz cao</b> - có thể hơi đục/bùn<br>';
+    else if(avgs.b250<35)summary+='<br>✅ <b>250Hz được cắt</b> - mix sạch, không bị muddy<br>';
+    
+    summary+=`<br><b>💡 Học từ bài này:</b><br>`;
+    summary+=`Để có âm thanh tương tự, thử chỉnh EQ theo profile ở trên!`;
+    
+    return summary;
   }
 }
 
